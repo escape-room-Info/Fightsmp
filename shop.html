@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FightSMP - Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <img src="fightsmp-logo.png" alt="FightSMP" onerror="this.style.display='none'">
+      <span><em>Fight</em>SMP</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="index.html#status">Server</a>
+      <a href="index.html#faq">FAQ</a>
+    </div>
+    <div class="nav-ip" onclick="copyIP()" id="ip-btn">⚔ play.fightsmp.net</div>
+  </div>
+</nav>
+
+<div id="shop" style="padding-top: 40px;">
+  <div class="section-wrap">
+    </div>
+</div>
+
+<div class="modal-bg" id="modal" onclick="closeModalBg(event)">
+  </div>
+
+<footer>
+  © 2026 FightSMP &nbsp;·&nbsp; Nicht offiziell mit Mojang/Microsoft assoziiert &nbsp;·&nbsp;
+  <a href="#">Impressum</a> &nbsp;·&nbsp; <a href="#">Datenschutz</a>
+</footer>
+
+<button class="chat-bubble" onclick="toggleChat()">...</button>
+<div class="chat-window" id="chat-window">...</div>
+
+<script src="main.js"></script>
+</body>
+</html>
