@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | FAQ</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
 <body>
 
@@ -23,33 +19,48 @@
                 <span class="logo-fallback"><i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span></span>
             </a>
             <div class="nav-menu">
-                <a href="index.html" class="nav-link ">Home</a>
-<a href="shop.html" class="nav-link ">Shop</a>
-<a href="team.html" class="nav-link ">Team</a>
-<a href="faq.html" class="nav-link active">FAQ</a>
-<a href="discord.html" class="nav-link ">Discord</a>
-
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="shop.html" class="nav-link">Shop</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="faq.html" class="nav-link active">FAQ</a>
+                <a href="discord.html" class="nav-link">Discord</a>
             </div>
             <button class="ip-btn" onclick="copyServerIP()">
                 <i class="fa-solid fa-copy"></i> <span id="ip-text">play.fightsmp.net</span>
             </button>
         </div>
     </nav>
-    
-    <div class="container">
 
+    <div class="container">
         <div style="text-align: center; margin-bottom: 40px;">
             <h1>Häufig gestellte <span class="text-orange">Fragen</span></h1>
-            <p style="color: var(--text-muted);">Hier findest du schnelle Antworten.</p>
+            <p style="color: var(--text-muted);">Hier findest du schnelle Antworten auf die wichtigsten Fragen rund um FightSMP.</p>
         </div>
 
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">Wie lautet die Server-IP und welche Version wird benötigt? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Die Server-IP ist <strong>play.fightsmp.net</strong>. Du kannst am besten mit der aktuellsten Minecraft Java Edition Version joinen.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Wie lange dauert es, bis mein gekaufter Rang aktiv ist? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">In der Regel wird der Rang innerhalb von 5 bis 15 Minuten automatisch im Spiel aktiviert. Bitte stelle sicher, dass du beim Kauf deinen Minecraft-Namen exakt richtig geschrieben hast.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Was passiert bei Fehlern oder Problemen mit der Zahlung? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Sollte ein Rang nicht ankommen, öffne bitte sofort ein Ticket auf unserem Discord-Server oder nutze den Support-Chat unten rechts.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Ist der Server Pay-To-Win? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Nein. Alle kaufbaren Ränge enthalten primär kosmetische Rechte, Komfort-Befehle und praktische Kits, die das faire Balancing des Servers nicht zerstören.</div>
+            </div>
+        </div>
     </div>
 
     <footer class="footer">
         <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB or Microsoft.</p>
     </footer>
 
-    <!-- AI Chat Widget -->
     <div class="chat-widget" id="chatWidget">
         <button class="chat-trigger" onclick="toggleChat()">
             <i class="fa-solid fa-comments"></i>
@@ -78,6 +89,7 @@
     </div>
 
     <script>
+        // Server IP Kopieren
         function copyServerIP() {
             const ip = "play.fightsmp.net";
             navigator.clipboard.writeText(ip).then(() => {
@@ -91,6 +103,7 @@
             });
         }
 
+        // Chat Widget öffnen/schließen
         function toggleChat() {
             const window = document.getElementById("chatWindow");
             window.classList.toggle("open");
@@ -122,8 +135,15 @@
             container.appendChild(msgDiv);
             container.scrollTop = container.scrollHeight;
         }
-    </script>
 
+        // FAQ AKKORDEON SCRIPT - Das bringt die FAQ zum Aufklappen!
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
 
 </body>
 </html>
