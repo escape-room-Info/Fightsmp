@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | Team</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
@@ -64,11 +62,12 @@
 
         <h2 style="text-align: center; margin-top: 50px; color: #FBBF24;">Manager</h2>
         <div class="team-grid">
-            <div class="team-card">
+            <div class="team-card" style="grid-column: 1 / -1; justify-self: center; width: 100%; max-width: 350px;">
                 <div class="team-avatar" style="color: #FBBF24;"><i class="fa-solid fa-briefcase"></i></div>
                 <h3>Manager 1</h3>
                 <span class="team-role role-manager">Manager</span>
             </div>
+        </div>
 
         <h2 style="text-align: center; margin-top: 50px; color: #FCA5A5;">Administration</h2>
         <div class="team-grid">
@@ -110,7 +109,7 @@
                 <h3>Sup 2</h3>
                 <span class="team-role role-sup">Supporter</span>
             </div>
-            <div class="team-card">
+            <div class="team-card" style="grid-column: 1 / -1; justify-self: center; width: 100%; max-width: 350px;">
                 <div class="team-avatar" style="color: #86EFAC;"><i class="fa-solid fa-headset"></i></div>
                 <h3>Sup 3</h3>
                 <span class="team-role role-sup">Supporter</span>
@@ -123,7 +122,6 @@
         <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB or Microsoft.</p>
     </footer>
 
-    <!-- AI Chat Widget -->
     <div class="chat-widget" id="chatWidget">
         <button class="chat-trigger" onclick="toggleChat()">
             <i class="fa-solid fa-comments"></i>
