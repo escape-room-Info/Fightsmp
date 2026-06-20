@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FightSMP - Startseite</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <img src="fightsmp-logo.png" alt="FightSMP" onerror="this.style.display='none'">
+      <span><em>Fight</em>SMP</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="index.html#status">Server</a>
+      <a href="index.html#faq">FAQ</a>
+    </div>
+    <div class="nav-ip" onclick="copyIP()" id="ip-btn">⚔ play.fightsmp.net</div>
+  </div>
+</nav>
+
+<div class="hero">
+  <img src="fightsmp-logo.png" alt="FightSMP" class="hero-logo" onerror="this.style.display='none'">
+  <h1>Unterstütze <span>FightSMP</span></h1>
+  <p>Hol dir deinen Rang und sichere dir exklusive Vorteile auf dem Server.</p>
+  <div class="hero-badges">
+    <span class="badge online">Server Online</span>
+    <span class="badge">⚔ Survival SMP</span>
+    <span class="badge">🛡 Sichere Zahlung</span>
+  </div>
+</div>
+
+<div id="status">...</div>
+
+<div id="faq">...</div>
+
+<div id="discord">...</div>
+
+<footer>
+  © 2026 FightSMP &nbsp;·&nbsp; Nicht offiziell mit Mojang/Microsoft assoziiert &nbsp;·&nbsp;
+  <a href="#">Impressum</a> &nbsp;·&nbsp; <a href="#">Datenschutz</a>
+</footer>
+
+<button class="chat-bubble" onclick="toggleChat()" aria-label="Support Chat öffnen">...</button>
+<div class="chat-window" id="chat-window">...</div>
+
+<script src="main.js"></script>
+</body>
+</html>
