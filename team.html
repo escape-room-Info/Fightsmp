@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | Team</title>
     <link rel="stylesheet" href="style.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .team-grid {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important; /* Zentriert alle Karten in der Zeile */
+            gap: 30px !important;              /* Abstand zwischen den Karten */
+            margin: 0 auto 50px auto !important;
+            max-width: 1200px !important;
+        }
+        /* Stellt sicher, dass die Karten eine schöne Standardbreite haben */
+        .team-card {
+            flex: 0 1 250px; 
+            min-width: 220px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -66,7 +85,9 @@
                 <h3>Manager 1</h3>
                 <span class="team-role role-manager">Manager</span>
             </div>
-        </div> <h2 style="text-align: center; margin-top: 50px; color: #FCA5A5;">Administration</h2>
+        </div>
+            
+        <h2 style="text-align: center; margin-top: 50px; color: #FCA5A5;">Administration</h2>
         <div class="team-grid">
             <div class="team-card">
                 <div class="team-avatar" style="color: #FCA5A5;"><i class="fa-solid fa-user-gear"></i></div>
@@ -161,7 +182,6 @@
         }
 
         function toggleChat() {
-            // Variable von 'window' zu 'chatWin' geändert, um Konflikte zu vermeiden
             const chatWin = document.getElementById("chatWindow");
             chatWin.classList.toggle("open");
         }
