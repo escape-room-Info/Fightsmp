@@ -5,25 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | Team</title>
     
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Scroll Animations CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* Modernes Dark-Theme & Farbvariablen wie im Bild */
         :root {
-            --bg-color: #0b0f19;          /* Dunkler Hintergrund */
-            --card-bg: rgba(17, 24, 39, 0.75); /* Transparente Karten */
+            --bg-color: #0b0f19;          
+            --card-bg: rgba(17, 24, 39, 0.75); 
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             
-            /* Farben der Ränge aus dem Screenshot */
-            --color-owner: #dc2626;      /* Rot */
-            --color-manager: #fbbf24;    /* Gelb/Gold */
-            --color-admin: #ec4899;      /* Pink */
-            --color-mod: #0284c7;        /* Cyan/Blau */
-            --color-support: #22c55e;    /* Grün */
+            --color-owner: #dc2626;      
+            --color-manager: #fbbf24;    
+            --color-admin: #ec4899;      
+            --color-mod: #0284c7;        
+            --color-support: #22c55e;    
         }
 
         * {
@@ -34,8 +36,13 @@
 
         body {
             background-color: var(--bg-color);
-            /* Falls du ein Hintergrundbild hast, kannst du es hier aktivieren: */
-            /* background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url('dein-hintergrundbild.jpg') no-repeat center center fixed; background-size: cover; */
+            /* PARALLAX HINTERGRUND */
+            background-image: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
@@ -48,8 +55,8 @@
 
         /* NAVBAR STYLING */
         .navbar {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding: 15px 0;
             position: sticky;
@@ -75,6 +82,7 @@
         }
         .text-orange { color: #f97316; margin-right: 5px; }
         .text-blue { color: #3b82f6; }
+        
         .nav-menu {
             display: flex;
             gap: 20px;
@@ -93,6 +101,41 @@
             border-bottom: 2px solid #f97316;
             padding-bottom: 4px;
         }
+
+        /* SERVER STATUS & IP BEREICH */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+        }
+        .status-dot.pulse {
+            animation: pulse-animation 2s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        #player-count-num { color: #10b981; }
+
         .ip-btn {
             background: #e04f1a;
             color: white;
@@ -102,9 +145,9 @@
             font-weight: 600;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
         }
-        .ip-btn:hover { background: #ca3e10; }
+        .ip-btn:hover { background: #ca3e10; transform: translateY(-2px); }
 
         /* MAIN CONTAINER */
         .container {
@@ -112,13 +155,12 @@
             margin: 60px auto;
             padding: 0 20px;
         }
-
         .header-section {
             text-align: center;
             margin-bottom: 60px;
         }
         .header-section h1 {
-            font-size: 42px;
+            font-size: 48px;
             letter-spacing: 1px;
             margin-bottom: 10px;
         }
@@ -127,166 +169,144 @@
             text-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
         }
 
-        /* RANG TITEL */
         .rank-title {
             text-align: center;
-            margin-top: 50px;
-            margin-bottom: 25px;
-            font-size: 28px;
-            letter-spacing: 0.5px;
+            margin-top: 60px;
+            margin-bottom: 30px;
+            font-size: 32px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* TEAM GRID - PERFEKTE ZENTRIERUNG */
         .team-grid {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center; /* Zentriert alle Karten in der Zeile */
+            justify-content: center; 
             gap: 30px;
             margin-bottom: 40px;
         }
 
-        /* TEAM CARD STYLING (Wie im Bild) */
+        /* HOVER KARTEN & MC KÖPFE */
         .team-card {
             background: var(--card-bg);
             backdrop-filter: blur(8px);
             border-radius: 14px;
             padding: 30px 20px;
             text-align: center;
-            width: 240px; /* Feste Breite für die Boxen */
+            width: 240px;
+            position: relative;
+            overflow: hidden; /* Wichtig für das Overlay */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .team-card:hover {
-            transform: translateY(-5px);
-        }
+        .team-card:hover { transform: translateY(-5px); }
 
-        /* Avatar / Icon Bereich */
-        .team-avatar {
-            font-size: 45px;
+        .team-avatar-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
             margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            image-rendering: pixelated; /* Für den scharfen Minecraft-Look */
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
         .team-card h3 {
-            font-size: 20px;
+            font-size: 22px;
             color: #ffffff;
             margin-bottom: 12px;
             letter-spacing: 0.5px;
         }
 
-        /* Pill/Badge für die Rolle unten */
         .team-role {
             display: inline-block;
-            padding: 5px 16px;
+            padding: 6px 18px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             letter-spacing: 0.5px;
             color: #fff;
         }
 
-        /* SPEZIFISCHE LEUCHT-EFFEKTE (Neon Glow wie im Screenshot) */
-        .card-owner {
-            border: 2px solid var(--color-owner);
-            box-shadow: 0 0 15px rgba(220, 38, 38, 0.25);
+        /* HOVER OVERLAY INFO */
+        .card-overlay {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            z-index: 10;
+            border-radius: 12px;
         }
+        .team-card:hover .card-overlay { bottom: 0; }
+        
+        .overlay-icon { font-size: 24px; margin-bottom: 10px; }
+        .overlay-discord { font-weight: 700; color: #fff; margin-bottom: 5px; font-size: 16px;}
+        .overlay-quote { font-size: 12px; color: var(--text-muted); font-style: italic; }
+
+        /* KARTEN GLOW FARBEN */
+        .card-owner { border: 2px solid var(--color-owner); box-shadow: 0 0 15px rgba(220, 38, 38, 0.25); }
         .role-owner { background-color: var(--color-owner); }
+        .overlay-owner .overlay-icon { color: var(--color-owner); }
 
-        .card-manager {
-            border: 2px solid var(--color-manager);
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
-        }
+        .card-manager { border: 2px solid var(--color-manager); box-shadow: 0 0 15px rgba(251, 191, 36, 0.25); }
         .role-manager { background-color: var(--color-manager); color: #111; }
+        .overlay-manager .overlay-icon { color: var(--color-manager); }
 
-        .card-admin {
-            border: 2px solid var(--color-admin);
-            box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
-        }
+        .card-admin { border: 2px solid var(--color-admin); box-shadow: 0 0 15px rgba(236, 72, 153, 0.25); }
         .role-admin { background-color: var(--color-admin); }
+        .overlay-admin .overlay-icon { color: var(--color-admin); }
 
-        .card-mod {
-            border: 2px solid var(--color-mod);
-            box-shadow: 0 0 15px rgba(2, 132, 199, 0.25);
-        }
+        .card-mod { border: 2px solid var(--color-mod); box-shadow: 0 0 15px rgba(2, 132, 199, 0.25); }
         .role-mod { background-color: var(--color-mod); }
+        .overlay-mod .overlay-icon { color: var(--color-mod); }
 
-        .card-support {
-            border: 2px solid var(--color-support);
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
-        }
+        .card-support { border: 2px solid var(--color-support); box-shadow: 0 0 15px rgba(34, 197, 94, 0.25); }
         .role-support { background-color: var(--color-support); }
+        .overlay-support .overlay-icon { color: var(--color-support); }
 
 
-        /* FOOTER */
         .footer {
             text-align: center;
             padding: 40px 20px;
             color: #4b5563;
             font-size: 13px;
-            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             margin-top: 80px;
+            background: rgba(11, 15, 25, 0.9);
         }
 
-        /* CHAT WIDGET STYLING */
-        .chat-widget {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 1000;
-            font-family: 'Inter', sans-serif;
-        }
-        .chat-trigger {
-            background: #f97316;
-            color: white;
-            border: none;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            font-size: 22px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
-            transition: transform 0.2s;
-        }
+        /* CHAT WIDGET STYLING (Unverändert) */
+        .chat-widget { position: fixed; bottom: 25px; right: 25px; z-index: 1000; }
+        .chat-trigger { background: #f97316; color: white; border: none; width: 55px; height: 55px; border-radius: 50%; font-size: 22px; cursor: pointer; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); transition: transform 0.2s; }
         .chat-trigger:hover { transform: scale(1.05); }
-        
-        .chat-window {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            width: 330px;
-            background: #151d30;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        .chat-window { position: absolute; bottom: 70px; right: 0; width: 330px; background: #151d30; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: none; flex-direction: column; overflow: hidden; }
         .chat-window.open { display: flex; }
-        .chat-header {
-            background: #1e293b;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
+        .chat-header { background: #1e293b; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .chat-bot-info { display: flex; align-items: center; gap: 10px; }
         .chat-bot-info h4 { font-size: 14px; }
         .status-online { font-size: 11px; color: #10b981; display: flex; align-items: center; gap: 4px; }
         .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
         .chat-close { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
-        
         .chat-messages { padding: 15px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         .message { padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 85%; line-height: 1.4; }
         .bot-message { background: #1e293b; color: #e2e8f0; align-self: flex-start; }
         .user-message { background: #f97316; color: white; align-self: flex-end; }
-        
         .chat-input-area { padding: 12px; background: #1e293b; display: flex; gap: 8px; }
-        .chat-input-area input { flex: 1; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 6px; color: white; font-size: 13px; }
+        .chat-input-area input { flex: 1; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 6px; color: white; font-size: 13px; outline: none;}
         .chat-input-area button { background: #f97316; border: none; color: white; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
 
+    <!-- NAVIGATION BAR -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
@@ -301,100 +321,165 @@
                 <a href="faq.html" class="nav-link">FAQ</a>
                 <a href="discord.html" class="nav-link">Discord</a>
             </div>
-            <button class="ip-btn" onclick="copyServerIP()">
-                <i class="fa-solid fa-copy"></i> <span id="ip-text">play.fightsmp.net</span>
-            </button>
+            <div class="nav-right">
+                <!-- LIVE SPIELER ANZEIGE -->
+                <div class="server-status">
+                    <span class="status-dot pulse" id="status-indicator"></span>
+                    <span><span id="player-count-num">...</span> Online</span>
+                </div>
+                <button class="ip-btn" onclick="copyServerIP()">
+                    <i class="fa-solid fa-copy"></i> <span id="ip-text">play.fightsmp.net</span>
+                </button>
+            </div>
         </div>
     </nav>
     
+    <!-- MAIN CONTENT -->
     <div class="container">
 
-        <div class="header-section">
+        <div class="header-section" data-aos="fade-down" data-aos-duration="800">
             <h1>Unser <span class="text-orange-glow">Server-Team</span></h1>
-            <p style="color: var(--text-muted); font-size: 16px;">Das aktualisierte Team von FightSMP.</p>
+            <p style="color: var(--text-muted); font-size: 18px;">Lerne die Gesichter hinter FightSMP kennen.</p>
         </div>
 
-        <h2 class="rank-title" style="color: var(--color-owner);">Owner</h2>
+        <!-- OWNER SECTION -->
+        <h2 class="rank-title" style="color: var(--color-owner);" data-aos="fade-up">Owner</h2>
         <div class="team-grid">
-            <div class="team-card card-owner">
-                <div class="team-avatar" style="color: var(--color-owner);"><i class="fa-solid fa-crown"></i></div>
-                <h3>Owner 1</h3>
+            <!-- Teammitglied mit Minecraft Kopf -->
+            <!-- UM DEN KOPF ZU ÄNDERN: Ersetze 'Notch' im img-src durch den Spielernamen -->
+            <div class="team-card card-owner" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://mc-heads.net/avatar/Notch/100" alt="Owner" class="team-avatar-img">
+                <h3>Notch</h3>
                 <span class="team-role role-owner">Owner</span>
+                
+                <!-- Hover Fenster -->
+                <div class="card-overlay overlay-owner">
+                    <i class="fa-brands fa-discord overlay-icon"></i>
+                    <p class="overlay-discord">Notch#1234</p>
+                    <p class="overlay-quote">"Serverleitung & Entwicklung"</p>
+                </div>
             </div>
-            <div class="team-card card-owner">
-                <div class="team-avatar" style="color: var(--color-owner);"><i class="fa-solid fa-crown"></i></div>
-                <h3>Owner 2</h3>
+
+            <div class="team-card card-owner" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://mc-heads.net/avatar/jeb_/100" alt="Owner" class="team-avatar-img">
+                <h3>Jeb_</h3>
                 <span class="team-role role-owner">Owner</span>
+                
+                <div class="card-overlay overlay-owner">
+                    <i class="fa-brands fa-discord overlay-icon"></i>
+                    <p class="overlay-discord">JebsDiscord</p>
+                    <p class="overlay-quote">"Projektleitung & Finanzen"</p>
+                </div>
             </div>
-            <div class="team-card card-owner">
-                <div class="team-avatar" style="color: var(--color-owner);"><i class="fa-solid fa-crown"></i></div>
-                <h3>Owner 3</h3>
+            
+            <div class="team-card card-owner" data-aos="fade-up" data-aos-delay="300">
+                <img src="https://mc-heads.net/avatar/Dinnerbone/100" alt="Owner" class="team-avatar-img">
+                <h3>Dinnerbone</h3>
                 <span class="team-role role-owner">Owner</span>
+                
+                <div class="card-overlay overlay-owner">
+                    <i class="fa-brands fa-discord overlay-icon"></i>
+                    <p class="overlay-discord">Dinnerbone_</p>
+                    <p class="overlay-quote">"Marketing & Community"</p>
+                </div>
             </div>
         </div>
 
-        <h2 class="rank-title" style="color: var(--color-manager);">Manager</h2>
+        <!-- MANAGER SECTION -->
+        <h2 class="rank-title" style="color: var(--color-manager);" data-aos="fade-up">Manager</h2>
         <div class="team-grid">
-            <div class="team-card card-manager">
-                <div class="team-avatar" style="color: var(--color-manager);"><i class="fa-solid fa-briefcase"></i></div>
-                <h3>Manager 1</h3>
+            <div class="team-card card-manager" data-aos="zoom-in" data-aos-delay="100">
+                <img src="https://mc-heads.net/avatar/Grian/100" alt="Manager" class="team-avatar-img">
+                <h3>Grian</h3>
                 <span class="team-role role-manager">Manager</span>
+                
+                <div class="card-overlay overlay-manager">
+                    <i class="fa-brands fa-discord overlay-icon"></i>
+                    <p class="overlay-discord">Grian_Manager</p>
+                    <p class="overlay-quote">"Teamleitung & Orga"</p>
+                </div>
             </div>
         </div>
             
-        <h2 class="rank-title" style="color: var(--color-admin);">Administration</h2>
+        <!-- ADMINISTRATION SECTION -->
+        <h2 class="rank-title" style="color: var(--color-admin);" data-aos="fade-up">Administration</h2>
         <div class="team-grid">
-            <div class="team-card card-admin">
-                <div class="team-avatar" style="color: var(--color-admin);"><i class="fa-solid fa-user-gear"></i></div>
-                <h3>Admin 1</h3>
+            <div class="team-card card-admin" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://mc-heads.net/avatar/BastiGHG/100" alt="Admin" class="team-avatar-img">
+                <h3>BastiGHG</h3>
                 <span class="team-role role-admin">Admin</span>
+                <div class="card-overlay overlay-admin">
+                    <i class="fa-brands fa-discord overlay-icon"></i><p class="overlay-discord">basti_admin</p><p class="overlay-quote">"Technik & Plugins"</p>
+                </div>
             </div>
-            <div class="team-card card-admin">
-                <div class="team-avatar" style="color: var(--color-admin);"><i class="fa-solid fa-user-gear"></i></div>
-                <h3>Admin 2</h3>
+            <div class="team-card card-admin" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://mc-heads.net/avatar/Paluten/100" alt="Admin" class="team-avatar-img">
+                <h3>Paluten</h3>
                 <span class="team-role role-admin">Admin</span>
+                <div class="card-overlay overlay-admin">
+                    <i class="fa-brands fa-discord overlay-icon"></i><p class="overlay-discord">palle_admin</p><p class="overlay-quote">"Regelwerk & Sanktionen"</p>
+                </div>
             </div>
         </div>
 
-        <h2 class="rank-title" style="color: var(--color-mod);">Moderation</h2>
+        <!-- MODERATION SECTION -->
+        <h2 class="rank-title" style="color: var(--color-mod);" data-aos="fade-up">Moderation</h2>
         <div class="team-grid">
-            <div class="team-card card-mod">
-                <div class="team-avatar" style="color: var(--color-mod);"><i class="fa-solid fa-shield"></i></div>
-                <h3>Mod 1</h3>
+            <div class="team-card card-mod" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://mc-heads.net/avatar/Mumbo/100" alt="Mod" class="team-avatar-img">
+                <h3>Mumbo</h3>
                 <span class="team-role role-mod">Moderator</span>
+                <div class="card-overlay overlay-mod">
+                    <i class="fa-brands fa-discord overlay-icon"></i><p class="overlay-discord">mumbo_mod</p><p class="overlay-quote">"Hält den Chat sauber"</p>
+                </div>
             </div>
-            <div class="team-card card-mod">
-                <div class="team-avatar" style="color: var(--color-mod);"><i class="fa-solid fa-shield"></i></div>
-                <h3>Mod 2</h3>
+            <div class="team-card card-mod" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://mc-heads.net/avatar/Dream/100" alt="Mod" class="team-avatar-img">
+                <h3>Dream</h3>
                 <span class="team-role role-mod">Moderator</span>
+                <div class="card-overlay overlay-mod">
+                    <i class="fa-brands fa-discord overlay-icon"></i><p class="overlay-discord">dream_mod</p><p class="overlay-quote">"Hilft bei Reports"</p>
+                </div>
             </div>
         </div>
 
-        <h2 class="rank-title" style="color: var(--color-support);">Support</h2>
+        <!-- SUPPORT SECTION -->
+        <h2 class="rank-title" style="color: var(--color-support);" data-aos="fade-up">Support</h2>
         <div class="team-grid">
-            <div class="team-card card-support">
-                <div class="team-avatar" style="color: var(--color-support);"><i class="fa-solid fa-headset"></i></div>
-                <h3>Sup 1</h3>
+            <div class="team-card card-support" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://mc-heads.net/avatar/Technoblade/100" alt="Sup" class="team-avatar-img">
+                <h3>Techno</h3>
                 <span class="team-role role-support">Supporter</span>
+                <div class="card-overlay overlay-support">
+                    <i class="fa-brands fa-discord overlay-icon"></i><p class="overlay-discord">techno_sup</p><p class="overlay-quote">"Ticket-Bearbeitung"</p>
+                </div>
             </div>
-            <div class="team-card card-support">
-                <div class="team-avatar" style="color: var(--color-support);"><i class="fa-solid fa-headset"></i></div>
-                <h3>Sup 2</h3>
+            <div class="team-card card-support" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://mc-heads.net/avatar/DanTDM/100" alt="Sup" class="team-avatar-img">
+                <h3>DanTDM</h3>
                 <span class="team-role role-support">Supporter</span>
+                <div class="card-overlay overlay-support">
+                    <i class="fa-brands fa-discord overlay-icon"></i><p class="overlay-discord">dan_sup</p><p class="overlay-quote">"Allgemeine Fragen"</p>
+                </div>
             </div>
-            <div class="team-card card-support">
-                <div class="team-avatar" style="color: var(--color-support);"><i class="fa-solid fa-headset"></i></div>
-                <h3>Sup 3</h3>
+            <div class="team-card card-support" data-aos="fade-up" data-aos-delay="300">
+                <img src="https://mc-heads.net/avatar/CaptainSparklez/100" alt="Sup" class="team-avatar-img">
+                <h3>Sparklez</h3>
                 <span class="team-role role-support">Supporter</span>
+                <div class="card-overlay overlay-support">
+                    <i class="fa-brands fa-discord overlay-icon"></i><p class="overlay-discord">sparklez_sup</p><p class="overlay-quote">"Voice-Support"</p>
+                </div>
             </div>
         </div>
 
     </div>
 
+    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB oder Microsoft.</p>
     </footer>
 
+    <!-- AI CHAT WIDGET -->
     <div class="chat-widget" id="chatWidget">
         <button class="chat-trigger" onclick="toggleChat()">
             <i class="fa-solid fa-comments"></i>
@@ -422,20 +507,61 @@
         </div>
     </div>
 
+    <!-- SCRIPT LIBS -->
+    <!-- AOS Animate on Scroll JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
+        // Initialisiere die Scroll-Animationen
+        AOS.init({
+            once: true, // Animation passiert nur beim ersten Runterscrollen
+            offset: 100 // Pixel bevor das Element ins Bild kommt, triggert es
+        });
+
+        // LIVE SPIELERZAHLEN ABFRAGEN
+        async function fetchPlayerCount() {
+            try {
+                // Ersetze 'play.fightsmp.net' durch deine echte IP (falls sie anders ist)
+                const response = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net');
+                const data = await response.json();
+                
+                const countElement = document.getElementById('player-count-num');
+                const dotElement = document.getElementById('status-indicator');
+                
+                if (data.online) {
+                    countElement.innerText = data.players.online;
+                    countElement.style.color = '#10b981'; // Grün
+                    dotElement.style.backgroundColor = '#10b981';
+                    dotElement.classList.add('pulse');
+                } else {
+                    countElement.innerText = 'Offline';
+                    countElement.style.color = '#ef4444'; // Rot
+                    dotElement.style.backgroundColor = '#ef4444';
+                    dotElement.classList.remove('pulse');
+                }
+            } catch (error) {
+                document.getElementById('player-count-num').innerText = '?';
+            }
+        }
+        
+        // Führe Abfrage direkt aus und dann alle 60 Sekunden
+        fetchPlayerCount();
+        setInterval(fetchPlayerCount, 60000);
+
+        // IP KOPIEREN
         function copyServerIP() {
             const ip = "play.fightsmp.net";
             navigator.clipboard.writeText(ip).then(() => {
                 const btnText = document.getElementById("ip-text");
                 btnText.innerText = "Kopiert!";
-                btnText.style.color = "#4ADE80";
+                btnText.style.color = "#fff";
                 setTimeout(() => {
                     btnText.innerText = ip;
-                    btnText.style.color = "";
                 }, 2000);
             });
         }
 
+        // CHAT WIDGET
         function toggleChat() {
             const chatWin = document.getElementById("chatWindow");
             chatWin.classList.toggle("open");
