@@ -1,182 +1,239 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | Regelwerk</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <style>
+        :root {
+            --bg-color: #05070c;          
+            --card-bg: rgba(17, 24, 39, 0.6); 
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-orange: #f97316;
+            --accent-blue: #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop');
+            background-attachment: fixed; background-size: cover;
+            color: var(--text-main); font-family: 'Inter', sans-serif; overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+
+        /* NAVBAR */
+        .navbar { background: rgba(10, 15, 25, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 15px 0; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .nav-logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 26px; }
+        .text-orange { color: var(--accent-orange); margin-right: 5px; }
+        .text-blue { color: var(--accent-blue); }
+        .nav-menu { display: flex; gap: 20px; align-items: center; }
+        .nav-link { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 16px; transition: 0.2s; }
+        .nav-link:hover, .nav-link.active { color: #fff; }
+        .nav-link.active { border-bottom: 2px solid var(--accent-orange); padding-bottom: 4px; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+
+        /* HEADER */
+        .header-section { text-align: center; margin: 60px 0 40px 0; padding: 0 20px; }
+        .header-section h1 { font-size: 48px; margin-bottom: 10px; }
+        .header-section p { color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto; line-height: 1.5; }
+
+        /* ACCORDION (Regelwerk Dropdowns) */
+        .container { max-width: 900px; margin: 0 auto 60px auto; padding: 0 20px; }
+        
+        .accordion-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .accordion-header {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            font-size: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover { background: rgba(255,255,255,0.05); }
+        .accordion-header i { font-size: 18px; color: var(--accent-orange); transition: transform 0.3s; }
+        .accordion-header.active i { transform: rotate(180deg); } /* Pfeil dreht sich beim Öffnen */
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: rgba(0,0,0,0.2);
+        }
+        
+        .accordion-body { padding: 0 20px 20px 20px; color: #d1d5db; line-height: 1.6; font-size: 15px; }
+        .accordion-body ul { padding-left: 20px; margin-top: 10px; }
+        .accordion-body li { margin-bottom: 8px; }
+
+        .footer { text-align: center; padding: 40px 20px; color: #4b5563; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-menu { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(5, 7, 12, 0.98); flex-direction: column; justify-content: center; transition: 0.3s; }
+            .nav-menu.active { left: 0; }
+            .nav-menu a { font-size: 24px; }
+        }
+    </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="fightsmp-logo.png" alt="FightSMP" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="logo-fallback"><i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span></span>
+                <i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span>
             </a>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link ">Home</a>
-<a href="news.html" class="nav-link ">News</a>
-<a href="shop.html" class="nav-link ">Shop</a>
-<a href="team.html" class="nav-link ">Team</a>
-<a href="rules.html" class="nav-link active">Regelwerk</a>
-<a href="faq.html" class="nav-link ">FAQ</a>
-<a href="discord.html" class="nav-link ">Discord</a>
-
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars" id="menu-icon"></i></button>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="news.html" class="nav-link">News</a>
+                <a href="shop.html" class="nav-link">Shop</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="rules.html" class="nav-link active">Regelwerk</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+                <a href="discord.html" class="nav-link">Discord</a>
             </div>
-            <button class="ip-btn" onclick="copyServerIP()">
-                <i class="fa-solid fa-copy"></i> <span id="ip-text">play.fightsmp.net</span>
-            </button>
         </div>
     </nav>
     
     <div class="container">
-
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h1>Server <span class="text-orange">Regelwerk</span></h1>
-            <p style="color: var(--text-muted);">Mit dem Betreten unseres Servers akzeptierst du diese Regeln automatisch.</p>
+        <div class="header-section" data-aos="fade-down">
+            <h1>Offizielles <span style="color: var(--accent-orange);">Regelwerk</span></h1>
+            <p>Unwissenheit schützt vor Strafe nicht. Bitte lies dir unsere Regeln sorgfältig durch, um einen fairen Spielspaß für alle zu garantieren.</p>
         </div>
 
-        <div class="rules-container">
-            <p style="color: #FCA5A5; font-weight: bold; margin-bottom: 20px;"><i class="fa-solid fa-triangle-exclamation"></i> Unwissenheit schützt vor Strafe nicht!</p>
+        <div class="rules-list" data-aos="fade-up">
+            
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    §1 Allgemeines Verhalten <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p>Wir legen großen Wert auf eine freundliche und hilfsbereite Community. Folgendes ist strengstens untersagt:</p>
+                        <ul>
+                            <li>Beleidigungen, Rassismus, Sexismus oder radikale Äußerungen.</li>
+                            <li>Trolling, extremes Griefing am Spawn und absichtliches Provozieren von Mitspielern.</li>
+                            <li>Das Ausnutzen von Lücken im Regelwerk. Die Administration hat das letzte Wort.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <h3 class="rule-category"><i class="fa-solid fa-comments"></i> 1. Chatverhalten</h3>
-            <ul class="rule-list">
-                <li>Beleidigungen, Rassismus, Sexismus oder radikale Äußerungen sind strengstens verboten.
-                    <span class="rule-punishment">Strafe: Mute bis permanenter Bann</span>
-                </li>
-                <li>Spammen, Capslock-Spam oder Werbung für andere Server (Fremdwerbung) ist untersagt.
-                    <span class="rule-punishment">Strafe: Warnung bis Mute</span>
-                </li>
-                <li>Betteln nach Rängen, Items oder Rechten beim Team ist unerwünscht.</li>
-            </ul>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    §2 Chat & Werbung <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>Spamming (das wiederholte Senden gleicher oder ähnlicher Nachrichten) ist verboten.</li>
+                            <li>Capslock (das übermäßige Schreiben in Großbuchstaben) ist zu unterlassen.</li>
+                            <li>Werbung für andere Server, YouTube-Kanäle (ohne YouTuber-Rang) oder fremde Links führt zum permanenten Bann.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <h3 class="rule-category"><i class="fa-solid fa-gamepad"></i> 2. Ingame-Verhalten (Survival/SMP)</h3>
-            <ul class="rule-list">
-                <li><strong>Griefing:</strong> Das mutwillige Zerstören oder Verändern von fremden Bauwerken ist verboten.
-                    <span class="rule-punishment">Strafe: Temporärer bis permanenter Bann</span>
-                </li>
-                <li><strong>Diebstahl:</strong> Das Klauen aus Kisten oder Lagern anderer Mitspieler ist untersagt.
-                    <span class="rule-punishment">Strafe: Verwarnung bis temporärer Bann</span>
-                </li>
-                <li>Todesfallen (Trap-Kills) bei Teleport-Anfragen (TPA) sind verboten.</li>
-                <li>Spawntrapping (Spieler dauerhaft am Spawn töten) ist nicht erlaubt.</li>
-            </ul>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    §3 Hacks & Client-Mods <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p>Das Spielen mit unfairen Modifikationen ist streng verboten und wird vom Anti-Cheat-System gemeldet.</p>
+                        <ul>
+                            <li><strong>Verboten:</strong> Killaura, X-Ray, Fly-Hacks, Auto-Clicker (auch in der Maus eingespeichert), Minimaps mit Spieler/Cave-Radar.</li>
+                            <li><strong>Erlaubt:</strong> OptiFine, LabyMod, Badlion Client, Lunar Client, Replay Mod, reine Performance-Mods (Sodium etc.).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <h3 class="rule-category"><i class="fa-solid fa-laptop-code"></i> 3. Client-Modifikationen & Hacks</h3>
-            <ul class="rule-list">
-                <li>Die Nutzung von gehackten Clients (X-Ray, Killaura, Fly, Speed etc.) ist absolut verboten.
-                    <span class="rule-punishment">Strafe: Sofortiger permanenter Bann ohne Vorwarnung</span>
-                </li>
-                <li>Auto-Clicker und Makros, die einen unfairen Vorteil bringen, sind verboten.</li>
-                <li><strong>Erlaubte Mods:</strong> OptiFine, Iris/Sodium, LabyMod, Minimaps (ohne Spieler-Radar), ArmorStatus.</li>
-            </ul>
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    §4 PvP, Griefing & Scamming <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <ul>
+                            <li><strong>PvP (Spieler vs Spieler):</strong> Ist außerhalb der sicheren Zonen (Spawn) generell erlaubt.</li>
+                            <li><strong>Griefing:</strong> Das Zerstören von ungesicherten Bauwerken anderer Spieler ist in der Wilderness erlaubt, das Zerstören von geclaimten Gebieten (durch Bugusing) ist verboten.</li>
+                            <li><strong>Scamming:</strong> Das Betrügen bei Ingame-Handel (Tausch) ist erlaubt/verboten (Bitte passe diesen Punkt an euer Server-Konzept an!). Echtgeldhandel ist jedoch strengstens verboten.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <h3 class="rule-category"><i class="fa-solid fa-bug"></i> 4. Bugs & Glitches</h3>
-            <ul class="rule-list">
-                <li>Das Ausnutzen von Server-Bugs oder Duplication-Glitches (Items verdoppeln) ist streng verboten.
-                    <span class="rule-punishment">Strafe: Inventar-Clear und Bann</span>
-                </li>
-                <li>Entdeckte Bugs müssen umgehend dem Server-Team im Discord gemeldet werden.</li>
-            </ul>
-
-            <h3 class="rule-category"><i class="fa-solid fa-scale-balanced"></i> 5. Sonstiges</h3>
-            <ul class="rule-list">
-                <li>Echtgeld-Handel (Items gegen echtes Geld verkaufen) außerhalb unseres offiziellen Shops ist verboten.</li>
-                <li>Die Anweisungen der Teammitglieder (Owner, Manager, Admin, Mod, Sup) sind stets zu befolgen.</li>
-                <li>Das Umgehen von Banns oder Mutes mit einem zweiten Account (Bannumgehung) führt zum Bann aller Accounts.</li>
-            </ul>
         </div>
-
     </div>
 
     <footer class="footer">
-        <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB or Microsoft.</p>
+        <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB oder Microsoft.</p>
     </footer>
 
-    <!-- AI Chat Widget -->
-    <div class="chat-widget" id="chatWidget">
-        <button class="chat-trigger" onclick="toggleChat()">
-            <i class="fa-solid fa-comments"></i>
-        </button>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header">
-                <div class="chat-bot-info">
-                    <i class="fa-solid fa-robot"></i>
-                    <div>
-                        <h4>FightSMP Support AI</h4>
-                        <span class="status-online"><span class="dot"></span> Online</span>
-                    </div>
-                </div>
-                <button class="chat-close" onclick="toggleChat()">&times;</button>
-            </div>
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot-message">
-                    Hallo! Ich bin der FightSMP Support-Assistent. Wie kann ich dir heute helfen?
-                </div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="Frage eingeben..." onkeypress="handleChatKey(event)">
-                <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        function copyServerIP() {
-            const ip = "play.fightsmp.net";
-            navigator.clipboard.writeText(ip).then(() => {
-                const btnText = document.getElementById("ip-text");
-                btnText.innerText = "Kopiert!";
-                btnText.style.color = "#4ADE80";
-                setTimeout(() => {
-                    btnText.innerText = ip;
-                    btnText.style.color = "";
-                }, 2000);
+        AOS.init({ once: true, offset: 50 });
+        
+        // Mobile Menü
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navMenu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('active');
+            if (menu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-xmark');
+            } else {
+                icon.classList.replace('fa-xmark', 'fa-bars');
+            }
+        }
+
+        // Accordion (Aufklappbare Boxen) Logic
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isActive = header.classList.contains('active');
+
+                // Schließt alle anderen Boxen, damit immer nur eine offen ist (optional)
+                document.querySelectorAll('.accordion-header').forEach(otherHeader => {
+                    otherHeader.classList.remove('active');
+                    otherHeader.nextElementSibling.style.maxHeight = null;
+                });
+
+                // Wenn es vorher nicht aktiv war, öffne es jetzt
+                if (!isActive) {
+                    header.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px"; // Berechnet die Höhe des Texts automatisch
+                }
             });
-        }
-
-        function toggleChat() {
-            const window = document.getElementById("chatWindow");
-            window.classList.toggle("open");
-        }
-
-        function handleChatKey(e) {
-            if (e.key === 'Enter') sendChatMessage();
-        }
-
-        function sendChatMessage() {
-            const input = document.getElementById("chatInput");
-            const text = input.value.trim();
-            if (!text) return;
-
-            appendMessage(text, 'user-message');
-            input.value = "";
-
-            setTimeout(() => {
-                let reply = "Das kann dir unser Team auf dem Discord Server genauer beantworten!";
-                appendMessage(reply, 'bot-message');
-            }, 800);
-        }
-
-        function appendMessage(text, className) {
-            const container = document.getElementById("chatMessages");
-            const msgDiv = document.createElement("div");
-            msgDiv.className = `message ${className}`;
-            msgDiv.innerText = text;
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-        }
+        });
     </script>
-
-
 </body>
 </html>
