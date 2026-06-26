@@ -30,8 +30,6 @@
         
         .ip-btn { background: #e04f1a; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .ip-btn:hover { background: #ca3e10; transform: translateY(-2px); }
-        .login-btn { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 15px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
-        .login-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
         .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
 
         .hero { height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
@@ -45,10 +43,11 @@
 
         .container { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
         .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .box { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; }
+        .box { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; }
         .box h2 { font-size: 28px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .box h2 i { color: var(--accent-orange); }
 
+        /* Leaderboard */
         .leaderboard-list { list-style: none; }
         .leaderboard-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .player-info { display: flex; align-items: center; gap: 15px; }
@@ -57,7 +56,10 @@
         .rank-1 { color: #fbbf24; } .rank-2 { color: #9ca3af; } .rank-3 { color: #b45309; }
         .player-score { font-weight: 600; color: #10b981; }
 
-        .discord-iframe { width: 100%; height: 350px; border: none; border-radius: 12px; }
+        /* Neuer Discord Join Button */
+        .discord-join-btn { display: inline-flex; align-items: center; gap: 10px; background: #5865F2; color: white; text-decoration: none; padding: 15px 24px; border-radius: 8px; font-weight: 600; font-size: 16px; transition: 0.2s; width: 100%; justify-content: center; margin-top: auto; }
+        .discord-join-btn:hover { background: #4752C4; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3); }
+
         .footer { text-align: center; padding: 40px 20px; color: #4b5563; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px; }
 
         @media (max-width: 900px) {
@@ -65,7 +67,7 @@
             .nav-menu { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(5, 7, 12, 0.98); flex-direction: column; justify-content: center; transition: 0.3s; }
             .nav-menu.active { left: 0; }
             .nav-menu a { font-size: 24px; }
-            .server-status, .ip-btn, .login-btn { display: none; }
+            .server-status, .ip-btn { display: none; }
             .home-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 40px; }
         }
@@ -75,7 +77,10 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo"><i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span></a>
+            <a href="index.html" class="nav-logo">
+                <i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span>
+            </a>
+            
             <div class="nav-right-group">
                 <div class="nav-menu" id="navMenu">
                     <a href="index.html" class="nav-link active">Home</a>
@@ -85,48 +90,101 @@
                     <a href="rules.html" class="nav-link">Regelwerk</a>
                     <a href="faq.html" class="nav-link">FAQ</a>
                 </div>
-                <div class="server-status"><span class="status-dot pulse" id="status-indicator"></span><span id="player-count-num" style="color:#10b981;">...</span></div>
-                <button class="ip-btn" onclick="copyServerIP()"><i class="fa-solid fa-copy"></i> play.fightsmp.net</button>
-                <a href="login.html" class="login-btn"><i class="fa-solid fa-user"></i> Login</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars" id="menu-icon"></i></button>
+                
+                <div class="server-status">
+                    <span class="status-dot pulse" id="status-indicator"></span>
+                    <span id="player-count-num" style="color:#10b981;">...</span>
+                </div>
+                
+                <button class="ip-btn" onclick="copyServerIP()">
+                    <i class="fa-solid fa-copy"></i> play.fightsmp.net
+                </button>
+                
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
             </div>
         </div>
     </nav>
     
-    
+    <header class="hero" data-aos="fade-up">
+        <div>
+            <h1>Das ultimative <span class="text-orange">Survival</span> Erlebnis.</h1>
+            <p>Tritt unserer Community bei, farme, kämpfe und werde der stärkste Spieler auf FightSMP.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary" onclick="copyServerIP()">Jetzt Spielen</a>
+                <a href="https://discord.gg/RQqfrhxYnq" target="_blank" class="btn-secondary"><i class="fa-brands fa-discord"></i> Discord</a>
+            </div>
+        </div>
+    </header>
 
     <div class="container">
         <div class="home-grid">
+            
+            <!-- Box 1: Leaderboard -->
             <div class="box" data-aos="fade-right">
                 <h2><i class="fa-solid fa-trophy"></i> Top Spieler</h2>
                 <ul class="leaderboard-list">
-                    <li class="leaderboard-item"><div class="player-info"><span class="player-rank rank-1">1</span><img src="https://mc-heads.net/avatar/BastiGHG/40"><span>BastiGHG</span></div><span class="player-score">420 Std.</span></li>
-                    <li class="leaderboard-item"><div class="player-info"><span class="player-rank rank-2">2</span><img src="https://mc-heads.net/avatar/Dream/40"><span>Dream</span></div><span class="player-score">315 Std.</span></li>
-                    <li class="leaderboard-item"><div class="player-info"><span class="player-rank rank-3">3</span><img src="https://mc-heads.net/avatar/Technoblade/40"><span>Techno</span></div><span class="player-score">280 Std.</span></li>
+                    <li class="leaderboard-item">
+                        <div class="player-info"><span class="player-rank rank-1">1</span><img src="https://mc-heads.net/avatar/BastiGHG/40"><span>BastiGHG</span></div>
+                        <span class="player-score">420 Std.</span>
+                    </li>
+                    <li class="leaderboard-item">
+                        <div class="player-info"><span class="player-rank rank-2">2</span><img src="https://mc-heads.net/avatar/Dream/40"><span>Dream</span></div>
+                        <span class="player-score">315 Std.</span>
+                    </li>
+                    <li class="leaderboard-item">
+                        <div class="player-info"><span class="player-rank rank-3">3</span><img src="https://mc-heads.net/avatar/Technoblade/40"><span>Techno</span></div>
+                        <span class="player-score">280 Std.</span>
+                    </li>
                 </ul>
             </div>
-           
+            
+            <!-- Box 2: Discord Button (Repariert) -->
+            <div class="box" data-aos="fade-left">
+                <h2><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Community</h2>
+                <p style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.6;">
+                    Werde Teil unserer stetig wachsenden Community auf Discord! Tausche dich mit anderen Spielern aus, finde Teampartner, melde Bugs direkt an unser Team oder nimm an exklusiven Server-Events teil.
+                </p>
+                <a href="https://discord.gg/RQqfrhxYnq" target="_blank" class="discord-join-btn">
+                    <i class="fa-brands fa-discord" style="font-size: 20px;"></i> Jetzt Beitreten
+                </a>
+            </div>
 
-    <footer class="footer"><p>&copy; 2026 FightSMP. Alle Rechte vorbehalten.</p></footer>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten.</p>
+    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ once: true, offset: 50 });
+        
         function toggleMobileMenu() {
             const m = document.getElementById('navMenu'), i = document.getElementById('menu-icon');
             m.classList.toggle('active');
             i.className = m.classList.contains('active') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
         }
-        function copyServerIP() { navigator.clipboard.writeText("play.fightsmp.net").then(() => alert("IP kopiert!")); }
+        
+        function copyServerIP() { 
+            navigator.clipboard.writeText("play.fightsmp.net").then(() => alert("IP kopiert!")); 
+        }
+        
         async function fetchPlayerCount() {
             try {
-                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net'); const data = await res.json();
+                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net'); 
+                const data = await res.json();
                 document.getElementById('player-count-num').innerText = data.online ? data.players.online : 'Offline';
                 document.getElementById('player-count-num').style.color = data.online ? '#10b981' : '#ef4444';
                 document.getElementById('status-indicator').style.backgroundColor = data.online ? '#10b981' : '#ef4444';
-            } catch (e) { document.getElementById('player-count-num').innerText = '?'; }
+            } catch (e) { 
+                document.getElementById('player-count-num').innerText = '?'; 
+            }
         }
-        fetchPlayerCount(); setInterval(fetchPlayerCount, 60000);
+        fetchPlayerCount(); 
+        setInterval(fetchPlayerCount, 60000);
     </script>
 </body>
 </html>
