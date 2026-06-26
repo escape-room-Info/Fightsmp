@@ -231,6 +231,39 @@
             }
         }
 
+        // IP Kopieren
+        function copyServerIP() {
+            navigator.clipboard.writeText("play.fightsmp.net").then(() => {
+                alert("Server IP 'play.fightsmp.net' wurde kopiert! Wir sehen uns auf dem Server.");
+            });
+        }
+
+        // Live Spielerzahlen abfragen
+        async function fetchPlayerCount() {
+            try {
+                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net');
+                const data = await res.json();
+                const countElement = document.getElementById('player-count-num');
+                const dotElement = document.getElementById('status-indicator');
+                
+                if (data.online) {
+                    countElement.innerText = data.players.online;
+                    countElement.style.color = '#10b981';
+                    dotElement.style.backgroundColor = '#10b981';
+                    dotElement.classList.add('pulse');
+                } else {
+                    countElement.innerText = 'Offline';
+                    countElement.style.color = '#ef4444';
+                    dotElement.style.backgroundColor = '#ef4444';
+                    dotElement.classList.remove('pulse');
+                }
+            } catch (e) {
+                document.getElementById('player-count-num').innerText = '?';
+            }
+        }
+        fetchPlayerCount(); 
+        setInterval(fetchPlayerCount, 60000);
+
         // Accordion (Aufklappbare Boxen) Logic
         const accordionHeaders = document.querySelectorAll('.accordion-header');
         
@@ -239,7 +272,7 @@
                 const content = header.nextElementSibling;
                 const isActive = header.classList.contains('active');
 
-                // Schließt alle anderen Boxen, damit immer nur eine offen ist (optional)
+                // Schließt alle anderen Boxen, damit immer nur eine offen ist
                 document.querySelectorAll('.accordion-header').forEach(otherHeader => {
                     otherHeader.classList.remove('active');
                     otherHeader.nextElementSibling.style.maxHeight = null;
@@ -248,7 +281,7 @@
                 // Wenn es vorher nicht aktiv war, öffne es jetzt
                 if (!isActive) {
                     header.classList.add('active');
-                    content.style.maxHeight = content.scrollHeight + "px"; // Berechnet die Höhe des Texts automatisch
+                    content.style.maxHeight = content.scrollHeight + "px";
                 }
             });
         });
