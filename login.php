@@ -1,19 +1,34 @@
 <?php
 session_start();
 $error_msg = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['spieler_login'])) {
-    $db_host = "localhost"; $db_user = "DEIN_DB_BENUTZER"; $db_pass = "DEIN_PASSWORT"; $db_name = "fightsmp_db";
+    // === HIER TRÄGT DER OWNER SPÄTER DIE DATEN VOM BEZAHLTEN SERVER EIN ===
+    $db_host = "localhost"; 
+    $db_user = "BENUTZERNAME"; 
+    $db_pass = "PASSWORT"; 
+    $db_name = "fightsmp_db";
+    
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    
     if (!$conn->connect_error) {
         $name = $conn->real_escape_string(trim($_POST['username']));
         $code = $conn->real_escape_string(trim($_POST['logincode']));
+        
         $res = $conn->query("SELECT * FROM website_logins WHERE spieler_name = '$name' AND login_code = '$code'");
+        
         if ($res->num_rows > 0) {
-            $_SESSION['loggedin'] = true; $_SESSION['spieler_name'] = $name;
+            $_SESSION['loggedin'] = true; 
+            $_SESSION['spieler_name'] = $name;
             $conn->query("UPDATE website_logins SET login_code = NULL, verknuepft = 1 WHERE spieler_name = '$name'");
-            header("Location: dashboard.html"); exit;
-        } else { $error_msg = "Falscher Name oder Code!"; }
+            header("Location: dashboard.html"); 
+            exit;
+        } else {
+            $error_msg = "Falscher Name oder Code!";
+        }
         $conn->close();
+    } else {
+        $error_msg = "Datenbankverbindung fehlgeschlagen!";
     }
 }
 ?>
