@@ -103,20 +103,38 @@
 </head>
 <body>
 
-    <nav class="navbar">
+<nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
                 <i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span>
             </a>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars" id="menu-icon"></i></button>
-            <div class="nav-menu" id="navMenu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="news.html" class="nav-link">News</a>
-                <a href="shop.html" class="nav-link">Shop</a>
-                <a href="team.html" class="nav-link">Team</a>
-                <a href="rules.html" class="nav-link active">Regelwerk</a>
-                <a href="faq.html" class="nav-link">FAQ</a>
-                <a href="discord.html" class="nav-link">Discord</a>
+            
+            <div class="nav-right-group">
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="news.html" class="nav-link">News</a>
+                    <a href="shop.html" class="nav-link">Shop</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="rules.html" class="nav-link active">Regelwerk</a>
+                    <a href="faq.html" class="nav-link">FAQ</a>
+                </div>
+                
+                <div class="server-status">
+                    <span class="status-dot pulse" id="status-indicator"></span>
+                    <span id="player-count-num" style="color:#10b981;">...</span>
+                </div>
+                
+                <button class="ip-btn" onclick="copyServerIP()">
+                    <i class="fa-solid fa-copy"></i> play.fightsmp.net
+                </button>
+                
+                <a href="login.html" class="login-btn">
+                    <i class="fa-solid fa-user"></i> Login
+                </a>
+                
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
             </div>
         </div>
     </nav>
