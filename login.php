@@ -1,36 +1,22 @@
 <?php
 session_start();
-
 $error_msg = "";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['spieler_login'])) {
-    
-    // DATENBANK DATEN:
-    $db_host = "localhost";
-    $db_user = "root";
-    $db_pass = "passwort";
-    $db_name = "fightsmp_db";
-    
+    $db_host = "localhost"; $db_user = "root"; $db_pass = "passwort"; $db_name = "fightsmp_db";
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-    
     if (!$conn->connect_error) {
         $eingabe_name = $conn->real_escape_string($_POST['username']);
         $eingabe_code = $conn->real_escape_string($_POST['logincode']);
-        
         $result = $conn->query("SELECT * FROM website_logins WHERE spieler_name = '$eingabe_name' AND login_code = '$eingabe_code'");
-        
         if ($result->num_rows > 0) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['spieler_name'] = $eingabe_name;
+            $_SESSION['loggedin'] = true; $_SESSION['spieler_name'] = $eingabe_name;
             $conn->query("UPDATE website_logins SET login_code = NULL, verknuepft = 1 WHERE spieler_name = '$eingabe_name'");
-            header("Location: dashboard.html");
-            exit;
-        } else {
-            $error_msg = "Der eingegebene Name oder Code ist falsch!";
-        }
+            header("Location: dashboard.html"); exit;
+        } else { $error_msg = "Der eingegebene Name oder Code ist falsch!"; }
     }
 }
 ?>
+<!-- Hier folgt dein HTML-Design wie zuvor -->
 
 <!DOCTYPE html>
 <html lang="de">
