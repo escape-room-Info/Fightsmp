@@ -4,19 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | News</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
-        :root { --bg-color: #05070c; --card-bg: rgba(17, 24, 39, 0.6); --text-main: #f3f4f6; --text-muted: #9ca3af; --accent-orange: #f97316; --accent-blue: #3b82f6; }
+        :root {
+            --bg-color: #05070c;          
+            --card-bg: rgba(17, 24, 39, 0.6); 
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-orange: #f97316;
+            --accent-blue: #3b82f6;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop'); background-attachment: fixed; background-size: cover; color: var(--text-main); font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop');
+            background-attachment: fixed; background-size: cover;
+            color: var(--text-main); font-family: 'Inter', sans-serif; overflow-x: hidden;
+        }
+
         h1, h2, h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
-        
+
+        /* NAVBAR */
         .navbar { background: rgba(10, 15, 25, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 15px 0; position: sticky; top: 0; z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
         .nav-logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 26px; }
-        .text-orange { color: var(--accent-orange); margin-right: 5px; } .text-blue { color: var(--accent-blue); }
+        .text-orange { color: var(--accent-orange); margin-right: 5px; }
+        .text-blue { color: var(--accent-blue); }
+        
         .nav-right-group { display: flex; align-items: center; gap: 15px; }
         .nav-menu { display: flex; gap: 20px; align-items: center; }
         .nav-link { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 16px; transition: 0.2s; }
@@ -24,31 +46,88 @@
         .nav-link.active { border-bottom: 2px solid var(--accent-orange); padding-bottom: 4px; }
         
         .server-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; background: rgba(0, 0, 0, 0.3); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .status-dot { width: 8px; height: 8px; background-color: #10b981; border-radius: 50%; }
+        .status-dot { width: 8px; height: 8px; background-color: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
+        .status-dot.pulse { animation: pulse-animation 2s infinite; }
+        @keyframes pulse-animation { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         
         .ip-btn { background: #e04f1a; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .login-btn { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 15px; border-radius: 6px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .ip-btn:hover { background: #ca3e10; transform: translateY(-2px); }
+        .login-btn { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 15px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .login-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        
         .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
 
+        /* HEADER */
         .container { max-width: 1200px; margin: 0 auto 60px auto; padding: 0 20px; }
         .header-section { text-align: center; margin: 60px 0 40px 0; }
-        .header-section h1 { font-size: 48px; }
-        
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .news-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; overflow: hidden; }
-        .news-image { height: 180px; background: #1e293b; background-size: cover; position: relative; }
-        .news-content { padding: 25px; }
-        .news-date { color: var(--text-muted); font-size: 13px; margin-bottom: 10px; }
-        .news-title { font-size: 24px; color: #fff; margin-bottom: 15px;}
-        .news-excerpt { color: #d1d5db; line-height: 1.6; }
+        .header-section h1 { font-size: 48px; margin-bottom: 10px; }
+        .header-section p { color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto; line-height: 1.5; }
 
-        @media (max-width: 900px) { .mobile-menu-btn { display: block; } .nav-menu { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(5, 7, 12, 0.98); flex-direction: column; justify-content: center; } .nav-menu.active { left: 0; } .server-status, .ip-btn, .login-btn { display: none; } }
+        /* FEATURED NEWS (Große Karte oben) */
+        .featured-news {
+            display: flex;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .featured-news:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.1); }
+        .featured-img { width: 55%; background-image: url('https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=1200&auto=format&fit=crop'); background-size: cover; background-position: center; min-height: 350px; }
+        .featured-content { width: 45%; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .featured-content h2 { font-size: 36px; margin-bottom: 15px; color: #fff; }
+        .featured-content p { color: #d1d5db; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        
+        /* NEWS GRID (Kleinere Karten unten) */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .news-card {
+            background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px;
+            overflow: hidden; transition: 0.3s; display: flex; flex-direction: column;
+        }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.1); }
+        .news-img { height: 200px; background-size: cover; background-position: center; position: relative; }
+        .news-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .news-content h3 { font-size: 22px; color: #fff; margin-bottom: 12px; }
+        .news-content p { color: #d1d5db; font-size: 15px; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+
+        /* BADGES & META DATA */
+        .badge { position: absolute; top: 15px; left: 15px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; letter-spacing: 0.5px; }
+        .badge-update { background: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+        .badge-event { background: var(--accent-orange); box-shadow: 0 0 10px rgba(249, 115, 22, 0.5); }
+        .badge-info { background: #ec4899; box-shadow: 0 0 10px rgba(236, 72, 153, 0.5); }
+        
+        .news-meta { color: var(--text-muted); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+        .news-meta i { color: var(--accent-orange); }
+
+        .read-more-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-orange); text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.2s; align-self: flex-start; }
+        .read-more-btn:hover { gap: 12px; color: #fff; }
+
+        .footer { text-align: center; padding: 40px 20px; color: #4b5563; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 900px) {
+            .mobile-menu-btn { display: block; }
+            .nav-menu { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(5, 7, 12, 0.98); flex-direction: column; justify-content: center; transition: 0.3s; }
+            .nav-menu.active { left: 0; }
+            .nav-menu a { font-size: 24px; }
+            .server-status, .ip-btn, .login-btn { display: none; }
+            
+            .featured-news { flex-direction: column; }
+            .featured-img { width: 100%; min-height: 250px; }
+            .featured-content { width: 100%; padding: 25px; }
+        }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo"><i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span></a>
+            <a href="index.html" class="nav-logo">
+                <i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span>
+            </a>
+            
             <div class="nav-right-group">
                 <div class="nav-menu" id="navMenu">
                     <a href="index.html" class="nav-link">Home</a>
@@ -58,35 +137,138 @@
                     <a href="rules.html" class="nav-link">Regelwerk</a>
                     <a href="faq.html" class="nav-link">FAQ</a>
                 </div>
-                <div class="server-status"><span class="status-dot pulse" id="status-indicator"></span><span id="player-count-num" style="color:#10b981;">...</span></div>
-                <button class="ip-btn" onclick="copyServerIP()"><i class="fa-solid fa-copy"></i> play.fightsmp.net</button>
-                <a href="login.html" class="login-btn"><i class="fa-solid fa-user"></i> Login</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars" id="menu-icon"></i></button>
+                
+                <div class="server-status">
+                    <span class="status-dot pulse" id="status-indicator"></span>
+                    <span id="player-count-num" style="color:#10b981;">...</span>
+                </div>
+                
+                <button class="ip-btn" onclick="copyServerIP()">
+                    <i class="fa-solid fa-copy"></i> play.fightsmp.net
+                </button>
+                
+                <a href="login.html" class="login-btn">
+                    <i class="fa-solid fa-user"></i> Login
+                </a>
+                
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
             </div>
         </div>
     </nav>
     
     <div class="container">
         <div class="header-section" data-aos="fade-down">
-            <h1>Aktuelle <span style="color: var(--accent-orange);">Neuigkeiten</span></h1>
+            <h1>Server <span style="color: var(--accent-blue);">Neuigkeiten</span></h1>
+            <p>Verpasse keine Updates, Events oder wichtige Ankündigungen rund um FightSMP.</p>
         </div>
-        <div class="news-grid">
-            <div class="news-card" data-aos="fade-up">
-                <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=1000');"></div>
-                <div class="news-content">
-                    <div class="news-date"><i class="fa-regular fa-calendar"></i> 26. Juni 2026</div>
-                    <h3 class="news-title">Season 2 ist online!</h3>
-                    <p class="news-excerpt">Die neue Season hat begonnen. Neue Map, neue Dungeons!</p>
+
+        <!-- HAUPT-NEWS (Featured) -->
+        <div class="featured-news" data-aos="fade-up">
+            <div class="featured-img"></div>
+            <div class="featured-content">
+                <div class="news-meta">
+                    <span><i class="fa-solid fa-tag"></i> Großes Update</span>
+                    <span><i class="fa-regular fa-calendar"></i> 26. Juni 2026</span>
                 </div>
+                <h2>FightSMP Season 2 ist online!</h2>
+                <p>Das Warten hat endlich ein Ende. Wir haben in den letzten Wochen hart gearbeitet, um euch die beste Season aller Zeiten zu präsentieren. Euch erwartet eine völlig neue Economy, überarbeitete Dungeons mit neuen Bossen und ein komplett neues Quest-System. Loggt euch jetzt ein und sichert euch euren Claim in der frischen Welt!</p>
+                <a href="#" class="read-more-btn" onclick="alert('Hier würdest du den vollen Artikel lesen!')">Ganzen Artikel lesen <i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
+
+        <!-- WEITERE NEWS -->
+        <div class="news-grid">
+            
+            <div class="news-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000&auto=format&fit=crop');">
+                    <span class="badge badge-event">Event</span>
+                </div>
+                <div class="news-content">
+                    <div class="news-meta"><span><i class="fa-regular fa-calendar"></i> 14. Juni 2026</span><span><i class="fa-solid fa-user-pen"></i> BastiGHG</span></div>
+                    <h3>Das 2v2 PvP-Turnier</h3>
+                    <p>Melde dich und deinen Teampartner für das große Sommer-Turnier an. Zu gewinnen gibt es exklusive Titel, Fight-Ränge und massive Ingame-Preisgelder.</p>
+                    <a href="#" class="read-more-btn">Mehr erfahren <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="news-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1607513746994-51f730a44845?q=80&w=1000&auto=format&fit=crop');">
+                    <span class="badge badge-update">Update</span>
+                </div>
+                <div class="news-content">
+                    <div class="news-meta"><span><i class="fa-regular fa-calendar"></i> 05. Juni 2026</span><span><i class="fa-solid fa-user-pen"></i> Notch</span></div>
+                    <h3>Shop-System Rework</h3>
+                    <p>Wir haben die Admin-Shops in der Lobby komplett überarbeitet. Das Verkaufen von gefarmten Items wie Eisen und Gold ist nun deutlich ausbalancierter.</p>
+                    <a href="#" class="read-more-btn">Patchnotes lesen <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="news-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1629429408209-1f912961dbd8?q=80&w=1000&auto=format&fit=crop');">
+                    <span class="badge badge-info">Info</span>
+                </div>
+                <div class="news-content">
+                    <div class="news-meta"><span><i class="fa-regular fa-calendar"></i> 28. Mai 2026</span><span><i class="fa-solid fa-user-pen"></i> Jeb_</span></div>
+                    <h3>Wartungsarbeiten</h3>
+                    <p>Am kommenden Sonntag wird der Server für voraussichtlich 2 Stunden nicht erreichbar sein. Wir führen wichtige Datenbank-Upgrades durch.</p>
+                    <a href="#" class="read-more-btn">Zeitplan ansehen <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB oder Microsoft.</p>
+    </footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ once: true, offset: 50 });
-        function toggleMobileMenu() { const m = document.getElementById('navMenu'), i = document.getElementById('menu-icon'); m.classList.toggle('active'); i.className = m.classList.contains('active') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'; }
-        function copyServerIP() { navigator.clipboard.writeText("play.fightsmp.net").then(() => alert("IP kopiert!")); }
-        async function fetchPlayerCount() { try { const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net'); const data = await res.json(); document.getElementById('player-count-num').innerText = data.online ? data.players.online : 'Offline'; } catch(e) {} } fetchPlayerCount();
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navMenu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('active');
+            if (menu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-xmark');
+            } else {
+                icon.classList.replace('fa-xmark', 'fa-bars');
+            }
+        }
+
+        function copyServerIP() {
+            navigator.clipboard.writeText("play.fightsmp.net").then(() => {
+                alert("Server IP 'play.fightsmp.net' wurde kopiert! Wir sehen uns auf dem Server.");
+            });
+        }
+
+        async function fetchPlayerCount() {
+            try {
+                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net');
+                const data = await res.json();
+                const countElement = document.getElementById('player-count-num');
+                const dotElement = document.getElementById('status-indicator');
+                
+                if (data.online) {
+                    countElement.innerText = data.players.online;
+                    countElement.style.color = '#10b981';
+                    dotElement.style.backgroundColor = '#10b981';
+                    dotElement.classList.add('pulse');
+                } else {
+                    countElement.innerText = 'Offline';
+                    countElement.style.color = '#ef4444';
+                    dotElement.style.backgroundColor = '#ef4444';
+                    dotElement.classList.remove('pulse');
+                }
+            } catch (e) {
+                document.getElementById('player-count-num').innerText = '?';
+            }
+        }
+        fetchPlayerCount(); 
+        setInterval(fetchPlayerCount, 60000);
     </script>
 </body>
 </html>
