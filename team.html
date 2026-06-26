@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | Team</title>
-    <link rel="stylesheet" href="style.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,28 +11,285 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        .team-grid {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            justify-content: center !important; /* Zentriert alle Karten in der Zeile */
-            gap: 30px !important;              /* Abstand zwischen den Karten */
-            margin: 0 auto 50px auto !important;
-            max-width: 1200px !important;
+        /* Modernes Dark-Theme & Farbvariablen wie im Bild */
+        :root {
+            --bg-color: #0b0f19;          /* Dunkler Hintergrund */
+            --card-bg: rgba(17, 24, 39, 0.75); /* Transparente Karten */
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            /* Farben der Ränge aus dem Screenshot */
+            --color-owner: #dc2626;      /* Rot */
+            --color-manager: #fbbf24;    /* Gelb/Gold */
+            --color-admin: #ec4899;      /* Pink */
+            --color-mod: #0284c7;        /* Cyan/Blau */
+            --color-support: #22c55e;    /* Grün */
         }
-        /* Stellt sicher, dass die Karten eine schöne Standardbreite haben */
-        .team-card {
-            flex: 0 1 250px; 
-            min-width: 220px;
-        }
-    </style>
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            /* Falls du ein Hintergrundbild hast, kannst du es hier aktivieren: */
+            /* background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), url('dein-hintergrundbild.jpg') no-repeat center center fixed; background-size: cover; */
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+        }
+
+        /* NAVBAR STYLING */
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .text-orange { color: #f97316; margin-right: 5px; }
+        .text-blue { color: #3b82f6; }
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+        }
+        .nav-link.active {
+            border-bottom: 2px solid #f97316;
+            padding-bottom: 4px;
+        }
+        .ip-btn {
+            background: #e04f1a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s;
+        }
+        .ip-btn:hover { background: #ca3e10; }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header-section h1 {
+            font-size: 42px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .header-section span.text-orange-glow {
+            color: #f97316;
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+        }
+
+        /* RANG TITEL */
+        .rank-title {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+        }
+
+        /* TEAM GRID - PERFEKTE ZENTRIERUNG */
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Zentriert alle Karten in der Zeile */
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* TEAM CARD STYLING (Wie im Bild) */
+        .team-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 30px 20px;
+            text-align: center;
+            width: 240px; /* Feste Breite für die Boxen */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Avatar / Icon Bereich */
+        .team-avatar {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .team-card h3 {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Pill/Badge für die Rolle unten */
+        .team-role {
+            display: inline-block;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+
+        /* SPEZIFISCHE LEUCHT-EFFEKTE (Neon Glow wie im Screenshot) */
+        .card-owner {
+            border: 2px solid var(--color-owner);
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.25);
+        }
+        .role-owner { background-color: var(--color-owner); }
+
+        .card-manager {
+            border: 2px solid var(--color-manager);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
+        }
+        .role-manager { background-color: var(--color-manager); color: #111; }
+
+        .card-admin {
+            border: 2px solid var(--color-admin);
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
+        }
+        .role-admin { background-color: var(--color-admin); }
+
+        .card-mod {
+            border: 2px solid var(--color-mod);
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.25);
+        }
+        .role-mod { background-color: var(--color-mod); }
+
+        .card-support {
+            border: 2px solid var(--color-support);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+        }
+        .role-support { background-color: var(--color-support); }
+
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #4b5563;
+            font-size: 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            margin-top: 80px;
+        }
+
+        /* CHAT WIDGET STYLING */
+        .chat-widget {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+        }
+        .chat-trigger {
+            background: #f97316;
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            transition: transform 0.2s;
+        }
+        .chat-trigger:hover { transform: scale(1.05); }
+        
+        .chat-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 330px;
+            background: #151d30;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-window.open { display: flex; }
+        .chat-header {
+            background: #1e293b;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .chat-bot-info { display: flex; align-items: center; gap: 10px; }
+        .chat-bot-info h4 { font-size: 14px; }
+        .status-online { font-size: 11px; color: #10b981; display: flex; align-items: center; gap: 4px; }
+        .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
+        .chat-close { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+        
+        .chat-messages { padding: 15px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 85%; line-height: 1.4; }
+        .bot-message { background: #1e293b; color: #e2e8f0; align-self: flex-start; }
+        .user-message { background: #f97316; color: white; align-self: flex-end; }
+        
+        .chat-input-area { padding: 12px; background: #1e293b; display: flex; gap: 8px; }
+        .chat-input-area input { flex: 1; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 6px; color: white; font-size: 13px; }
+        .chat-input-area button { background: #f97316; border: none; color: white; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; }
+    </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="fightsmp-logo.png" alt="FightSMP" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="logo-fallback"><i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span></span>
             </a>
             <div class="nav-menu">
@@ -54,83 +309,83 @@
     
     <div class="container">
 
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h1>Unser <span class="text-blue">Server-Team</span></h1>
-            <p style="color: var(--text-muted);">Das aktualisierte Team von FightSMP.</p>
+        <div class="header-section">
+            <h1>Unser <span class="text-orange-glow">Server-Team</span></h1>
+            <p style="color: var(--text-muted); font-size: 16px;">Das aktualisierte Team von FightSMP.</p>
         </div>
 
-        <h2 style="text-align: center; margin-top: 40px; color: #DC2626;">Owner</h2>
+        <h2 class="rank-title" style="color: var(--color-owner);">Owner</h2>
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar" style="color: #DC2626;"><i class="fa-solid fa-crown"></i></div>
+            <div class="team-card card-owner">
+                <div class="team-avatar" style="color: var(--color-owner);"><i class="fa-solid fa-crown"></i></div>
                 <h3>Owner 1</h3>
                 <span class="team-role role-owner">Owner</span>
             </div>
-            <div class="team-card">
-                <div class="team-avatar" style="color: #DC2626;"><i class="fa-solid fa-crown"></i></div>
+            <div class="team-card card-owner">
+                <div class="team-avatar" style="color: var(--color-owner);"><i class="fa-solid fa-crown"></i></div>
                 <h3>Owner 2</h3>
                 <span class="team-role role-owner">Owner</span>
             </div>
-            <div class="team-card">
-                <div class="team-avatar" style="color: #DC2626;"><i class="fa-solid fa-crown"></i></div>
+            <div class="team-card card-owner">
+                <div class="team-avatar" style="color: var(--color-owner);"><i class="fa-solid fa-crown"></i></div>
                 <h3>Owner 3</h3>
                 <span class="team-role role-owner">Owner</span>
             </div>
         </div>
 
-        <h2 style="text-align: center; margin-top: 50px; color: #FBBF24;">Manager</h2>
+        <h2 class="rank-title" style="color: var(--color-manager);">Manager</h2>
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar" style="color: #FBBF24;"><i class="fa-solid fa-briefcase"></i></div>
+            <div class="team-card card-manager">
+                <div class="team-avatar" style="color: var(--color-manager);"><i class="fa-solid fa-briefcase"></i></div>
                 <h3>Manager 1</h3>
                 <span class="team-role role-manager">Manager</span>
             </div>
         </div>
             
-        <h2 style="text-align: center; margin-top: 50px; color: #FCA5A5;">Administration</h2>
+        <h2 class="rank-title" style="color: var(--color-admin);">Administration</h2>
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar" style="color: #FCA5A5;"><i class="fa-solid fa-user-gear"></i></div>
+            <div class="team-card card-admin">
+                <div class="team-avatar" style="color: var(--color-admin);"><i class="fa-solid fa-user-gear"></i></div>
                 <h3>Admin 1</h3>
                 <span class="team-role role-admin">Admin</span>
             </div>
-            <div class="team-card">
-                <div class="team-avatar" style="color: #FCA5A5;"><i class="fa-solid fa-user-gear"></i></div>
+            <div class="team-card card-admin">
+                <div class="team-avatar" style="color: var(--color-admin);"><i class="fa-solid fa-user-gear"></i></div>
                 <h3>Admin 2</h3>
                 <span class="team-role role-admin">Admin</span>
             </div>
         </div>
 
-        <h2 style="text-align: center; margin-top: 50px; color: #60A5FA;">Moderation</h2>
+        <h2 class="rank-title" style="color: var(--color-mod);">Moderation</h2>
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar" style="color: #60A5FA;"><i class="fa-solid fa-shield"></i></div>
+            <div class="team-card card-mod">
+                <div class="team-avatar" style="color: var(--color-mod);"><i class="fa-solid fa-shield"></i></div>
                 <h3>Mod 1</h3>
                 <span class="team-role role-mod">Moderator</span>
             </div>
-            <div class="team-card">
-                <div class="team-avatar" style="color: #60A5FA;"><i class="fa-solid fa-shield"></i></div>
+            <div class="team-card card-mod">
+                <div class="team-avatar" style="color: var(--color-mod);"><i class="fa-solid fa-shield"></i></div>
                 <h3>Mod 2</h3>
                 <span class="team-role role-mod">Moderator</span>
             </div>
         </div>
 
-        <h2 style="text-align: center; margin-top: 50px; color: #86EFAC;">Support</h2>
+        <h2 class="rank-title" style="color: var(--color-support);">Support</h2>
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar" style="color: #86EFAC;"><i class="fa-solid fa-headset"></i></div>
+            <div class="team-card card-support">
+                <div class="team-avatar" style="color: var(--color-support);"><i class="fa-solid fa-headset"></i></div>
                 <h3>Sup 1</h3>
-                <span class="team-role role-sup">Supporter</span>
+                <span class="team-role role-support">Supporter</span>
             </div>
-            <div class="team-card">
-                <div class="team-avatar" style="color: #86EFAC;"><i class="fa-solid fa-headset"></i></div>
+            <div class="team-card card-support">
+                <div class="team-avatar" style="color: var(--color-support);"><i class="fa-solid fa-headset"></i></div>
                 <h3>Sup 2</h3>
-                <span class="team-role role-sup">Supporter</span>
+                <span class="team-role role-support">Supporter</span>
             </div>
-            <div class="team-card">
-                <div class="team-avatar" style="color: #86EFAC;"><i class="fa-solid fa-headset"></i></div>
+            <div class="team-card card-support">
+                <div class="team-avatar" style="color: var(--color-support);"><i class="fa-solid fa-headset"></i></div>
                 <h3>Sup 3</h3>
-                <span class="team-role role-sup">Supporter</span>
+                <span class="team-role role-support">Supporter</span>
             </div>
         </div>
 
