@@ -61,6 +61,12 @@
                 <a href="team.html" class="nav-link">Team</a>
                 <a href="support.html" class="nav-link">Support</a>
             </div>
+            <div id="server-info-modal" style="display: none; position: fixed; top: 80px; right: 20px; background: rgba(10, 15, 25, 0.95); border: 1px solid var(--accent-orange); padding: 20px; border-radius: 12px; color: white; z-index: 1001; width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <h3 style="margin-bottom: 10px; color: var(--accent-orange);">Server Details</h3>
+    <p id="server-version">Version: Lädt...</p>
+    <p id="server-map">Map: Lädt...</p>
+    <button onclick="document.getElementById('server-info-modal').style.display='none'" style="margin-top: 15px; background: none; border: 1px solid white; color: white; padding: 5px 10px; cursor: pointer;">Schließen</button>
+</div>
             <div class="server-status">
                 <span class="status-dot pulse" id="status-indicator"></span>
                 <span id="player-count-num">...</span>
@@ -90,10 +96,9 @@
     <footer class="footer">&copy; 2026 FightSMP. Alle Rechte vorbehalten.</footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
+  <script>
         AOS.init({ once: true });
 
-        // Coole Funktion: Button Feedback
         function copyServerIP() { 
             const btn = document.getElementById('copyHeroBtn');
             navigator.clipboard.writeText("fightsmp.de").then(() => {
@@ -106,19 +111,34 @@
                 }, 2000);
             }); 
         }
-        
-        async function fetchPlayerCount() {
+
+        async function updateServerStatus() {
             try {
                 const res = await fetch('https://api.mcsrvstat.us/3/fightsmp.de');
                 const data = await res.json();
                 const count = document.getElementById('player-count-num');
                 const dot = document.getElementById('status-indicator');
-                count.innerText = data.online ? data.players.online : 'Offline';
-                dot.style.backgroundColor = data.online ? '#10b981' : '#ef4444';
-            } catch (e) { document.getElementById('player-count-num').innerText = 'Offline'; }
+                
+                if (data.online) {
+                    count.innerText = data.players.online;
+                    dot.style.backgroundColor = '#10b981';
+                    dot.classList.add('pulse');
+                    
+                    document.getElementById('server-version').innerText = "Version: " + data.version;
+                    document.getElementById('server-map').innerText = "Map: " + (data.map || "Standard");
+                    document.querySelector('.server-status').style.cursor = "pointer";
+                    document.querySelector('.server-status').onclick = () => document.getElementById('server-info-modal').style.display = 'block';
+                } else {
+                    count.innerText = 'Offline';
+                    dot.style.backgroundColor = '#ef4444';
+                    dot.classList.remove('pulse');
+                }
+            } catch (e) {
+                document.getElementById('player-count-num').innerText = 'Offline';
+            }
         }
-        fetchPlayerCount();
-        setInterval(fetchPlayerCount, 60000);
+        updateServerStatus();
+        setInterval(updateServerStatus, 60000);
     </script>
 </body>
 </html>
