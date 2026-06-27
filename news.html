@@ -217,13 +217,15 @@
             });
         }
 
-        // Fragt die Live-Spielerzahlen über die API ab (play.fightsmp.net)
+// Live Spielerzahlen für alle Seiten vereinheitlicht
         async function fetchPlayerCount() {
+            const countElement = document.getElementById('player-count-num');
+            const dotElement = document.getElementById('status-indicator');
+            
             try {
-                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net');
+                // Wir nutzen die IP, die unter fightsmp.de erreichbar ist
+                const res = await fetch('https://api.mcsrvstat.us/3/fightsmp.de');
                 const data = await res.json();
-                const countElement = document.getElementById('player-count-num');
-                const dotElement = document.getElementById('status-indicator');
                 
                 if (data.online) {
                     countElement.innerText = data.players.online;
@@ -237,11 +239,13 @@
                     dotElement.classList.remove('pulse');
                 }
             } catch (e) {
-                document.getElementById('player-count-num').innerText = '?';
+                // Falls die API gar nicht antwortet
+                countElement.innerText = 'Offline';
+                dotElement.style.backgroundColor = '#ef4444';
             }
         }
         fetchPlayerCount(); 
-        setInterval(fetchPlayerCount, 60000);
+        setInterval(fetchPlayerCount, 60000); // Aktualisiert alle 60 Sekunden
     </script>
 </body>
 </html>
