@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['spieler_login'])) {
             $_SESSION['loggedin'] = true; 
             $_SESSION['spieler_name'] = $name;
             $conn->query("UPDATE website_logins SET login_code = NULL, verknuepft = 1 WHERE spieler_name = '$name'");
-            header("Location: dashboard.html"); 
+           header("Location: dashboard.php");
             exit;
         } else {
             $error_msg = "Falscher Name oder Code!";
