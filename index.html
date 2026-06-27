@@ -144,15 +144,18 @@
         }
         
         // Optimierte Server-Livedaten-Abfrage (Inklusive Klick-Details)
+    // Korrigierte Server-Livedaten-Abfrage
         async function updateServerStatus() {
             try {
-                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net'); // Nutzt play... für die API im Hintergrund
+                // HIER WURDE DIE IP AUF fightsmp.de KORRIGIERT:
+                const res = await fetch('https://api.mcsrvstat.us/3/fightsmp.de'); 
                 const data = await res.json();
                 const count = document.getElementById('player-count-num');
                 const dot = document.getElementById('status-indicator');
                 
                 if (data.online) {
                     count.innerText = data.players.online;
+                    count.style.color = '#10b981'; // Text wieder grün machen
                     dot.style.backgroundColor = '#10b981';
                     dot.classList.add('pulse');
                     
@@ -168,11 +171,13 @@
                     };
                 } else {
                     count.innerText = 'Offline';
+                    count.style.color = '#ef4444';
                     dot.style.backgroundColor = '#ef4444';
                     dot.classList.remove('pulse');
                 }
             } catch (e) {
                 document.getElementById('player-count-num').innerText = 'Offline';
+                document.getElementById('player-count-num').style.color = '#ef4444';
             }
         }
         updateServerStatus();
