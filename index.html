@@ -13,40 +13,58 @@
         :root { --bg-color: #05070c; --card-bg: rgba(17, 24, 39, 0.6); --text-main: #f3f4f6; --text-muted: #9ca3af; --accent-orange: #f97316; --accent-blue: #3b82f6; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg-color); background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop'); background-attachment: fixed; background-size: cover; color: var(--text-main); font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        h1 { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+        h1, h2, h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
         
-        /* NAVBAR */
+        /* NAVBAR SCHIEBT ALLES RECHTS BÜNDIG */
         .navbar { background: rgba(10, 15, 25, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 15px 0; position: sticky; top: 0; z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-        .nav-logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 26px; }
+        .nav-logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 26px; }
         .text-orange { color: var(--accent-orange); margin-right: 5px; } .text-blue { color: var(--accent-blue); }
+        
+        /* RECHTE GRUPPE FÜR MENÜ + INFOS */
+        .nav-right-group { display: flex; align-items: center; gap: 15px; }
         .nav-menu { display: flex; gap: 20px; align-items: center; }
         .nav-link { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
         .nav-link:hover, .nav-link.active { color: #fff; }
         .nav-link.active { border-bottom: 2px solid var(--accent-orange); padding-bottom: 4px; }
-        
-        /* STATUS & BTNS */
-        .server-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; background: rgba(0, 0, 0, 0.3); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+
+        /* SERVER STATUS & BUTTONS */
+        .server-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; background: rgba(0, 0, 0, 0.3); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.2s; }
         .status-dot { width: 8px; height: 8px; background-color: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
         .status-dot.pulse { animation: pulse-animation 2s infinite; }
         @keyframes pulse-animation { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-        
-        .ip-btn { background: #e04f1a; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .ip-btn:hover { background: #ca3e10; }
+        #player-count-num { color: #10b981; }
 
-        /* HERO */
+        .ip-btn { background: #e04f1a; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .ip-btn:hover { background: #ca3e10; transform: translateY(-2px); }
+        .login-btn { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 15px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        .login-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); color: white; }
+
+        /* HERO BEREICH */
         .hero { height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
-        .hero h1 { font-size: 60px; margin-bottom: 15px; }
-        .btn-primary { background: var(--accent-orange); color: white; padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 18px; transition: 0.2s; border: none; cursor: pointer; }
+        .hero h1 { font-size: 60px; margin-bottom: 15px; text-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
+        .hero p { font-size: 20px; color: var(--text-muted); margin-bottom: 30px; max-width: 600px; margin: 0 auto; }
+        .btn-primary { background: var(--accent-orange); color: white; padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 18px; transition: 0.2s; box-shadow: 0 0 15px rgba(249, 115, 22, 0.4); cursor: pointer; border: none; }
         .btn-primary:hover { transform: translateY(-3px); background: #ca3e10; }
         
-        /* COMMUNITY BOX */
+        /* COMMUNITY BOX ZENTRIERT */
         .container { max-width: 600px; margin: 0 auto 80px auto; padding: 0 20px; }
         .box { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 40px; text-align: center; }
-        .discord-join-btn { display: inline-flex; align-items: center; gap: 10px; background: #5865F2; color: white; text-decoration: none; padding: 15px 24px; border-radius: 8px; font-weight: 600; margin-top: 20px; transition: 0.2s; }
-        .discord-join-btn:hover { background: #4752C4; transform: translateY(-3px); }
+        .discord-join-btn { display: inline-flex; align-items: center; gap: 10px; background: #5865F2; color: white; text-decoration: none; padding: 15px 24px; border-radius: 8px; font-weight: 600; margin-top: 25px; transition: 0.2s; width: 100%; justify-content: center; }
+        .discord-join-btn:hover { background: #4752C4; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3); }
 
-        .footer { text-align: center; padding: 40px; color: #4b5563; font-size: 13px; }
+        .footer { text-align: center; padding: 40px; color: #4b5563; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        /* HANDY OPTIMIERUNG */
+        @media (max-width: 900px) {
+            .mobile-menu-btn { display: block; }
+            .nav-menu { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(5, 7, 12, 0.98); flex-direction: column; justify-content: center; gap: 30px; transition: 0.3s ease-in-out; }
+            .nav-menu.active { left: 0; }
+            .nav-menu .nav-link { font-size: 22px; }
+            .server-status, .ip-btn, .login-btn { display: none; }
+            .hero h1 { font-size: 40px; }
+        }
     </style>
 </head>
 <body>
@@ -54,26 +72,31 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo"><i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span></a>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="news.html" class="nav-link">News</a>
-                <a href="shop.html" class="nav-link">Shop</a>
-                <a href="team.html" class="nav-link">Team</a>
-                <a href="support.html" class="nav-link">Support</a>
+            <div class="nav-right-group">
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <a href="news.html" class="nav-link">News</a>
+                    <a href="shop.html" class="nav-link">Shop</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="support.html" class="nav-link">Support</a>
+                </div>
+                <div class="server-status">
+                    <span class="status-dot pulse" id="status-indicator"></span>
+                    <span id="player-count-num">...</span>
+                </div>
+                <button class="ip-btn" onclick="copyServerIP()"><i class="fa-solid fa-copy"></i> fightsmp.de</button>
+                <a href="login.php" class="login-btn"><i class="fa-solid fa-user"></i> Login</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars" id="menu-icon"></i></button>
             </div>
-            <div id="server-info-modal" style="display: none; position: fixed; top: 80px; right: 20px; background: rgba(10, 15, 25, 0.95); border: 1px solid var(--accent-orange); padding: 20px; border-radius: 12px; color: white; z-index: 1001; width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-    <h3 style="margin-bottom: 10px; color: var(--accent-orange);">Server Details</h3>
-    <p id="server-version">Version: Lädt...</p>
-    <p id="server-map">Map: Lädt...</p>
-    <button onclick="document.getElementById('server-info-modal').style.display='none'" style="margin-top: 15px; background: none; border: 1px solid white; color: white; padding: 5px 10px; cursor: pointer;">Schließen</button>
-</div>
-            <div class="server-status">
-                <span class="status-dot pulse" id="status-indicator"></span>
-                <span id="player-count-num">...</span>
-            </div>
-            <button class="ip-btn" onclick="copyServerIP()"><i class="fa-solid fa-copy"></i> fightsmp.de</button>
         </div>
     </nav>
+    
+    <div id="server-info-modal" style="display: none; position: fixed; top: 80px; right: 20px; background: rgba(10, 15, 25, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--accent-orange); padding: 20px; border-radius: 12px; color: white; z-index: 1001; width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <h3 style="margin-bottom: 10px; color: var(--accent-orange); text-transform: uppercase; letter-spacing: 0.5px;">Server Details</h3>
+        <p id="server-version" style="margin-bottom: 5px; color: #d1d5db;">Version: Lädt...</p>
+        <p id="server-map" style="color: #d1d5db;">Map: Lädt...</p>
+        <button onclick="document.getElementById('server-info-modal').style.display='none'" style="margin-top: 15px; background: none; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-weight: 600; width: 100%; transition: 0.2s;">Schließen</button>
+    </div>
     
     <header class="hero" data-aos="fade-up">
         <div>
@@ -88,17 +111,25 @@
     <div class="container">
         <div class="box" data-aos="zoom-in">
             <h2><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Community</h2>
-            <p style="color: var(--text-muted); margin-top: 15px;">Werde Teil unserer stetig wachsenden Community! Finde Teampartner, melde Bugs oder nimm an Events teil.</p>
+            <p style="color: var(--text-muted); margin-top: 15px; line-height: 1.6;">Werde Teil unserer stetig wachsenden Community! Finde Teampartner, melde Bugs oder nimm an exklusiven Server-Events teil.</p>
             <a href="https://discord.gg/RQqfrhxYnq" target="_blank" class="discord-join-btn"><i class="fa-brands fa-discord"></i> Jetzt Beitreten</a>
         </div>
     </div>
 
-    <footer class="footer">&copy; 2026 FightSMP. Alle Rechte vorbehalten.</footer>
+    <footer class="footer">&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB oder Microsoft.</footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
+    <script>
         AOS.init({ once: true });
 
+        // Mobile Menü öffnen/schließen
+        function toggleMobileMenu() {
+            const m = document.getElementById('navMenu'), i = document.getElementById('menu-icon');
+            m.classList.toggle('active');
+            i.className = m.classList.contains('active') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+
+        // IP kopieren mit cooler Live-Animation
         function copyServerIP() { 
             const btn = document.getElementById('copyHeroBtn');
             navigator.clipboard.writeText("fightsmp.de").then(() => {
@@ -111,10 +142,11 @@
                 }, 2000);
             }); 
         }
-
+        
+        // Optimierte Server-Livedaten-Abfrage (Inklusive Klick-Details)
         async function updateServerStatus() {
             try {
-                const res = await fetch('https://api.mcsrvstat.us/3/fightsmp.de');
+                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net'); // Nutzt play... für die API im Hintergrund
                 const data = await res.json();
                 const count = document.getElementById('player-count-num');
                 const dot = document.getElementById('status-indicator');
@@ -124,10 +156,16 @@
                     dot.style.backgroundColor = '#10b981';
                     dot.classList.add('pulse');
                     
+                    // Daten für das Klick-Fenster hinterlegen
                     document.getElementById('server-version').innerText = "Version: " + data.version;
                     document.getElementById('server-map').innerText = "Map: " + (data.map || "Standard");
+                    
+                    // Klickbar machen
                     document.querySelector('.server-status').style.cursor = "pointer";
-                    document.querySelector('.server-status').onclick = () => document.getElementById('server-info-modal').style.display = 'block';
+                    document.querySelector('.server-status').onclick = () => {
+                        const modal = document.getElementById('server-info-modal');
+                        modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+                    };
                 } else {
                     count.innerText = 'Offline';
                     dot.style.backgroundColor = '#ef4444';
