@@ -12,6 +12,203 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        :root { --bg-color: #05070c; --card-bg: rgba(17, 24, 39, 0.6); --text-main: #f3f4f6; --text-muted: #9ca3af; --accent-orange: #f97316; --accent-blue: #3b82f6; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop'); background-attachment: fixed; background-size: cover; color: var(--text-main); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+
+        /* NAVBAR */
+        .navbar { background: rgba(10, 15, 25, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 15px 0; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .nav-logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 26px; }
+        .text-orange { color: var(--accent-orange); margin-right: 5px; } .text-blue { color: var(--accent-blue); }
+        .nav-right-group { display: flex; align-items: center; gap: 15px; }
+        .nav-menu { display: flex; gap: 20px; align-items: center; }
+        .nav-link { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
+        .nav-link:hover, .nav-link.active { color: #fff; }
+        .nav-link.active { border-bottom: 2px solid var(--accent-orange); padding-bottom: 4px; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+
+        .server-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; background: rgba(0, 0, 0, 0.3); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .status-dot { width: 8px; height: 8px; background-color: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
+        .status-dot.pulse { animation: pulse-animation 2s infinite; }
+        @keyframes pulse-animation { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        #player-count-num { color: #10b981; }
+
+        .ip-btn { background: #e04f1a; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .ip-btn:hover { background: #ca3e10; transform: translateY(-2px); }
+        .login-btn { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 15px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        .login-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); color: white; }
+
+        /* HEADER */
+        .container { max-width: 1200px; margin: 0 auto 60px auto; padding: 0 20px; }
+        .header-section { text-align: center; margin: 60px 0 40px 0; }
+        .header-section h1 { font-size: 48px; margin-bottom: 10px; }
+        .header-section p { color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto; line-height: 1.5; }
+
+        /* SHOP GRID & KARTEN */
+        .shop-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 40px; }
+        .shop-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; width: 320px; padding: 30px 20px; text-align: center; transition: 0.3s; display: flex; flex-direction: column; }
+        .shop-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .rank-icon { font-size: 50px; margin-bottom: 15px; }
+        .shop-card h3 { font-size: 28px; margin-bottom: 5px; text-transform: uppercase; }
+        .price { font-size: 24px; color: #10b981; font-weight: 700; margin-bottom: 20px; }
+        
+        .features { list-style: none; margin-bottom: 30px; text-align: left; flex-grow: 1; }
+        .features li { margin-bottom: 10px; font-size: 14px; color: #d1d5db; display: flex; gap: 10px; line-height: 1.4; }
+        .features li i { margin-top: 2px; }
+        
+        /* NEU: GLANZ EFFEKT FÜR BUY BUTTONS */
+        .buy-btn { color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.2s; text-transform: uppercase; width: 100%; position: relative; overflow: hidden; }
+        .buy-btn:hover { transform: scale(1.03); }
+        .buy-btn::after { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); transition: 0.7s; }
+        .buy-btn:hover::after { left: 150%; }
+
+        /* RÄNGE FARBEN */
+        .card-prime { border-top: 4px solid #0ea5e9; } .card-prime .rank-icon { color: #0ea5e9; } .card-prime .features li i { color: #0ea5e9; } .btn-prime { background: #0ea5e9; } .btn-prime:hover { background: #0284c7; }
+        .card-prime-plus { border-top: 4px solid #a855f7; } .card-prime-plus .rank-icon { color: #a855f7; } .card-prime-plus .features li i { color: #a855f7; } .btn-prime-plus { background: #a855f7; } .btn-prime-plus:hover { background: #9333ea; }
+        .card-fight { border-top: 4px solid var(--accent-orange); box-shadow: 0 0 20px rgba(249, 115, 22, 0.15); } .card-fight .rank-icon { color: var(--accent-orange); } .card-fight .features li i { color: var(--accent-orange); } .btn-fight { background: var(--accent-orange); color: #111; } .btn-fight:hover { background: #ea580c; }
+
+        .footer { text-align: center; padding: 40px 20px; color: #4b5563; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        @media (max-width: 900px) {
+            .mobile-menu-btn { display: block; }
+            .nav-menu { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(5, 7, 12, 0.98); flex-direction: column; justify-content: center; gap: 30px; transition: 0.3s ease-in-out; }
+            .nav-menu.active { left: 0; }
+            .nav-menu .nav-link { font-size: 22px; }
+            .server-status, .ip-btn, .login-btn { display: none; }
+            .shop-card { width: 100%; max-width: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><i class="fa-solid fa-shield-halved text-orange"></i> Fight<span class="text-blue">SMP</span></a>
+            <div class="nav-right-group">
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="news.html" class="nav-link">News</a>
+                    <a href="shop.html" class="nav-link active">Shop</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="support.html" class="nav-link">Support</a>
+                </div>
+                <div class="server-status">
+                    <span class="status-dot pulse" id="status-indicator"></span>
+                    <span id="player-count-num">...</span>
+                </div>
+                <button class="ip-btn" onclick="copyServerIP()"><i class="fa-solid fa-copy"></i> fightsmp.de</button>
+                <a href="login.php" class="login-btn"><i class="fa-solid fa-user"></i> Login</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars" id="menu-icon"></i></button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header-section" data-aos="fade-down">
+            <h1>Supporte den <span style="color: var(--accent-orange);">Server</span></h1>
+            <p>Mit dem Kauf eines Ranges unterstützt du die monatlichen Serverkosten und sicherst dir gleichzeitig coole Ingame-Vorteile!</p>
+        </div>
+
+        <div class="shop-grid">
+            <div class="shop-card card-prime" data-aos="fade-up" data-aos-delay="100">
+                <div class="rank-icon"><i class="fa-solid fa-star"></i></div>
+                <h3>Prime</h3>
+                <div class="price">4.99 € <span style="font-size: 14px; color: var(--text-muted);">/ Monat</span></div>
+                <ul class="features">
+                    <li><i class="fa-solid fa-check"></i> Prime Präfix im Tab & Chat</li>
+                    <li><i class="fa-solid fa-check"></i> Farbig schreiben</li>
+                    <li><i class="fa-solid fa-check"></i> 5 zusätzliche Home-Punkte</li>
+                    <li><i class="fa-solid fa-check"></i> Beitreten bei vollem Server</li>
+                </ul>
+                <button class="buy-btn btn-prime" onclick="alert('Hier würde der Link zum Store hinführen!')">In den Warenkorb</button>
+            </div>
+
+            <div class="shop-card card-prime-plus" data-aos="fade-up" data-aos-delay="200">
+                <div class="rank-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Prime+</h3>
+                <div class="price">9.99 € <span style="font-size: 14px; color: var(--text-muted);">/ Monat</span></div>
+                <ul class="features">
+                    <li><i class="fa-solid fa-check"></i> Alle Prime Vorteile</li>
+                    <li><i class="fa-solid fa-check"></i> /heal alle 24 Stunden</li>
+                    <li><i class="fa-solid fa-check"></i> 10 zusätzliche Home-Punkte</li>
+                    <li><i class="fa-solid fa-check"></i> Haustiere (Pets) freigeschaltet</li>
+                </ul>
+                <button class="buy-btn btn-prime-plus" onclick="alert('Hier würde der Link zum Store hinführen!')">In den Warenkorb</button>
+            </div>
+
+            <div class="shop-card card-fight" data-aos="fade-up" data-aos-delay="300">
+                <div class="rank-icon"><i class="fa-solid fa-dragon"></i></div>
+                <h3>Fight</h3>
+                <div class="price">19.99 € <span style="font-size: 14px; color: var(--text-muted);">/ Lifetime</span></div>
+                <ul class="features">
+                    <li><i class="fa-solid fa-check"></i> Alle Prime & Prime+ Vorteile</li>
+                    <li><i class="fa-solid fa-check"></i> /fly in der Lobby</li>
+                    <li><i class="fa-solid fa-check"></i> Exklusives Fight-Kit (wöchentlich)</li>
+                    <li><i class="fa-solid fa-check"></i> Spezielle Cosmetics & Partikel</li>
+                    <li><i class="fa-solid fa-check"></i> Eigene Gilde gründen gratis</li>
+                </ul>
+                <button class="buy-btn btn-fight" onclick="alert('Hier würde der Link zum Store hinführen!')">Lifetime Kaufen</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">&copy; 2026 FightSMP. Alle Rechte vorbehalten. Diese Website steht in keiner Verbindung mit Mojang AB oder Microsoft.</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navMenu'), icon = document.getElementById('menu-icon');
+            menu.classList.toggle('active');
+            icon.className = menu.classList.contains('active') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+
+        function copyServerIP() {
+            navigator.clipboard.writeText("fightsmp.de").then(() => {
+                alert("Server IP 'fightsmp.de' wurde kopiert! Wir sehen uns auf dem Server.");
+            });
+        }
+
+        async function fetchPlayerCount() {
+            try {
+                const res = await fetch('https://api.mcsrvstat.us/3/fightsmp.de');
+                const data = await res.json();
+                const count = document.getElementById('player-count-num'), dot = document.getElementById('status-indicator');
+                
+                if (data.online) {
+                    count.innerText = data.players.online;
+                    count.style.color = '#10b981';
+                    dot.style.backgroundColor = '#10b981';
+                    dot.classList.add('pulse');
+                } else {
+                    count.innerText = 'Offline';
+                    count.style.color = '#ef4444';
+                    dot.style.backgroundColor = '#ef4444';
+                    dot.classList.remove('pulse');
+                }
+            } catch (e) { document.getElementById('player-count-num').innerText = 'Offline'; }
+        }
+        fetchPlayerCount(); 
+        setInterval(fetchPlayerCount, 60000);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FightSMP | Shop</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
         :root {
             --bg-color: #05070c;          
             --card-bg: rgba(17, 24, 39, 0.6); 
