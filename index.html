@@ -184,11 +184,11 @@
         function copyServerIP() { 
             navigator.clipboard.writeText("fightsmp.de").then(() => alert("Server IP 'fightsmp.de' wurde kopiert! Wir sehen uns auf dem Server.")); 
         }
-        
-        // Live Spielerzahlen (Abfrage über fightsmp.de)
+ // Live Spielerzahlen (Abfrage über play.fightsmp.net)
         async function fetchPlayerCount() {
             try {
-                const res = await fetch('https://api.mcsrvstat.us/3/fightsmp.de'); 
+                // HIER WURDE DIE IP GEÄNDERT:
+                const res = await fetch('https://api.mcsrvstat.us/3/play.fightsmp.net'); 
                 const data = await res.json();
                 
                 const countElement = document.getElementById('player-count-num');
