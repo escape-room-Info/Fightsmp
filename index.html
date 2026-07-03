@@ -7,7 +7,6 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         :root { 
@@ -21,7 +20,7 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* --- NEU: CLEAN PAGE TRANSITION --- */
+        /* --- WEICHER ÜBERGANG --- */
         body { 
             background-color: var(--bg-color); 
             background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop'); 
@@ -32,16 +31,15 @@
             overflow-x: hidden; 
             position: relative; 
             opacity: 0; 
-            animation: fadeIn 0.4s ease-in-out forwards; /* Weiches Einblenden */
+            animation: fadeIn 0.4s ease-in-out forwards;
         }
         body.fade-out {
             opacity: 0;
-            transition: opacity 0.4s ease-in-out; /* Weiches Ausblenden */
+            transition: opacity 0.4s ease-in-out;
         }
         @keyframes fadeIn {
             to { opacity: 1; }
         }
-        /* ---------------------------------- */
 
         h1, h2, h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
         
@@ -140,7 +138,7 @@
         <button onclick="document.getElementById('server-info-modal').style.display='none'" style="margin-top: 15px; background: none; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-weight: 600; width: 100%;">Schließen</button>
     </div>
     
-    <header class="hero" data-aos="fade-up">
+    <header class="hero">
         <div>
             <h1>Das ultimative <span class="text-accent">Survival</span> Erlebnis.</h1>
             <p style="color: var(--text-muted);">Farme, kämpfe und werde der stärkste Spieler auf FightSMP.</p>
@@ -151,7 +149,7 @@
     </header>
 
     <div class="container">
-        <div class="box" data-aos="zoom-in">
+        <div class="box">
             <h2><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Community</h2>
             <p style="color: var(--text-muted); margin-top: 15px; line-height: 1.6;">Werde Teil unserer stetig wachsenden Community! Finde Teampartner, melde Bugs oder nimm an exklusiven Server-Events teil.</p>
             <a href="https://discord.gg/RQqfrhxYnq" target="_blank" class="discord-join-btn"><i class="fa-brands fa-discord"></i> Jetzt Beitreten</a>
@@ -166,20 +164,17 @@
         <p>&copy; 2026 FightSMP. Alle Rechte vorbehalten.</p>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            AOS.init({ once: true });
 
-            // --- NEU: Clean Page Transitions (Verhindert hartes Laden) ---
+            // --- Clean Page Transitions ---
             document.querySelectorAll('a[href]').forEach(link => {
                 link.addEventListener('click', e => {
                     const target = link.getAttribute('href');
-                    // Gilt nur für interne Links (nicht für Discord etc.)
                     if (target && !target.startsWith('http') && target !== '#' && link.target !== '_blank') {
                         e.preventDefault(); 
-                        document.body.classList.add('fade-out'); // Startet das weiche Ausblenden
-                        setTimeout(() => { window.location.href = target; }, 400); // Wartet 400ms, dann Seitenwechsel
+                        document.body.classList.add('fade-out'); 
+                        setTimeout(() => { window.location.href = target; }, 400); 
                     }
                 });
             });
