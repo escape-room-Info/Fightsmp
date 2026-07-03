@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['spieler_login'])) {
         :root { --bg-color: #05070c; --card-bg: rgba(17, 24, 39, 0.7); --text-main: #f3f4f6; --text-muted: #9ca3af; --accent-orange: #f97316; --accent-blue: #3b82f6; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* --- CLEAN PAGE TRANSITION --- */
+        /* --- WEICHER ÜBERGANG --- */
         body { 
             background-color: var(--bg-color); 
             background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop'); 
@@ -113,19 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['spieler_login'])) {
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Zurück zur Website</a>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('a[href]').forEach(link => {
-            link.addEventListener('click', e => {
-                const target = link.getAttribute('href');
-                if (target && !target.startsWith('http') && target !== '#') {
-                    e.preventDefault(); 
-                    document.body.classList.add('fade-out'); 
-                    setTimeout(() => { window.location.href = target; }, 400); 
-                }
-            });
-        });
-    });
-</script>
+    <!-- EXTERNES SKRIPT EINBINDEN -->
+    <script src="main.js"></script>
 </body>
 </html>
