@@ -59,7 +59,7 @@ if (!$conn->connect_error) {
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* --- CLEAN PAGE TRANSITION --- */
+        /* --- WEICHER ÜBERGANG --- */
         body { 
             background-color: var(--bg-dark); 
             color: var(--text-main); 
@@ -69,10 +69,7 @@ if (!$conn->connect_error) {
             opacity: 0; 
             animation: fadeIn 0.4s ease-in-out forwards; 
         }
-        body.fade-out {
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-        }
+        body.fade-out { opacity: 0; transition: opacity 0.4s ease-in-out; }
         @keyframes fadeIn { to { opacity: 1; } }
 
         h1, h2, h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
@@ -178,19 +175,7 @@ if (!$conn->connect_error) {
     </div>
 </main>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('a[href]').forEach(link => {
-            link.addEventListener('click', e => {
-                const target = link.getAttribute('href');
-                if (target && !target.startsWith('http') && target !== '#') {
-                    e.preventDefault(); 
-                    document.body.classList.add('fade-out'); 
-                    setTimeout(() => { window.location.href = target; }, 400); 
-                }
-            });
-        });
-    });
-</script>
+<!-- EXTERNES SKRIPT EINBINDEN -->
+<script src="main.js"></script>
 </body>
 </html>
