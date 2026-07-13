@@ -3,30 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FightSMP | News & Ankündigungen</title>
+    <title>FightSMP | News</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        :root { --bg: #0b0b0c; --card-bg: #131316; --accent: #ff6600; --text: #f5f5f7; --text-muted: #8a8a93; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg); color: var(--text); padding-top: 120px; }
+        .news-wrapper { display: flex; flex-direction: column; gap: 30px; max-width: 850px; margin: 0 auto; }
+        .news-card { padding: 35px; transition: transform 0.3s ease, border-color 0.3s ease; }
+        .news-card:hover { border-color: rgba(255, 102, 0, 0.3); transform: translateY(-2px); }
+        .news-date { font-size: 12px; color: var(--accent); font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .news-card h2 { font-size: 26px; margin-bottom: 14px; font-weight: 800; letter-spacing: -0.3px; }
+        .news-card p { color: var(--text-muted); line-height: 1.7; font-size: 15px; }
+        .news-author { margin-top: 25px; font-size: 13px; color: rgba(255,255,255,0.25); border-top: 1px solid rgba(255,255,255,0.04); padding-top: 15px; }
         
-        /* Navigation (Gleichbleibend) */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 10%; background: rgba(19, 19, 22, 0.9); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 102, 0, 0.1); }
-        .logo { font-size: 24px; font-weight: 800; color: var(--accent); text-transform: uppercase; }
-        .nav-links { display: flex; list-style: none; gap: 30px; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-        
-        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
-        .page-title { font-size: 36px; font-weight: 800; margin-bottom: 40px; border-left: 5px solid var(--accent); padding-left: 15px; text-transform: uppercase; }
-        
-        /* News Cards */
-        .news-wrapper { display: flex; flex-direction: column; gap: 25px; }
-        .news-card { background: var(--card-bg); border-radius: 8px; padding: 30px; border: 1px solid rgba(255,255,255,0.03); position: relative; transition: 0.3s; }
-        .news-card:hover { border-color: rgba(255, 102, 0, 0.2); transform: translateY(-2px); }
-        .news-date { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; }
-        .news-card h2 { font-size: 24px; margin-bottom: 12px; }
-        .news-card p { color: var(--text-muted); line-height: 1.6; font-size: 15px; }
-        .news-author { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 5px; }
+        /* Skeleton Loader */
+        .skeleton { height: 20px; background: rgba(255,255,255,0.03); border-radius: 4px; position: relative; overflow: hidden; }
+        .skeleton::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); animation: wave 1.6s infinite; }
+        @keyframes wave { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
     </style>
 </head>
 <body>
@@ -39,42 +30,44 @@
             <li><a href="shop.html">Shop</a></li>
             <li><a href="team.html">Team</a></li>
             <li><a href="support.html">Support</a></li>
+            <li><a href="login.php" class="btn-login">Login</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <h1 class="page-title">Neuigkeiten</h1>
+        <h1 class="page-title">Ankündigungen</h1>
+        <p class="subtitle">Updates, Patches und Events auf dem Netzwerk.</p>
+        
         <div class="news-wrapper" id="news-container">
-            <!-- Wird via PHP/AJAX aus dem Dashboard befüllt -->
-            <div class="news-card">
-                <div class="news-date">System-Meldung</div>
-                <h2>Willkommen auf dem neuen Web-Portal!</h2>
-                <p>Logge dich im Dashboard ein, indem du ingame <b>/link</b> eingibst. Admins und Owner können dort direkt neue Ankündigungen verfassen, die sofort hier erscheinen!</p>
-                <div class="news-author">Geschrieben von: <span>System</span></div>
+            <div class="glass-card news-card">
+                <div class="skeleton" style="width: 25%; margin-bottom: 15px;"></div>
+                <div class="skeleton" style="width: 60%; height: 32px; margin-bottom: 15px;"></div>
+                <div class="skeleton" style="width: 100%; height: 80px;"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Optionales dynamisches Laden der News aus der DB
-        fetch('dashboard.php?api=news')
+        fetch('news-api.php')
             .then(res => res.json())
             .then(data => {
-                if(data && data.length > 0) {
-                    const container = document.getElementById('news-container');
-                    container.innerHTML = ''; // Platzhalter löschen
-                    data.forEach(item => {
-                        container.innerHTML += `
-                            <div class="news-card">
-                                <div class="news-date">${item.created_at}</div>
-                                <h2>${item.title}</h2>
-                                <p>${item.content}</p>
-                                <div class="news-author">Geschrieben von: <b>${item.author}</b></div>
-                            </div>
-                        `;
-                    });
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
+                if(data.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted); text-align:center;">Aktuell gibt es keine aktiven Beiträge.</p>';
+                    return;
                 }
-            }).catch(e => console.log("Nutzt statische Ansicht oder Dashboard noch leer."));
+                data.forEach(item => {
+                    container.innerHTML += `
+                        <div class="glass-card news-card">
+                            <div class="news-date">${item.created_at}</div>
+                            <h2>${item.title}</h2>
+                            <p>${item.content.replace(/\n/g, '<br>')}</p>
+                            <div class="news-author">Veröffentlicht von <span style="color: var(--text); font-weight: 600;">${item.author}</span></div>
+                        </div>
+                    `;
+                });
+            });
     </script>
 </body>
 </html>
