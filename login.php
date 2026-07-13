@@ -1,49 +1,50 @@
 <?php
-session_start();
-$error_msg = "";
+require_once 'db.php';
+$error = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['spieler_login'])) {
-    // TODO: Echte Zugangsdaten vom Webhoster eintragen!
-    $db_host = "localhost"; 
-    $db_user = "root";       
-    $db_pass = "";           
-    $db_name = "fightsmp_db";
-    
-    mysqli_report(MYSQLI_REPORT_OFF);
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-    
-    if (!$conn->connect_error) {
-        $name = trim($_POST['username']);
-        $code = trim($_POST['logincode']);
-        
-        $stmt = $conn->prepare("SELECT * FROM website_logins WHERE spieler_name = ? AND login_code = ?");
-        
-        if ($stmt) {
-            $stmt->bind_param("ss", $name, $code);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            
-            if ($res->num_rows > 0) {
-                $_SESSION['loggedin'] = true; 
-                $_SESSION['spieler_name'] = $name;
-                
-                $update_stmt = $conn->prepare("UPDATE website_logins SET verknuepft = 1 WHERE spieler_name = ?");
-                $update_stmt->bind_param("s", $name);
-                $update_stmt->execute();
-                $update_stmt->close();
-                
-                header("Location: dashboard.php");
-                exit;
-            } else {
-                $error_msg = "Falscher Minecraft-Name oder Code!";
+if (checkLogin($pdo)) {
+    header('Location: dashboard.php');
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']);
+    $code = trim($_POST['code']);
+
+    if (!empty($username) && !empty($code)) {
+        $stmt = $pdo->prepare("SELECT * FROM link_codes WHERE username = ? AND code = ? AND created_at > NOW() - INTERVAL 10 MINUTE");
+        $stmt->execute([$username, $code]);
+        $linkData = $stmt->fetch();
+
+        if ($linkData) {
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE uuid = ?");
+            $stmt->execute([$linkData['uuid']]);
+            $user = $stmt->fetch();
+
+            if (!$user) {
+                $stmt = $pdo->prepare("INSERT INTO users (uuid, username) VALUES (?, ?)");
+                $stmt->execute([$linkData['uuid'], $linkData['username']]);
             }
-            $stmt->close();
+
+            $token = bin2hex(random_bytes(32));
+            $expiry = date('Y-m-d H:i:s', strtotime('+7 days'));
+
+            $stmt = $pdo->prepare("UPDATE users SET session_token = ?, session_expiry = ? WHERE uuid = ?");
+            $stmt->execute([$token, $expiry, $linkData['uuid']]);
+
+            // Cookie für genau 7 Tage setzen
+            setcookie('remember_token', $token, time() + (86400 * 7), "/", "", false, true);
+
+            $stmt = $pdo->prepare("DELETE FROM link_codes WHERE id = ?");
+            $stmt->execute([$linkData['id']]);
+
+            header('Location: dashboard.php');
+            exit;
         } else {
-            $error_msg = "Datenbankfehler: Anfrage konnte nicht verarbeitet werden.";
+            $error = 'Falscher oder abgelaufener Verknüpfungscode! Hole einen neuen mit /link.';
         }
-        $conn->close();
     } else {
-        $error_msg = "Datenbankverbindung fehlgeschlagen! Läuft MySQL?";
+        $error = 'Bitte fülle alle Pflichtfelder aus!';
     }
 }
 ?>
@@ -51,69 +52,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['spieler_login'])) {
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FightSMP | Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>FightSMP | Login Portal</title>
     <style>
-        :root { --bg-color: #05070c; --card-bg: rgba(17, 24, 39, 0.7); --text-main: #f3f4f6; --text-muted: #9ca3af; --accent-orange: #f97316; --accent-blue: #3b82f6; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        /* --- WEICHER ÜBERGANG --- */
-        body { 
-            background-color: var(--bg-color); 
-            background-image: linear-gradient(rgba(5, 7, 12, 0.9), rgba(5, 7, 12, 0.95)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2000&auto=format&fit=crop'); 
-            background-attachment: fixed; 
-            background-size: cover; 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            opacity: 0; 
-            animation: fadeIn 0.4s ease-in-out forwards; 
-        }
-        body.fade-out { opacity: 0; transition: opacity 0.4s ease-in-out; }
-        @keyframes fadeIn { to { opacity: 1; } }
-
-        .login-container { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .logo { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; text-decoration: none; color: #fff; margin-bottom: 30px; display: inline-block; transition: 0.2s; }
-        .logo:hover { transform: scale(1.05); }
-        .logo i { color: var(--accent-orange); margin-right: 5px; }
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-group input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); padding: 14px; border-radius: 8px; color: #fff; outline: none; font-family: 'Inter', sans-serif; transition: 0.2s; }
-        .input-group input:focus { border-color: var(--accent-orange); background: rgba(0,0,0,0.6); }
-        .submit-btn { width: 100%; background: var(--accent-orange); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .submit-btn:hover { background: #ea580c; transform: translateY(-2px); }
-        .error-box { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 12px; border-radius: 8px; color: #fca5a5; margin-bottom: 20px; text-align: center; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .back-link { display: inline-block; margin-top: 25px; color: var(--text-muted); text-decoration: none; font-size: 14px; transition: 0.2s; }
-        .back-link:hover { color: #fff; }
+        :root { --bg: #0b0b0c; --card-bg: #131316; --accent: #ff6600; --text: #f5f5f7; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: var(--card-bg); padding: 40px; border-radius: 10px; border: 1px solid rgba(255,102,0,0.15); width: 100%; max-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); text-align: center; }
+        h2 { font-size: 26px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
+        h2 span { color: var(--accent); }
+        p { font-size: 13px; color: #8a8a93; margin-bottom: 30px; }
+        input { width: 100%; padding: 12px 15px; margin-bottom: 15px; background: #1c1c21; border: 1px solid rgba(255,255,255,0.05); color: #fff; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        input:focus { border-color: var(--accent); outline: none; }
+        button { width: 100%; padding: 14px; background: var(--accent); border: none; color: white; font-weight: 700; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
+        button:hover { background: #e05500; }
+        .err { color: #ff453a; font-size: 13px; margin-bottom: 15px; text-align: left; background: rgba(255,69,58,0.1); padding: 10px; border-radius: 4px; border-left: 3px solid #ff453a; }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <a href="index.html" class="logo"><i class="fa-solid fa-shield-halved"></i> Fight<span style="color: var(--accent-blue);">SMP</span></a>
-        <?php if($error_msg != ""): ?>
-            <div class="error-box"><i class="fa-solid fa-triangle-exclamation"></i> <?php echo $error_msg; ?></div>
-        <?php endif; ?>
-        <form action="login.php" method="POST">
-            <input type="hidden" name="spieler_login" value="1">
-            <div class="input-group">
-                <label>Minecraft Name</label>
-                <input type="text" name="username" placeholder="Z.B. Notch" required autocomplete="off">
-            </div>
-            <div class="input-group">
-                <label>Login Code (via /link)</label>
-                <input type="text" name="logincode" placeholder="XXXX-XXXX" required autocomplete="off">
-            </div>
-            <button type="submit" class="submit-btn"><i class="fa-solid fa-link"></i> Account Verknüpfen</button>
+    <div class="login-card">
+        <h2>Fight<span>SMP</span></h2>
+        <p>Nutze den Ingame-Code aus Minecraft zum Anmelden</p>
+        <?php if($error): ?> <div class="err"><?= htmlspecialchars($error) ?></div> <?php endif; ?>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Minecraft Accountname" required>
+            <input type="text" name="code" placeholder="6-stelliger Ingame-Code" maxlength="6" required>
+            <button type="submit">Dashboard öffnen</button>
         </form>
-        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Zurück zur Website</a>
     </div>
-
-    <!-- EXTERNES SKRIPT EINBINDEN -->
-    <script src="main.js"></script>
 </body>
 </html>
