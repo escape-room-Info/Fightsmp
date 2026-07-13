@@ -4,42 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | Shop</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        :root { --bg: #0b0b0c; --card-bg: #131316; --accent: #ff6600; --text: #f5f5f7; --text-muted: #8a8a93; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg); color: var(--text); padding-top: 120px; }
-        
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 10%; background: rgba(19, 19, 22, 0.9); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 102, 0, 0.1); }
-        .logo { font-size: 24px; font-weight: 800; color: var(--accent); text-transform: uppercase; }
-        .nav-links { display: flex; list-style: none; gap: 30px; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; text-align: center; }
-        .header-section { margin-bottom: 50px; }
-        .header-section h1 { font-size: 36px; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; }
-        .header-section p { color: var(--text-muted); }
-
-        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
-        .shop-card { background: var(--card-bg); border-radius: 12px; padding: 40px 30px; border: 1px solid rgba(255,255,255,0.02); transition: 0.3s; position: relative; display: flex; flex-direction: column; }
-        .shop-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(255, 102, 0, 0.1); }
-        
-        .rank-name { font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .price { font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 30px; }
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; margin-top: 20px; }
+        .shop-card { padding: 45px 35px; display: flex; flex-direction: column; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s; }
+        .shop-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 15px 35px rgba(255,102,0,0.12); }
+        .rank-name { font-size: 26px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .price { font-size: 42px; font-weight: 800; color: var(--accent); margin-bottom: 35px; }
         .price span { font-size: 14px; color: var(--text-muted); font-weight: 400; }
-        
-        .features { text-align: left; list-style: none; margin-bottom: 40px; flex-grow: 1; }
-        .features li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); color: #d1d1d6; font-size: 15px; }
-        .features li::before { content: "✓"; color: var(--accent); font-weight: bold; margin-right: 10px; }
-        
-        .btn-buy { background: rgba(255,255,255,0.05); color: white; text-decoration: none; padding: 14px; border-radius: 6px; font-weight: 700; text-transform: uppercase; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
-        .btn-buy:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3); }
-        
-        /* Highlight-Stile für den höchsten Rang */
-        .featured-card { border-color: rgba(255, 102, 0, 0.3); background: linear-gradient(180deg, #18110c 0%, #131316 100%); }
+        .features { text-align: left; list-style: none; margin-bottom: 45px; flex-grow: 1; }
+        .features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.02); color: #d1d1d6; font-size: 15px; }
+        .features li::before { content: "✦ "; color: var(--accent); font-weight: bold; margin-right: 6px; }
+        .btn-buy { background: rgba(255,255,255,0.02); color: white; text-decoration: none; padding: 15px; border-radius: 6px; font-weight: 700; text-transform: uppercase; text-align: center; border: 1px solid rgba(255,255,255,0.06); transition: all 0.2s; letter-spacing: 0.5px; font-size: 14px; }
+        .btn-buy:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 4px 15px rgba(255,102,0,0.3); }
+        .featured-card { border-color: rgba(255, 102, 0, 0.35); background: linear-gradient(180deg, rgba(255, 102, 0, 0.04) 0%, rgba(18, 18, 24, 0.65) 100%); position: relative; }
         .featured-card .btn-buy { background: var(--accent); border-color: var(--accent); }
-        .featured-card .btn-buy:hover { background: #e05500; }
-        .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 4px 15px; font-size: 11px; font-weight: bold; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .featured-card .btn-buy:hover { background: var(--accent-hover); }
+        .tag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 4px 16px; font-size: 11px; font-weight: 800; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -52,51 +33,47 @@
             <li><a href="shop.html" class="active">Shop</a></li>
             <li><a href="team.html">Team</a></li>
             <li><a href="support.html">Support</a></li>
+            <li><a href="login.php" class="btn-login">Login</a></li>
         </ul>
     </nav>
 
-    <div class="container">
-        <div class="header-section">
-            <h1>Server-Ränge</h1>
-            <p>Unterstütze das Projekt und schalte epische Ingame-Vorteile frei.</p>
-        </div>
+    <div class="container" style="text-align: center;">
+        <h1 class="page-title" style="display:inline-block;">Server-Ränge</h1>
+        <p class="subtitle">Erhöhe deine Kampfkraft und schalte exklusive Privilegien frei.</p>
 
         <div class="shop-grid">
-            <div class="shop-card">
-                <div class="rank-name" style="color: #c0c0c0;">Prime</div>
+            <div class="glass-card shop-card">
+                <div class="rank-name" style="color: #b0b0cc;">Prime</div>
                 <div class="price">4,99€ <span>/ Monat</span></div>
                 <ul class="features">
-                    <li>Exklusiver Präfix im Chat</li>
-                    <li>Full-Join (Joinen bei vollem Server)</li>
-                    <li>Zugriff auf /kit prime</li>
+                    <li>Exklusiver Präfix im globalen Chat</li>
+                    <li>Full-Join Rechte (Immer verbinden)</li>
+                    <li>Sofortiger Zugriff auf /kit prime</li>
                 </ul>
-                <a href="#" class="btn-buy">Kaufen</a>
+                <a href="#" class="btn-buy">Paket Wählen</a>
             </div>
-
-            <div class="shop-card">
+            <div class="glass-card shop-card">
                 <div class="rank-name" style="color: #ffaa00;">Prime+</div>
                 <div class="price">9,99€ <span>/ Monat</span></div>
                 <ul class="features">
-                    <li>Alle Vorteile von <b>Prime</b></li>
-                    <li>Goldener Chat-Präfix</li>
+                    <li>Sämtliche Vorteile des <b>Prime</b> Rangs</li>
+                    <li>Auffälliger goldener Name im Tab & Chat</li>
                     <li>Zugriff auf /kit primeplus</li>
-                    <li>Exklusive Partikeleffekte</li>
+                    <li>Premium Kosmetika und Effekte</li>
                 </ul>
-                <a href="#" class="btn-buy">Kaufen</a>
+                <a href="#" class="btn-buy">Paket Wählen</a>
             </div>
-
-            <div class="shop-card featured-card">
-                <div class="badge">Ultimativ</div>
-                <div class="rank-name" style="color: var(--accent);">Fight</div>
+            <div class="glass-card shop-card featured-card">
+                <div class="tag">Empfohlen</div>
+                <div class="rank-name" style="color: var(--accent); text-shadow: 0 0 15px rgba(255,102,0,0.2);">Fight</div>
                 <div class="price">19,99€ <span>/ Monat</span></div>
                 <ul class="features">
-                    <li style="color: white; font-weight: 700;">Private Server erstellen & verwalten</li>
-                    <li>Alle Vorteile von <b>Prime+</b></li>
-                    <li>Animierter Chat-Präfix</li>
-                    <li>Zugriff auf /kit fight</li>
-                    <li>Eigener Discord-Kanal</li>
+                    <li style="color: white; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.1);">Eigene Private Server instanziieren</li>
+                    <li>Sämtliche Vorteile des <b>Prime+</b> Rangs</li>
+                    <li>Dynamisch animierter Chat-Tag</li>
+                    <li>Zugriff auf das ultimative /kit fight</li>
                 </ul>
-                <a href="#" class="btn-buy">Kaufen</a>
+                <a href="#" class="btn-buy">Paket Wählen</a>
             </div>
         </div>
     </div>
