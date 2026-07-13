@@ -49,10 +49,10 @@
             </div>
             <div class="quick-replies">
                 <div class="reply-chip" onclick="triggerQuick('Wie logge ich mich ein?')">Website Login</div>
+                <div class="reply-chip" onclick="triggerQuick('Welche Ränge gibt es?')">Ränge & Vorteile</div>
                 <div class="reply-chip" onclick="triggerQuick('Wie verdiene ich Geld?')">Wirtschaft & Geld</div>
                 <div class="reply-chip" onclick="triggerQuick('Wie schütze ich mein Haus?')">Griefing-Schutz</div>
-                <div class="reply-chip" onclick="triggerQuick('Welche Ränge gibt es?')">Ränge & Vorteile</div>
-                <div class="reply-chip" onclick="triggerQuick('Wer hat die Website gemacht?')">Entwickler Infos</div>
+                <div class="reply-chip" onclick="triggerQuick('Wer hat den Server gemacht?')">Entwickler Infos</div>
             </div>
             <div class="chat-input">
                 <input type="text" id="msg-in" placeholder="Frag mich etwas über Minecraft oder den Server..." onkeypress="if(event.key==='Enter') send()">
@@ -90,43 +90,39 @@
             let q = text.toLowerCase().trim();
             
             setTimeout(() => {
-                let ans = "Gute Frage, aber da bin ich mir nicht zu 100% sicher. Erstelle am besten ein Ticket auf unserem Discord – dort hilft dir Martin oder unser Team gerne weiter!";
+                let ans = "Gute Frage, aber da bin ich mir nicht zu 100% sicher. Erstelle am besten ein Ticket auf unserem Discord – dort hilft dir unser Team gerne weiter!";
                 
-                // 1. WER HAT DIE WEBSITE GEMACHT / MARTIN (Admin)
+                // 1. WER HAT DEN SERVER / DIE WEBSITE GEMACHT (Martin & Max)
                 if (containsAny(q, ['wer hat', 'erschaffen', 'gemacht', 'programmiert', 'entwickelt', 'chef', 'ersteller', 'gebaut', 'inhaber', 'entwickler', 'wem gehört'])) {
-                    if (containsAny(q, ['dich', 'website', 'bot', 'seite', 'server', 'code', 'system', 'fightsmp', 'das'])) {
-                        ans = "Diese komplette Website, das Design, das Login-System und mein KI-Gehirn wurden von <b style='color:#ff6600;'>Martin</b> entwickelt! Er ist der Admin und Gründer von FightSMP. 💻🔥";
-                    } else if (!containsAny(q, ['rang', 'item'])) {
-                        ans = "Der Chef und Entwickler hinter FightSMP ist <b style='color:#ff6600;'>Martin</b>, unser Admin!";
-                    }
+                    ans = "Hinter FightSMP stehen zwei brillante Köpfe! 🚀<br><br>• <b style='color:#ff6600;'>Martin (Mqrtn_)</b> ist der Admin. Er leitet das Projekt und hat diese komplette Website inklusive mir (dem Bot) programmiert.<br>• <b style='color:#ffaa00;'>Max (xam__)</b> ist unser Server-Entwickler, der die genialen Systeme und Plugins direkt ingame für euch codet!";
                 }
 
-                // 2. WEBSITE LOGIN & CODE (Verbessert: Erkennt auch "logge", "anmelden" etc.)
+                // 2. WEBSITE LOGIN & CODE
                 else if (containsAny(q, ['code', 'link', 'anmeld', 'anmelden', 'login', 'logge', 'dashboard', 'einloggen', 'website'])) {
                     ans = "Das Login-System ist ganz simpel:<br>1. Join auf unseren Server (<b style='color:#ff6600;'>fightsmp.de</b>).<br>2. Gib im Ingame-Chat <b>/link</b> ein.<br>3. Kopiere dir den 6-stelligen Code und gib ihn im Menü auf der Seite 'Login' ein.<br>Du bleibst dann für 7 Tage automatisch auf dem Dashboard angemeldet!";
                 }
 
-                // 3. SERVER WISSEN: GELD & WIRTSCHAFT (NEU)
+                // 3. SERVER WISSEN: GELD & WIRTSCHAFT
                 else if (containsAny(q, ['geld', 'wirtschaft', 'verdienen', 'shop ingame', 'münzen', 'coins', 'reich', 'verkaufen'])) {
                     ans = "Geld verdienst du auf FightSMP durch das Farmen von Items, das Besiegen von Mobs und den Verkauf im Ingame-Shop! Nutze den Befehl <b>/shop</b>, um Items zu verkaufen oder mit anderen Spielern zu handeln.";
                 }
 
-                // 4. SERVER WISSEN: CLAIMEN & GRIEFING (NEU)
+                // 4. SERVER WISSEN: CLAIMEN & GRIEFING
                 else if (containsAny(q, ['claim', 'grief', 'protect', 'grundstück', 'sichern', 'klauen', 'zerstören', 'haus schützen', 'kiste'])) {
                     ans = "Um deine Base vor Griefern zu schützen, musst du dein Grundstück 'claimen'. Nutze dafür am besten den goldenen Spaten oder den Ingame-Befehl <b>/claim</b>. Innerhalb deiner Claims kann niemand abbauen oder Kisten öffnen!";
                 }
 
-                // 5. SERVER WISSEN: TOD & KEEPINVENTORY (NEU)
+                // 5. SERVER WISSEN: TOD & KEEPINVENTORY
                 else if (containsAny(q, ['keepinventory', 'items behalten', 'tot', 'sterben', 'verliere ich', 'inventar', 'tod'])) {
                     ans = "FightSMP ist ein Survival & PvP Server – das bedeutet: <b style='color:#ff6600;'>Kein KeepInventory!</b> Wenn du stirbst, droppen deine Items. Pass also gut auf dein Netherite-Gear auf!";
                 }
 
-                // 6. SERVER WISSEN: KITS & ANFÄNGER (NEU)
+                // 6. SERVER WISSEN: KITS & ANFÄNGER
                 else if (containsAny(q, ['kits', 'kit', 'anfang', 'start', 'startausrüstung'])) {
                     ans = "Wir haben verschiedene Kits für dich! Nutze ingame <b>/kit</b>, um dir dein Starter-Paket abzuholen. Mit Rängen wie Prime oder Fight schaltest du im Shop noch stärkere Spezial-Kits frei.";
                 }
 
-                // 7. SERVER WISSEN: BEDROCK / PE EDITION (NEU)
+                // 7. SERVER WISSEN: BEDROCK / PE EDITION
                 else if (containsAny(q, ['bedrock', 'pe', 'handy', 'konsole', 'ps4', 'xbox', 'nintendo'])) {
                     ans = "FightSMP ist ein leistungsstarker <b>Java-Edition Server</b> (Version 1.21.x+). Aktuell können leider keine Bedrock- oder Konsolen-Spieler beitreten. Du brauchst die PC-Version!";
                 }
@@ -153,13 +149,13 @@
 
                 // 12. TEAM & BEWERBUNG & DISCORD
                 else if (containsAny(q, ['discord', 'ts', 'teamspeak', 'community'])) {
-                    ans = "Wir haben einen aktiven Discord-Server! Dort kannst du dich mit der Community austauschen, Updates von Martin lesen und Support-Tickets öffnen.";
+                    ans = "Wir haben einen aktiven Discord-Server! Dort kannst du dich mit der Community austauschen, Updates von Martin und Max lesen und Support-Tickets öffnen.";
                 }
                 else if (containsAny(q, ['bewerb', 'team werden', 'supporter werden', 'admin werden'])) {
                     ans = "Du willst ins Team? Freie Plätze werden über die News-Seite oder den Discord ausgeschrieben. Zeige Aktivität auf dem Server und sei hilfsbereit, um aufzufallen!";
                 }
                 else if (containsAny(q, ['team', 'owner', 'wer ist admin', 'wer ist supporter', 'admins'])) {
-                    ans = "Unser Team findest du komplett auf der <a href='team.html' style='color:#ff6600;'>Team-Seite</a>. Martin ist dabei der Entwickler und Admin des Netzwerks.";
+                    ans = "Unser Team findest du komplett auf der <a href='team.html' style='color:#ff6600;'>Team-Seite</a>. Martin leitet das Projekt als Admin, Max ist unser Entwickler.";
                 }
 
                 // 13. MINECRAFT 1.21 WISSEN
