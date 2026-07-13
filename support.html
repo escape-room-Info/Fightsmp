@@ -13,15 +13,15 @@
         .msg { max-width: 70%; padding: 14px 18px; border-radius: 8px; font-size: 15px; line-height: 1.5; transform-origin: top; animation: scaleIn 0.2s cubic-bezier(0.4, 0, 0.2, 1); word-wrap: break-word; }
         @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .bot { background: rgba(255,255,255,0.03); align-self: flex-start; border: 1px solid rgba(255,255,255,0.03); border-bottom-left-radius: 2px; }
-        .user { background: linear-gradient(135deg, var(--accent) 0%, #e05500 100%); align-self: flex-end; color: white; border-bottom-right-radius: 2px; }
+        .user { background: linear-gradient(135deg, #ff6600 0%, #e05500 100%); align-self: flex-end; color: white; border-bottom-right-radius: 2px; }
         .quick-replies { display: flex; gap: 10px; padding: 0 25px 15px 25px; background: transparent; flex-wrap: wrap; }
         .reply-chip { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; color: #d1d1d6; }
-        .reply-chip:hover { border-color: var(--accent); color: white; background: rgba(255,102,0,0.04); }
+        .reply-chip:hover { border-color: #ff6600; color: white; background: rgba(255,102,0,0.04); }
         .chat-input { padding: 20px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; gap: 12px; }
         .chat-input input { flex-grow: 1; background: #111115; border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 6px; color: white; font-size: 15px; transition: border-color 0.2s; }
-        .chat-input input:focus { outline: none; border-color: var(--accent); }
-        .chat-input button { background: var(--accent); border: none; color: white; padding: 0 28px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: background 0.2s; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
-        .chat-input button:hover { background: var(--accent-hover); }
+        .chat-input input:focus { outline: none; border-color: #ff6600; }
+        .chat-input button { background: #ff6600; border: none; color: white; padding: 0 28px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: background 0.2s; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
+        .chat-input button:hover { background: #ff8533; }
     </style>
 </head>
 <body>
@@ -40,20 +40,21 @@
 
     <div class="container">
         <h1 class="page-title">Live-Support</h1>
-        <p class="subtitle">Unser automatisiertes System beantwortet deine Fragen in Echtzeit.</p>
+        <p class="subtitle">Unser automatisiertes KI-System beantwortet deine Fragen in Echtzeit.</p>
 
         <div class="glass-card chat-box">
             <div class="chat-header"><span class="indicator"></span> FightSMP Support-KI</div>
             <div class="chat-messages" id="box">
-                <div class="msg bot">Willkommen im Hilfebereich! Wähle eine Schnellauswahl oder formuliere dein Anliegen selbstständig im Chat.</div>
+                <div class="msg bot">Willkommen beim FightSMP-Support! Ich kenne mich mit dem Server, den Minecraft 1.21 Updates und unserem Shop aus. Frag mich einfach etwas!</div>
             </div>
             <div class="quick-replies">
                 <div class="reply-chip" onclick="triggerQuick('Welche Ränge gibt es?')">Ränge & Vorteile</div>
-                <div class="reply-chip" onclick="triggerQuick('Wie lautet die IP?')">Server-IP</div>
-                <div class="reply-chip" onclick="triggerQuick('Wie erstelle ich einen Verknüpfungscode?')">Website Login-Code</div>
+                <div class="reply-chip" onclick="triggerQuick('Was ist die Server IP?')">Server-IP</div>
+                <div class="reply-chip" onclick="triggerQuick('Wie logge ich mich ein?')">Website Login</div>
+                <div class="reply-chip" onclick="triggerQuick('Was sind die Server Regeln?')">Regeln</div>
             </div>
             <div class="chat-input">
-                <input type="text" id="msg-in" placeholder="Stelle eine Frage..." onkeypress="if(event.key==='Enter') send()">
+                <input type="text" id="msg-in" placeholder="Frag mich etwas über Minecraft oder den Server..." onkeypress="if(event.key==='Enter') send()">
                 <button onclick="send()">Senden</button>
             </div>
         </div>
@@ -72,59 +73,85 @@
             processMsg(text);
         }
 
+        // Hilfsfunktion: Prüft, ob eines der Wörter in der User-Eingabe steckt
+        function containsAny(text, wordsArray) {
+            return wordsArray.some(word => text.includes(word));
+        }
+
         function processMsg(text) {
             const chatBox = document.getElementById('box');
             
-            // Nachricht des Users anzeigen
+            // User-Nachricht ins Fenster einfügen
             chatBox.innerHTML += `<div class="msg user">${escapeHtml(text)}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
             
-            let q = text.toLowerCase();
+            let q = text.toLowerCase().trim();
             
             setTimeout(() => {
-                // Standard-Antwort, falls kein Keyword matcht
-                let ans = "Interessante Frage! Als FightSMP-Assistent kenne ich mich mit vielen Dingen aus, aber da bin ich überfragt. Wenn es um Server-Probleme geht, erstelle am besten ein Ticket auf unserem Discord – dort helfen dir unsere 4 Supporter gerne weiter!";
+                // Standard-Antwort, wenn der Bot nicht weiter weiß
+                let ans = "Gute Frage, aber da bin ich mir nicht zu 100% sicher. Erstelle am besten ein Ticket auf unserem Discord – dort helfen dir unsere echten Supporter oder Administratoren gerne weiter!";
                 
-                // 1. WEB-PORTAL ENTWICKLER & ERSTELLER
-                if (q.includes('wer hat') || q.includes('ersteller') || q.includes('gebaut') || q.includes('entwickelt') || q.includes('programmiert') || q.includes('gemacht')) {
-                    if (q.includes('website') || q.includes('seite') || q.includes('bot')) {
-                        ans = "Diese geniale Website inklusive des Bots wurde von **dir (dem FightSMP-Admin)** in Zusammenarbeit mit den fortschrittlichsten KIs der Welt (**Claude** und **Gemini**) entwickelt! Ein absolutes Meisterwerk an Code, findest du nicht?";
+                // 1. WER HAT DIE WEBSITE / DEN BOT GEMACHT? (Erkennt dich als Boss)
+                if (containsAny(q, ['wer hat', 'erschaffen', 'gemacht', 'programmiert', 'entwickelt', 'chef', 'gehört', 'ersteller', 'besitzer', 'gebaut'])) {
+                    if (containsAny(q, ['dich', 'website', 'bot', 'seite', 'server', 'fightsmp'])) {
+                        ans = "Diese komplette Website, mein KI-Code und das Server-Netzwerk wurden von **dir (dem Owner & brillanten Entwickler)** erschaffen! Du bist der Boss hier.";
                     }
                 }
                 
-                // 2. MINECRAFT WISSEN & SMALLTALK
-                else if (q.includes('hallo') || q.includes('hi ') || q.includes('hey') || q.includes('servus')) {
-                    ans = "Hey! Schön, dass du den Weg zum Support gefunden hast. Wie kann ich dir heute auf FightSMP helfen?";
+                // 2. SERVER: WAS IST FIGHTSMP? & REGELN & DISCORD & BEWERBEN
+                else if (containsAny(q, ['was ist fightsmp', 'was ist das', 'ziel', 'worum geht'])) {
+                    ans = "FightSMP ist ein knallharter Minecraft PvP- und Survival-Server auf der Version 1.21.x+. Hier kannst du gegen andere kämpfen, dir epische Ränge erspielen und mit dem Fight-Rang sogar eigene private Server hosten!";
                 }
-                else if (q.includes('wie geht') || q.includes('alles gut')) {
-                    ans = "Mir als KI geht es super, danke der Nachfrage! Mein Code läuft fehlerfrei und ich bin bereit, deine Fragen zu beantworten. Und bei dir? Bereit für den nächsten Fight?";
+                else if (containsAny(q, ['regel', 'verboten', 'bann', 'hack'])) {
+                    ans = "Die wichtigste Regel auf FightSMP: Faires PvP ist erwünscht, aber Hacking (Killaura, X-Ray) oder extremes Bugusing wird hart bestraft. Spiel fair und respektiere das Team!";
                 }
-                else if (q.includes('pvp') || q.includes('kampf') || q.includes('schwert') || q.includes('fighten')) {
-                    ans = "PvP wird bei uns auf FightSMP großgeschrieben! Schnapp dir dein Netherite-Schwert, zieh dir deine Rüstung an und zeig den anderen Spielern, wer die Nummer 1 in der Arena ist.";
+                else if (containsAny(q, ['discord', 'ts', 'teamspeak', 'reden'])) {
+                    ans = "Wir haben einen aktiven Discord-Server! Dort kannst du dich mit der Community austauschen und bei echten Problemen ein Ticket für unser Team (4 Sup, 2 Admin, 4 Owner) öffnen.";
                 }
-                else if (q.includes('netherite') || q.includes('diamant') || q.includes('erz') || q.includes('farmen')) {
-                    ans = "Ah, die wertvollen Erze! Vergiss nicht, dass du Diamant-Ausrüstung im Nether mit einem Schmiedetisch und einer Netherite-Aufwertungsschablone verbessern musst. Viel Erfolg beim Suchen!";
+                else if (containsAny(q, ['bewerb', 'team werden', 'supporter werden', 'helfen'])) {
+                    ans = "Du willst ins Team? Aktuell besteht unser Team aus 4 Supportern, 2 Admins und 4 Ownern. Sobald wir wieder Plätze frei haben, erfährst du es in den News oder auf dem Discord!";
                 }
-                else if (q.includes('craften') || q.includes('rezept') || q.includes('werkbank')) {
-                    ans = "Ich kenne fast jedes Rezept! Suchst du ein Standard-Rezept oder willst du wissen, wie man epische Ingame-Items craftet? Schau am besten mal ins Ingame-Rezeptbuch.";
+
+                // 3. MINECRAFT 1.21 & ALLGEMEINES MC WISSEN
+                else if (containsAny(q, ['craft', 'rezept', 'wie macht man', 'streitkolben', 'mace'])) {
+                    ans = "In der 1.21 gibt es coole neue Rezepte! Den neuen **Streitkolben (Mace)** craftest du zum Beispiel aus einem 'Schweren Kern' und einer 'Windrute'. Für alle anderen Rezepte nutze einfach das grüne Rezeptbuch im Inventar.";
+                }
+                else if (containsAny(q, ['trial chamber', 'prüfungskammer', 'breeze', 'bogged'])) {
+                    ans = "Die neuen 1.21 Prüfungskammern sind perfekt für FightSMP! Dort triffst du auf den Wind-Gegner 'Breeze' und die neuen Gift-Skelette ('Bogged'). Guter Ort, um Loot für den nächsten Kampf zu farmen.";
+                }
+                else if (containsAny(q, ['netherite', 'diamant', 'rüstung'])) {
+                    ans = "Um deine Diamant-Ausrüstung auf Netherite upzugraden, brauchst du zwingend eine Netherite-Aufwertungsschablone (aus einer Bastion) und einen Netherite-Barren im Schmiedetisch!";
+                }
+
+                // 4. SERVER: RÄNGE & VORTEILE
+                else if (containsAny(q, ['rang', 'ränge', 'shop', 'vorteil', 'kaufen', 'prime', 'fight'])) {
+                    ans = "Wir bieten im Web-Shop 3 Ränge an: <br><br>• <b style='color:#c0c0c0;'>Prime</b> (Chat-Präfix, Full-Join)<br>• <b style='color:#ffaa00;'>Prime+</b> (Goldener Name, /kit primeplus)<br>• <b style='color:#ff6600;'>Fight</b> (Animierter Präfix UND du kannst <b>eigene private Server</b> für dich und deine Freunde erstellen!).";
+                } 
+                
+                // 5. SERVER: IP & VERSION
+                else if (containsAny(q, ['ip', 'join', 'adresse', 'verbinden', 'spielen', 'version'])) {
+                    ans = "Die Server-Adresse lautet: <b style='color:#ff6600; font-family:monospace; font-size:16px;'>fightsmp.de</b><br>Unser Netzwerk läuft topaktuell auf der Version <b style='color:#ff6600;'>1.21.x+</b>!";
+                } 
+                
+                // 6. SERVER: WEBSITE LINK / LOGIN
+                else if (containsAny(q, ['code', 'link', 'anmeld', 'login', 'dashboard'])) {
+                    ans = "Das Login-System ist ganz einfach:<br>1. Join auf den Server (<b style='color:#ff6600;'>fightsmp.de</b>).<br>2. Gib im Ingame-Chat <b>/link</b> ein.<br>3. Schnapp dir den 6-stelligen Code und gib ihn im Menü unter 'Login' ein.";
                 }
                 
-                // 3. SERVER SPEZIFISCHE BEFEHLE
-                else if (q.includes('rang') || q.includes('shop') || q.includes('vorteil') || q.includes('prime') || q.includes('fight')) {
-                    ans = "Wir bieten im Shop drei Ränge an: <span style='color:var(--accent); font-weight:bold;'>Prime</span>, <span style='color:#ffaa00; font-weight:bold;'>Prime+</span> und den ultimativen <span style='color:var(--accent); font-weight:bold;'>Fight-Rang</span>. Mit dem Fight-Rang erhältst du das exklusive Recht, eigene private Server auf unserem Netzwerk zu erstellen und zu verwalten!";
-                } 
-                else if (q.includes('ip') || q.includes('join') || q.includes('adresse') || q.includes('verbinden')) {
-                    ans = "Die Server-IP-Adresse lautet: <span style='color:var(--accent); font-weight:bold; font-family:monospace;'>fightsmp.de</span>. Du kannst mit jeder Java-Version ab der 1.20 beitreten!";
-                } 
-                else if (q.includes('code') || q.includes('link') || q.includes('anmeld') || q.includes('login') || q.includes('dashboard')) {
-                    ans = "Um dich auf der Website anzumelden, befolge diese Schritte:<br>1. Tritt unserem Minecraft-Server bei.<br>2. Gib im Chat den Befehl <span style='color:var(--accent); font-weight:bold;'>/link</span> ein.<br>3. Kopiere den 6-stelligen Code und gib ihn zusammen mit deinem Namen auf unserer Login-Seite ein.";
+                // 7. SMALLTALK
+                else if (q.match(/^(hi|hallo|hey|moin|servus)/)) {
+                    ans = "Hey, willkommen im Support-Chat! Wie kann ich dir heute auf FightSMP weiterhelfen?";
                 }
-                
+                else if (containsAny(q, ['wie geht'])) {
+                    ans = "Mir als KI geht es blendend! Meine Server laufen stabil und ich bin bereit, deine Fragen zu beantworten. Und bist du ready für PvP?";
+                }
+
                 chatBox.innerHTML += `<div class="msg bot">${ans}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
-            }, 300);
+            }, 350); // 350ms Verzögerung wirkt natürlicher
         }
 
+        // Verhindert, dass jemand HTML/Scripts in den Chat eingibt (Sicherheit)
         function escapeHtml(text) {
             return text
                 .replace(/&/g, "&amp;")
