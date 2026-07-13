@@ -45,14 +45,13 @@
         <div class="glass-card chat-box">
             <div class="chat-header"><span class="indicator"></span> FightSMP Support-KI</div>
             <div class="chat-messages" id="box">
-                <div class="msg bot">Willkommen beim FightSMP-Support! Frag mich einfach etwas zu Rängen, Regeln, dem Team, dem Login-System oder Minecraft allgemein.</div>
+                <div class="msg bot">Willkommen beim FightSMP-Support! Frag mich etwas zu Rängen, Regeln, dem Server, dem Login oder wer diese Website gebaut hat.</div>
             </div>
             <div class="quick-replies">
                 <div class="reply-chip" onclick="triggerQuick('Welche Ränge gibt es?')">Ränge & Vorteile</div>
                 <div class="reply-chip" onclick="triggerQuick('Was ist die Server IP?')">Server-IP</div>
                 <div class="reply-chip" onclick="triggerQuick('Wie logge ich mich ein?')">Website Login</div>
-                <div class="reply-chip" onclick="triggerQuick('Was sind die Server Regeln?')">Regeln</div>
-                <div class="reply-chip" onclick="triggerQuick('Wer hat die Website gemacht?')">Wer steht dahinter?</div>
+                <div class="reply-chip" onclick="triggerQuick('Wer hat die Website gemacht?')">Entwickler</div>
             </div>
             <div class="chat-input">
                 <input type="text" id="msg-in" placeholder="Frag mich etwas über Minecraft oder den Server..." onkeypress="if(event.key==='Enter') send()">
@@ -74,7 +73,7 @@
             processMsg(text);
         }
 
-        // Hilfsfunktion: Prüft, ob eines der Wörter in der User-Eingabe steckt
+        // Überprüft, ob eines der Wörter aus der Liste im Text vorkommt
         function containsAny(text, wordsArray) {
             return wordsArray.some(word => text.includes(word));
         }
@@ -82,80 +81,85 @@
         function processMsg(text) {
             const chatBox = document.getElementById('box');
             
+            // Usereingabe anzeigen
             chatBox.innerHTML += `<div class="msg user">${escapeHtml(text)}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
             
+            // Eingabe komplett in Kleinbuchstaben umwandeln, um sie besser prüfen zu können
             let q = text.toLowerCase().trim();
             
             setTimeout(() => {
-                let ans = "Gute Frage, aber da bin ich mir nicht zu 100% sicher. Erstelle am besten ein Ticket auf unserem Discord – dort helfen dir unsere echten Supporter oder Administratoren gerne weiter!";
+                let ans = "Gute Frage, aber da bin ich mir nicht zu 100% sicher. Erstelle am besten ein Ticket auf unserem Discord – dort hilft dir unser Team gerne weiter!";
                 
-                // 1. WER HAT DIE WEBSITE GEMACHT? (immer zuerst prüfen, hat Priorität)
-                if (containsAny(q, ['wer hat', 'erschaffen', 'gemacht', 'programmiert', 'entwickelt', 'chef', 'gehört', 'ersteller', 'besitzer', 'gebaut', 'inhaber', 'wem gehört', 'betreiber'])) {
-                    ans = "Diese komplette Website, das Design und das Login-System wurden von <b style='color:#ff6600;'>mir</b> – dem Betreiber und Owner von FightSMP – selbst entwickelt und aufgebaut! 💪";
+                // 1. WER HAT DIE WEBSITE GEMACHT / MARTIN LORE (Kombinierte Abfrage für mehr Präzision)
+                if (containsAny(q, ['wer hat', 'erschaffen', 'gemacht', 'programmiert', 'entwickelt', 'chef', 'ersteller', 'gebaut', 'inhaber', 'entwickler'])) {
+                    if (containsAny(q, ['dich', 'website', 'bot', 'seite', 'server', 'code', 'system', 'fightsmp', 'das'])) {
+                        ans = "Diese komplette Website, der Code, das Login-System und auch ich (der Bot) wurden von <b style='color:#ff6600;'>Martin</b> entwickelt! Er ist der Admin und das Superhirn hinter dem FightSMP Server. 💻🔥";
+                    } else if (!containsAny(q, ['rang', 'item'])) {
+                        // Fallback, falls nur "Wer ist der Chef" gefragt wird
+                        ans = "Der Chef und Entwickler hinter dem Ganzen ist <b style='color:#ff6600;'>Martin</b>, der Admin des Servers!";
+                    }
                 }
 
-                // 2. SERVER: WAS IST FIGHTSMP?
-                else if (containsAny(q, ['was ist fightsmp', 'was ist das', 'was ist der server', 'ziel', 'worum geht'])) {
-                    ans = "FightSMP ist ein Minecraft PvP- und Survival-Server auf der Version <b>1.21.x+</b>. Hier kannst du gegen andere Spieler kämpfen, dir Ränge im Shop erspielen und mit dem Fight-Rang sogar eigene private Server hosten!";
-                }
-
-                // 3. REGELN
-                else if (containsAny(q, ['regel', 'verboten', 'bann', 'hack', 'cheat'])) {
-                    ans = "Die wichtigsten Regeln auf FightSMP:<br>• Faires PvP ist erlaubt, Hacking (Killaura, X-Ray, Reach) ist strikt verboten<br>• Kein Bugusing / Duplizieren von Items<br>• Respektvoller Umgang im Chat – kein Spam, keine Beleidigungen, kein Rassismus<br>• Anweisungen des Teams sind zu befolgen<br>Verstöße werden je nach Schwere verwarnt oder gebannt.";
-                }
-
-                // 4. DISCORD
-                else if (containsAny(q, ['discord', 'ts', 'teamspeak', 'community', 'server beitreten discord'])) {
-                    ans = "Wir haben einen aktiven Discord-Server! Dort kannst du dich mit der Community austauschen, Ankündigungen zuerst lesen und bei Problemen ein Support-Ticket öffnen.";
-                }
-
-                // 5. TEAM & BEWERBUNG
-                else if (containsAny(q, ['bewerb', 'team werden', 'supporter werden', 'admin werden', 'wie werde ich', 'staff werden'])) {
-                    ans = "Du willst ins Team? Unser Team besteht aktuell aus <b>4 Ownern</b>, <b>2 Admins</b> und <b>4 Supportern</b>. Freie Plätze werden über die News-Seite oder den Discord ausgeschrieben – schau also regelmäßig vorbei!";
-                }
-                else if (containsAny(q, ['team', 'owner', 'wer ist admin', 'wer ist supporter', 'wer sind die admins'])) {
-                    ans = "Unser Team findest du komplett auf der <a href='team.html' style='color:#ff6600;'>Team-Seite</a> aufgelistet: 4 Owner, 2 Admins und 4 Supporter kümmern sich um den Server.";
-                }
-
-                // 6. MINECRAFT 1.21 & ALLGEMEINES MC WISSEN
-                else if (containsAny(q, ['craft', 'rezept', 'wie macht man', 'streitkolben', 'mace'])) {
-                    ans = "In der 1.21 gibt es neue Rezepte! Den <b>Streitkolben (Mace)</b> craftest du aus einem 'Schweren Kern' und einer 'Windrute'. Für alle anderen Rezepte nutze das grüne Rezeptbuch im Inventar.";
-                }
-                else if (containsAny(q, ['trial chamber', 'prüfungskammer', 'breeze', 'bogged'])) {
-                    ans = "Die 1.21 Prüfungskammern sind super, um Loot für den nächsten Kampf zu farmen. Dort triffst du auf den Wind-Gegner 'Breeze' und die Gift-Skelette 'Bogged'.";
-                }
-                else if (containsAny(q, ['netherite', 'diamant', 'rüstung', 'upgraden'])) {
-                    ans = "Um Diamant-Ausrüstung auf Netherite upzugraden, brauchst du eine Netherite-Aufwertungsschablone (aus einer Bastion) und einen Netherite-Barren im Schmiedetisch!";
-                }
-                else if (containsAny(q, ['pvp', 'kampf', 'kämpfen', 'schwert', 'fighten'])) {
-                    ans = "PvP steht bei FightSMP im Mittelpunkt! Schnapp dir deine beste Ausrüstung und kämpfe dir mit Ränge und Ansehen deinen Platz an der Spitze.";
-                }
-
-                // 7. RÄNGE & VORTEILE
-                else if (containsAny(q, ['rang', 'ränge', 'shop', 'vorteil', 'kaufen', 'prime', 'fight'])) {
-                    ans = "Im Web-Shop gibt es 3 Ränge: <br><br>• <b style='color:#c0c0c0;'>Prime</b> (Chat-Präfix, Full-Join, /kit prime)<br>• <b style='color:#ffaa00;'>Prime+</b> (Goldener Name, /kit primeplus, Effekte)<br>• <b style='color:#ff6600;'>Fight</b> (Animierter Präfix UND du kannst <b>eigene private Server</b> erstellen!).";
-                } 
-                
-                // 8. IP & VERSION
+                // 2. SERVER IP & VERSION
                 else if (containsAny(q, ['ip', 'join', 'adresse', 'verbinden', 'spielen', 'version', 'welche version'])) {
                     ans = "Die Server-Adresse lautet: <b style='color:#ff6600; font-family:monospace; font-size:16px;'>fightsmp.de</b><br>Unser Netzwerk läuft topaktuell auf der Version <b style='color:#ff6600;'>1.21.x+</b>!";
-                } 
-                
-                // 9. LOGIN / CODE
-                else if (containsAny(q, ['code', 'link', 'anmeld', 'login', 'dashboard', 'einloggen'])) {
-                    ans = "Das Login-System ist einfach:<br>1. Join auf den Server (<b style='color:#ff6600;'>fightsmp.de</b>).<br>2. Gib im Ingame-Chat <b>/link</b> ein.<br>3. Schnapp dir den 6-stelligen Code und gib ihn zusammen mit deinem Namen im Login-Bereich ein.<br>Du bleibst danach 7 Tage lang automatisch eingeloggt.";
                 }
-                
-                // 10. SMALLTALK
+
+                // 3. RÄNGE & SHOP & VORTEILE
+                else if (containsAny(q, ['rang', 'ränge', 'shop', 'vorteil', 'kaufen', 'prime', 'fight', 'kosten'])) {
+                    ans = "Im Web-Shop gibt es 3 Ränge: <br><br>• <b style='color:#c0c0c0;'>Prime</b> (Chat-Präfix, Full-Join, /kit prime)<br>• <b style='color:#ffaa00;'>Prime+</b> (Goldener Name, /kit primeplus, Effekte)<br>• <b style='color:#ff6600;'>Fight</b> (Animierter Präfix UND du kannst <b>eigene private Server</b> erstellen!).";
+                }
+
+                // 4. WEBSITE LOGIN & CODE
+                else if (containsAny(q, ['code', 'link', 'anmeld', 'login', 'dashboard', 'einloggen', 'website'])) {
+                    ans = "Das Login-System funktioniert so:<br>1. Join auf den Server (<b style='color:#ff6600;'>fightsmp.de</b>).<br>2. Gib im Ingame-Chat <b>/link</b> ein.<br>3. Kopiere den 6-stelligen Code und gib ihn im Login-Bereich ein.<br>Du bleibst dann für 7 Tage automatisch angemeldet!";
+                }
+
+                // 5. SERVER INFOS: WAS IST FIGHTSMP?
+                else if (containsAny(q, ['was ist fightsmp', 'was ist das', 'was ist der server', 'ziel', 'worum geht'])) {
+                    ans = "FightSMP ist ein knallharter Minecraft PvP- und Survival-Server auf der Version <b>1.21.x+</b>. Hier kannst du gegen andere Spieler kämpfen, dir Ränge im Shop erspielen und mit dem Fight-Rang sogar eigene private Server hosten!";
+                }
+
+                // 6. REGELN
+                else if (containsAny(q, ['regel', 'verboten', 'bann', 'hack', 'cheat', 'darf man'])) {
+                    ans = "Die wichtigsten Regeln auf FightSMP:<br>• Faires PvP ist erlaubt, Hacking (Killaura, X-Ray etc.) ist streng verboten.<br>• Kein Bugusing / Duplizieren von Items.<br>• Respektvoller Umgang im Chat – kein Spam oder Beleidigungen.<br>Verstöße führen zu einem permanenten Bann.";
+                }
+
+                // 7. TEAM & BEWERBUNG & DISCORD
+                else if (containsAny(q, ['discord', 'ts', 'teamspeak', 'community', 'server beitreten discord'])) {
+                    ans = "Wir haben einen aktiven Discord-Server! Dort kannst du dich mit der Community austauschen, Ankündigungen lesen und Support-Tickets öffnen.";
+                }
+                else if (containsAny(q, ['bewerb', 'team werden', 'supporter werden', 'admin werden', 'wie werde ich'])) {
+                    ans = "Du willst ins Team? Freie Plätze werden über die News-Seite oder den Discord ausgeschrieben. Zeige Aktivität und Hilfsbereitschaft auf dem Server, um aufzufallen!";
+                }
+                else if (containsAny(q, ['team', 'owner', 'wer ist admin', 'wer ist supporter', 'admins'])) {
+                    ans = "Das Team besteht aktuell aus 4 Ownern, 2 Admins (darunter Martin, der Entwickler) und 4 Supportern. Alle Köpfe findest du auf unserer <a href='team.html' style='color:#ff6600;'>Team-Seite</a>.";
+                }
+
+                // 8. MINECRAFT 1.21 WISSEN
+                else if (containsAny(q, ['craft', 'rezept', 'streitkolben', 'mace', 'wie macht man'])) {
+                    ans = "In der 1.21 kannst du den starken <b>Streitkolben (Mace)</b> aus einem 'Schweren Kern' und einer 'Windrute' craften. Für andere Rezepte öffne einfach dein grünes Rezeptbuch im Inventar!";
+                }
+                else if (containsAny(q, ['trial chamber', 'prüfungskammer', 'breeze', 'bogged'])) {
+                    ans = "Die neuen 1.21 Prüfungskammern sind ideal, um auf FightSMP Loot zu farmen. Pass aber auf den Wind-Gegner 'Breeze' und die Gift-Skelette 'Bogged' auf!";
+                }
+                else if (containsAny(q, ['netherite', 'diamant', 'rüstung', 'upgraden'])) {
+                    ans = "Achtung: Um Diamant auf Netherite upzugraden, reicht ein Barren allein nicht mehr! Du brauchst zwingend eine Netherite-Aufwertungsschablone aus einer Bastion für den Schmiedetisch.";
+                }
+                else if (containsAny(q, ['pvp', 'kampf', 'kämpfen', 'schwert', 'fighten'])) {
+                    ans = "Schnapp dir dein Schwert und zeig, was du drauf hast! PvP ist der Kern von FightSMP.";
+                }
+
+                // 9. SMALLTALK
                 else if (q.match(/^(hi|hallo|hey|moin|servus)/)) {
                     ans = "Hey, willkommen im Support-Chat! Wie kann ich dir heute auf FightSMP weiterhelfen?";
                 }
                 else if (containsAny(q, ['wie geht', 'alles gut', 'wie läuft'])) {
-                    ans = "Mir als KI geht's blendend! Meine Server laufen stabil und ich bin bereit für deine Fragen. Und bist du ready für PvP?";
+                    ans = "Mir als Bot geht's super, danke der Nachfrage! Mein Code läuft fehlerfrei. Und bei dir?";
                 }
-                else if (containsAny(q, ['danke', 'thx', 'dankeschön'])) {
-                    ans = "Immer gerne! Bei weiteren Fragen bin ich jederzeit hier für dich.";
+                else if (containsAny(q, ['danke', 'thx', 'dankeschön', 'perfekt'])) {
+                    ans = "Immer wieder gerne! Sag Bescheid, wenn du noch etwas wissen willst.";
                 }
 
                 chatBox.innerHTML += `<div class="msg bot">${ans}</div>`;
@@ -163,6 +167,7 @@
             }, 350);
         }
 
+        // Verhindert HTML-Injections
         function escapeHtml(text) {
             return text
                 .replace(/&/g, "&amp;")
