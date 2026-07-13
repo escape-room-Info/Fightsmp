@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FightSMP | Support</title>
+    <title>FightSMP | Live Support</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .chat-box { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; height: 65vh; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
         .chat-header { padding: 22px; border-bottom: 1px solid rgba(255,102,0,0.1); font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 12px; background: rgba(255,102,0,0.02); border-top-left-radius: 12px; border-top-right-radius: 12px; }
         .indicator { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
         .chat-messages { flex-grow: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: rgba(6, 6, 8, 0.3); }
-        .msg { max-width: 70%; padding: 14px 18px; border-radius: 8px; font-size: 15px; line-height: 1.5; transform-origin: top; animation: scaleIn 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .msg { max-width: 70%; padding: 14px 18px; border-radius: 8px; font-size: 15px; line-height: 1.5; transform-origin: top; animation: scaleIn 0.2s cubic-bezier(0.4, 0, 0.2, 1); word-wrap: break-word; }
         @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .bot { background: rgba(255,255,255,0.03); align-self: flex-start; border: 1px solid rgba(255,255,255,0.03); border-bottom-left-radius: 2px; }
         .user { background: linear-gradient(135deg, var(--accent) 0%, #e05500 100%); align-self: flex-end; color: white; border-bottom-right-radius: 2px; }
@@ -67,24 +67,71 @@
             processMsg(val);
             input.value = '';
         }
+
         function triggerQuick(text) {
             processMsg(text);
         }
+
         function processMsg(text) {
-            const box = document.getElementById('box');
-            box.innerHTML += `<div class="msg user">${text}</div>`;
-            box.scrollTop = box.scrollHeight;
+            const chatBox = document.getElementById('box');
+            
+            // Nachricht des Users anzeigen
+            chatBox.innerHTML += `<div class="msg user">${escapeHtml(text)}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
             
             let q = text.toLowerCase();
+            
             setTimeout(() => {
-                let ans = "Entschuldigung, dazu liegen mir keine Datensätze vor. Bitte kontaktiere unsere 4 Supportmitglieder auf unserem offiziellen Discord-Server für manuelle Hilfe.";
-                if(q.includes('rang') || q.includes('shop') || q.includes('vorteil')) ans = "Wir bieten im Shop die Ränge <b>Prime</b>, <b>Prime+</b> und <b>Fight</b> an. Besitzer des exklusiven Fight-Rangs besitzen die Berechtigung, eigene private Welten/Server auf dem Netzwerk zu hosten.";
-                if(q.includes('ip') || q.includes('join') || q.includes('adresse')) ans = "Die Server-IP lautet unmissverständlich <b style='color:var(--accent)'>fightsmp.de</b>. Du kannst mit jeder modernen Version ab der 1.20 beitreten.";
-                if(q.includes('code') || q.includes('link') || q.includes('anmeld')) ans = "Logge dich auf den Minecraft-Server ein und führe den Befehl <b>/link</b> aus. Der Server spuckt dir daraufhin einen temporären, 6-stelligen Freischaltcode aus.";
+                // Standard-Antwort, falls kein Keyword matcht
+                let ans = "Interessante Frage! Als FightSMP-Assistent kenne ich mich mit vielen Dingen aus, aber da bin ich überfragt. Wenn es um Server-Probleme geht, erstelle am besten ein Ticket auf unserem Discord – dort helfen dir unsere 4 Supporter gerne weiter!";
                 
-                box.innerHTML += `<div class="msg bot">${ans}</div>`;
-                box.scrollTop = box.scrollHeight;
-            }, 350);
+                // 1. WEB-PORTAL ENTWICKLER & ERSTELLER
+                if (q.includes('wer hat') || q.includes('ersteller') || q.includes('gebaut') || q.includes('entwickelt') || q.includes('programmiert') || q.includes('gemacht')) {
+                    if (q.includes('website') || q.includes('seite') || q.includes('bot')) {
+                        ans = "Diese geniale Website inklusive des Bots wurde von **dir (dem FightSMP-Admin)** in Zusammenarbeit mit den fortschrittlichsten KIs der Welt (**Claude** und **Gemini**) entwickelt! Ein absolutes Meisterwerk an Code, findest du nicht?";
+                    }
+                }
+                
+                // 2. MINECRAFT WISSEN & SMALLTALK
+                else if (q.includes('hallo') || q.includes('hi ') || q.includes('hey') || q.includes('servus')) {
+                    ans = "Hey! Schön, dass du den Weg zum Support gefunden hast. Wie kann ich dir heute auf FightSMP helfen?";
+                }
+                else if (q.includes('wie geht') || q.includes('alles gut')) {
+                    ans = "Mir als KI geht es super, danke der Nachfrage! Mein Code läuft fehlerfrei und ich bin bereit, deine Fragen zu beantworten. Und bei dir? Bereit für den nächsten Fight?";
+                }
+                else if (q.includes('pvp') || q.includes('kampf') || q.includes('schwert') || q.includes('fighten')) {
+                    ans = "PvP wird bei uns auf FightSMP großgeschrieben! Schnapp dir dein Netherite-Schwert, zieh dir deine Rüstung an und zeig den anderen Spielern, wer die Nummer 1 in der Arena ist.";
+                }
+                else if (q.includes('netherite') || q.includes('diamant') || q.includes('erz') || q.includes('farmen')) {
+                    ans = "Ah, die wertvollen Erze! Vergiss nicht, dass du Diamant-Ausrüstung im Nether mit einem Schmiedetisch und einer Netherite-Aufwertungsschablone verbessern musst. Viel Erfolg beim Suchen!";
+                }
+                else if (q.includes('craften') || q.includes('rezept') || q.includes('werkbank')) {
+                    ans = "Ich kenne fast jedes Rezept! Suchst du ein Standard-Rezept oder willst du wissen, wie man epische Ingame-Items craftet? Schau am besten mal ins Ingame-Rezeptbuch.";
+                }
+                
+                // 3. SERVER SPEZIFISCHE BEFEHLE
+                else if (q.includes('rang') || q.includes('shop') || q.includes('vorteil') || q.includes('prime') || q.includes('fight')) {
+                    ans = "Wir bieten im Shop drei Ränge an: <span style='color:var(--accent); font-weight:bold;'>Prime</span>, <span style='color:#ffaa00; font-weight:bold;'>Prime+</span> und den ultimativen <span style='color:var(--accent); font-weight:bold;'>Fight-Rang</span>. Mit dem Fight-Rang erhältst du das exklusive Recht, eigene private Server auf unserem Netzwerk zu erstellen und zu verwalten!";
+                } 
+                else if (q.includes('ip') || q.includes('join') || q.includes('adresse') || q.includes('verbinden')) {
+                    ans = "Die Server-IP-Adresse lautet: <span style='color:var(--accent); font-weight:bold; font-family:monospace;'>fightsmp.de</span>. Du kannst mit jeder Java-Version ab der 1.20 beitreten!";
+                } 
+                else if (q.includes('code') || q.includes('link') || q.includes('anmeld') || q.includes('login') || q.includes('dashboard')) {
+                    ans = "Um dich auf der Website anzumelden, befolge diese Schritte:<br>1. Tritt unserem Minecraft-Server bei.<br>2. Gib im Chat den Befehl <span style='color:var(--accent); font-weight:bold;'>/link</span> ein.<br>3. Kopiere den 6-stelligen Code und gib ihn zusammen mit deinem Namen auf unserer Login-Seite ein.";
+                }
+                
+                chatBox.innerHTML += `<div class="msg bot">${ans}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 300);
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
     </script>
 </body>
