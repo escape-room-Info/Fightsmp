@@ -81,9 +81,11 @@ nav {
     -webkit-backdrop-filter: blur(12px);
     position: fixed;
     width: 100%;
+    left: 0;        /* NEU: Zwingt die Leiste ganz nach links */
     top: 0;
     z-index: 1000;
     border-bottom: 1px solid var(--surface-border);
+    box-sizing: border-box; /* NEU: Verhindert, dass das Padding die Seite nach rechts rausdrückt */
 }
 
 .logo {
