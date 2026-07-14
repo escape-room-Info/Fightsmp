@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FightSMP | Home</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
-        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-size: 72px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; letter-spacing: -1px; line-height: 1.1; }
-        .hero h1 span { color: var(--accent); text-shadow: 0 0 40px rgba(255, 102, 0, 0.4); }
-        .hero p { font-size: 20px; color: var(--text-muted); max-width: 600px; margin-bottom: 45px; line-height: 1.6; }
-        .cta-group { display: flex; gap: 20px; }
-        .btn-main { background: var(--accent); color: white; padding: 16px 36px; border-radius: 6px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 20px rgba(255,102,0,0.25); }
-        .btn-main:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,102,0,0.45); }
-        .btn-sub { background: rgba(255,255,255,0.03); color: white; padding: 16px 36px; border-radius: 6px; text-decoration: none; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.08); transition: all 0.25s; }
-        .btn-sub:hover { background: rgba(255,255,255,0.08); border-color: var(--accent); }
-        .server-ip-box { margin-top: 60px; background: rgba(255, 102, 0, 0.03); padding: 14px 28px; border-radius: 30px; border: 1px solid var(--card-border); display: flex; align-items: center; gap: 15px; cursor: pointer; transition: all 0.25s; }
-        .server-ip-box:hover { border-color: var(--accent); background: rgba(255, 102, 0, 0.06); filter: var(--panel-glow); }
+        .hero { padding: 100px 20px; text-align: center; }
+        .hero h1 { font-size: 56px; font-weight: 900; letter-spacing: -1px; margin-bottom: 20px; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px auto; line-height: 1.6; }
+        .ip-box { display: inline-flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 15px 25px; border-radius: 8px; font-weight: 700; font-family: monospace; font-size: 18px; color: white; cursor: pointer; transition: 0.2s; }
+        .ip-box:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .ip-box span { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -29,22 +26,66 @@
             <li><a href="shop.html">Shop</a></li>
             <li><a href="team.html">Team</a></li>
             <li><a href="support.html">Support</a></li>
+            <li><a href="profile.php">Spieler</a></li>
             <li><a href="login.php" class="btn-login">Login</a></li>
         </ul>
     </nav>
 
-    <div class="hero">
-        <h1>Dominierst du<br>den <span>Kampf</span>?</h1>
-        <p>Kämpfe auf der ultimativen Minecraft Fight-Plattform. Einzigartige Premium-Ränge und deine eigenen dedizierten privaten Server warten auf dich.</p>
-        <div class="cta-group">
-            <a href="shop.html" class="btn-main">Ränge Freischalten</a>
-            <a href="news.html" class="btn-sub">Neuigkeiten</a>
+    <div class="container hero">
+        <h1>Willkommen auf <span>FightSMP</span></h1>
+        <p>Erlebe das ultimative Survival & PvP-Abenteuer in der Version 1.21. Tritt einer epischen Community bei, baue Imperien auf und dominiere die Arena.</p>
+        
+        <div class="ip-box" onclick="copyIP()">
+            IP: <span>fightsmp.de</span>
         </div>
-        <div class="server-ip-box" onclick="navigator.clipboard.writeText('fightsmp.de'); alert('Server-IP erfolgreich kopiert!');">
-            <span style="font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Server-IP:</span>
-            <span style="font-family: monospace; color: var(--accent); font-weight: 800; font-size: 18px;">fightsmp.de</span>
+
+        <!-- Live-Status-Counter -->
+        <div style="margin-top: 25px; font-size: 16px; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span class="indicator" id="status-indicator" style="width: 8px; height: 8px; border-radius: 50%; background: #8a8a93;"></span>
+            Status: <span id="server-status" style="font-weight: bold; color: #8a8a93;">Lade Status...</span>
         </div>
     </div>
 
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="font-size: 20px;">Fight<span>SMP</span></div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="support.html">Support</a>
+                <a href="https://discord.gg/DEIN_DISCORD_LINK" target="_blank" style="color: #5865F2; font-weight: bold;">Discord</a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 FightSMP. Alle Rechte vorbehalten. Created by Martin (Mqrtn_) & Max (xam__).
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // IP in die Zwischenablage kopieren
+        function copyIP() {
+            navigator.clipboard.writeText("fightsmp.de");
+            alert("Server-IP fightsmp.de kopiert! Viel Spaß beim Joinen.");
+        }
+
+        // Holt sich die Live-Daten eures Servers völlig kostenlos
+        fetch('https://api.mcsrvstat.us/3/fightsmp.de')
+            .then(res => res.json())
+            .then(data => {
+                const statusEl = document.getElementById('server-status');
+                const indicator = document.getElementById('status-indicator');
+                if (data.online) {
+                    statusEl.innerHTML = `<span style="color: #10b981;">Online</span> (${data.players.online}/${data.players.max} Spieler)`;
+                    indicator.style.background = "#10b981";
+                    indicator.style.boxShadow = "0 0 10px #10b981";
+                } else {
+                    statusEl.innerHTML = `<span style="color: #ef4444;">Offline</span>`;
+                    indicator.style.background = "#ef4444";
+                    indicator.style.boxShadow = "none";
+                }
+            })
+            .catch(() => {
+                document.getElementById('server-status').innerHTML = "Status nicht verfügbar";
+            });
+    </script>
 </body>
 </html>
