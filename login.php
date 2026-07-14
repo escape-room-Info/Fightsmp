@@ -7,7 +7,6 @@ if (checkLogin($pdo)) { header('Location: dashboard.php'); exit; }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCSRF($_POST['csrf_token'] ?? '')) { die('CSRF-Token ungültig.'); }
     
-    // Einfaches Rate-Limiting gegen Brute-Force via Session
     if (isset($_SESSION['last_login_attempt']) && (time() - $_SESSION['last_login_attempt'] < 2)) {
         $error = 'Bitte warte einen Moment vor dem nächsten Versuch.';
     } else {
@@ -36,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("UPDATE users SET session_token = ?, session_expiry = ? WHERE uuid = ?");
             $stmt->execute([$tokenHash, $expiry, $link['uuid']]);
 
-            // Cookie setzen (7 Tage persistent)
             setcookie('remember_token', $rawToken, time() + (86400 * 7), "/", "", true, true);
             $pdo->prepare("DELETE FROM link_codes WHERE id = ?")->execute([$link['id']]);
 
@@ -53,42 +51,87 @@ $csrf = generateCSRF();
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>FightSMP | Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FightSMP | Portal Login</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body { display: flex; justify-content: center; align-items: center; height: 90vh; padding: 0; }
-        .login-box { padding: 45px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        input { width: 100%; padding: 14px; margin: 12px 0; background: #0f0f12; border: 1px solid var(--card-border); color: white; border-radius: 6px; font-size: 14px; }
-        input:focus { border-color: var(--accent); outline: none; }
-        button { width: 100%; padding: 14px; background: var(--accent); border: none; color: white; font-weight: 700; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; }
-        button:hover { background: var(--accent-hover); }
-        .error-msg { color: #f87171; font-size: 13px; background: rgba(248, 113, 113, 0.08); padding: 10px; border-radius: 4px; border: 1px solid rgba(248, 113, 113, 0.2); margin-bottom: 10px; }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .login-wrapper { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .login-box { padding: 50px 40px; width: 100%; max-width: 420px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
+        
+        .login-box h2 { text-align: center; margin-bottom: 10px; font-weight: 900; font-size: 28px; }
+        .login-box h2 span { color: var(--accent); }
+        
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 13px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        input { 
+            width: 100%; padding: 16px 20px; background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; 
+            font-size: 15px; transition: var(--transition); 
+        }
+        input:focus { border-color: var(--accent); outline: none; background: rgba(255,255,255,0.06); }
+        
+        button { 
+            width: 100%; padding: 16px; background: var(--accent); border: none; 
+            color: white; font-weight: 800; border-radius: 8px; cursor: pointer; 
+            text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; transition: var(--transition);
+        }
+        button:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255,102,0,0.3); }
+        
+        .error-msg { 
+            color: #f87171; font-size: 14px; font-weight: 600; background: rgba(248, 113, 113, 0.1); 
+            padding: 15px; border-radius: 8px; border: 1px solid rgba(248, 113, 113, 0.2); 
+            margin-bottom: 25px; text-align: center; 
+        }
     </style>
 </head>
 <body>
-    <div class="glass-card login-box">
-        <h2 style="text-align: center; margin-bottom: 5px; font-weight: 900;">PORTAL-<span>LOGIN</span></h2>
-        <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-bottom:25px;">Verifiziere dich über dein Minecraft-Konto.</p>
-        <?php if($error): ?><div class="error-msg"><?= htmlspecialchars($error) ?></div><?php endif; ?>
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
-            <input type="text" name="username" placeholder="Minecraft Name" required autocomplete="off">
-            <input type="text" name="code" placeholder="6-stelliger Ingame-Code" maxlength="6" required autocomplete="off">
-            <button type="submit">Authentifizieren</button>
-        </form>
+
+    <nav>
+        <div class="logo">Fight<span>SMP</span></div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menü öffnen">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="profile.php">Spieler</a></li>
+        </ul>
+    </nav>
+
+    <div class="login-wrapper fade-in-scroll">
+        <div class="glass-card login-box">
+            <h2>PORTAL<span>LOGIN</span></h2>
+            <p style="text-align:center; font-size:14px; color:var(--text-muted); margin-bottom:35px;">Verifiziere dich über dein Minecraft-Konto.</p>
+            
+            <?php if($error): ?><div class="error-msg"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+            
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
+                
+                <div class="form-group">
+                    <label for="username">Minecraft Name</label>
+                    <input type="text" id="username" name="username" placeholder="Dein Spielername" required autocomplete="off">
+                </div>
+                
+                <div class="form-group">
+                    <label for="code">Verifizierungs-Code</label>
+                    <input type="text" id="code" name="code" placeholder="6-stelliger Code via /link" maxlength="6" required autocomplete="off">
+                </div>
+                
+                <button type="submit">Authentifizieren</button>
+            </form>
+        </div>
     </div>
+
     <footer>
         <div class="footer-content">
-            <div class="logo" style="font-size: 20px;">Fight<span>SMP</span></div>
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="support.html">Support</a>
-                <a href="https://discord.gg/https://discord.gg/X53qbwatNs" target="_blank" style="color: #5865F2; font-weight: bold;">Discord</a>
-            </div>
-            <div class="copyright">
-                &copy; 2026 FightSMP. Alle Rechte vorbehalten. Created by Martin (Mqrtn_) & Max (xam__).
-            </div>
+            <div class="logo" style="font-size: 22px;">Fight<span>SMP</span></div>
+            <div class="copyright">&copy; 2026 FightSMP. Created by Martin (Mqrtn_) & Max (xam__).</div>
         </div>
     </footer>
+    <script src="main.js"></script>
 </body>
 </html>
