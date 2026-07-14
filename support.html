@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FightSMP | KI-Support</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .quick-replies {
+            display: flex; gap: 10px; padding: 15px 25px; 
+            flex-wrap: wrap; background: rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(255,255,255,0.02);
+        }
+        .reply-chip {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; 
+            cursor: pointer; transition: var(--transition); color: var(--text-main);
+        }
+        .reply-chip:hover {
+            border-color: var(--accent); background: rgba(255,102,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Fight<span>SMP</span></div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menü öffnen">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="support.html" class="active">Support</a></li>
+            <li><a href="profile.php">Spieler</a></li>
+            <li><a href="login.php" class="btn-login">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="container fade-in-scroll">
+        <h1 class="page-title">Live-Support</h1>
+        <p class="subtitle">Unser virtueller Assistent beantwortet deine Fragen in Echtzeit.</p>
+
+        <div class="glass-card chat-box">
+            <div class="chat-header">
+                <span class="status-dot" style="width:10px;height:10px;background:#10b981;border-radius:50%;box-shadow:0 0 10px #10b981;"></span> 
+                Support KI
+            </div>
+            
+            <div class="chat-messages" id="chat-window">
+                <!-- Dynamischer Chat-Inhalt -->
+            </div>
+            
+            <div class="quick-replies">
+                <div class="reply-chip" onclick="sendPredefined('Wie logge ich mich ein?')">Login & Code</div>
+                <div class="reply-chip" onclick="sendPredefined('Welche Ränge gibt es?')">Premium Ränge</div>
+                <div class="reply-chip" onclick="sendPredefined('Wer hat den Server gemacht?')">Das Entwickler-Team</div>
+                <div class="reply-chip" onclick="sendPredefined('Was kostet Prime?')">Preise ansehen</div>
+            </div>
+            
+            <form class="chat-input" id="chat-form" onsubmit="handleChatSubmit(event)">
+                <input type="text" id="msg-input" placeholder="Stelle eine Frage zu FightSMP..." autocomplete="off">
+                <button type="submit">Senden</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="font-size: 22px;">Fight<span>SMP</span></div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="support.html">Support</a>
+                <a href="https://discord.gg/X53qbwatNs" target="_blank" rel="noopener noreferrer">Discord beitreten</a>
+            </div>
+            <div class="copyright">&copy; 2026 FightSMP. Created by Martin (Mqrtn_) & Max (xam__).</div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        const chatWindow = document.getElementById('chat-window');
+        const inputField = document.getElementById('msg-input');
+
+        // Initial Greeting
+        window.onload = () => {
+            appendMessage('bot', 'Hallo! Ich bin die FightSMP Support-KI. Wie kann ich dir heute bei Fragen zum Server, Wirtschaft oder Rängen helfen?');
+        };
+
+        function sendPredefined(text) {
+            inputField.value = text;
+            handleChatSubmit(new Event('submit'));
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const text = inputField.value.trim();
+            if (!text) return;
+
+            appendMessage('user', text);
+            inputField.value = '';
+            
+            showTypingIndicator();
+            
+            // Simuliere Ladezeit der KI (UX-Verbesserung)
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = generateBotResponse(text.toLowerCase());
+                appendMessage('bot', response);
+            }, 1200 + Math.random() * 800); // 1.2s - 2.0s
+        }
+
+        function appendMessage(sender, text) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `msg-wrapper ${sender}`;
+            
+            let avatarHTML = '';
+            if (sender === 'bot') {
+                avatarHTML = `<div class="bot-avatar">🤖</div>`;
+            }
+
+            const time = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+
+            wrapper.innerHTML = `
+                ${avatarHTML}
+                <div>
+                    <div class="msg">${text}</div>
+                    <div class="msg-time">${time}</div>
+                </div>
+            `;
+            chatWindow.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'msg-wrapper bot typing-indicator-box';
+            wrapper.id = 'typing-indicator';
+            wrapper.innerHTML = `
+                <div class="bot-avatar">🤖</div>
+                <div class="msg">
+                    <div class="typing-indicator"><span></span><span></span><span></span></div>
+                </div>
+            `;
+            chatWindow.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function removeTypingIndicator() {
+            const ind = document.getElementById('typing-indicator');
+            if (ind) ind.remove();
+        }
+
+        function scrollToBottom() {
+            chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
+        }
+
+        // KI Logic Modul (mit einfachem Kontext-Gedächtnis für Rückfragen)
+        let lastTopic = null;
+
+        function generateBotResponse(q) {
+            const contains = (words) => words.some(w => q.includes(w));
+
+            if (contains(['wer hat', 'erschaffen', 'gemacht', 'programmiert', 'entwickler', 'owner'])) {
+                lastTopic = 'team';
+                return "Hinter FightSMP steht ein Team aus 4 Ownern, 2 Admins, 1 Mod und 3 Supportern. An der Spitze der Entwicklung stehen <b>Martin (Mqrtn_)</b> (Web-Entwicklung & Leitung) und <b>Max (xam__)</b> (In-Game Plugin Entwicklung). Die komplette Übersicht findest du auf der <a href='team.html'>Team-Seite</a>.";
+            }
+            if (contains(['code', 'link', 'anmelden', 'login', 'dashboard'])) {
+                lastTopic = 'login';
+                return "Das Login-System verbindet deinen In-Game Account: Join auf <b>fightsmp.de</b>, tippe <code>/link</code> in den Chat. Gib den 6-stelligen Code dann hier auf der Website im Bereich '<a href='login.php'>Login</a>' ein.";
+            }
+            if (contains(['geld', 'wirtschaft', 'verdien'])) {
+                lastTopic = 'economy';
+                return "Geld verdienst du durch das Farmen von Items und Mobs. Nutze den Befehl <code>/shop</code> im Spiel, um deine Items zu verkaufen!";
+            }
+            if (contains(['claim', 'griefing', 'protect', 'haus schützen', 'grundstück'])) {
+                lastTopic = 'claim';
+                return "Nutze den Befehl <code>/claim</code> oder den goldenen Spaten, um dein Grundstück abzusichern. Griefer haben dann keine Chance!";
+            }
+            if (contains(['keepinventory', 'items behalten', 'tod', 'sterb'])) {
+                lastTopic = 'hardcore';
+                return "Wir sind ein Hardcore PvP-Server: Es gibt <b>kein KeepInventory</b>. Stirbst du, verlierst du dein Inventar. Pass gut auf dich auf!";
+            }
+            if (contains(['rang', 'ränge', 'kaufen', 'prime', 'fight rank'])) {
+                lastTopic = 'shop';
+                return "In unserem <a href='shop.html'>Web-Shop</a> gibt es die Ränge <b>Prime</b>, <b>Prime+</b> und <b>Fight</b>. Mit Fight kannst du sogar eigene private Instanzen starten!";
+            }
+            if (contains(['kostet', 'preis', 'wie viel', 'euro', '€'])) {
+                if (lastTopic === 'shop' || contains(['rang', 'prime', 'fight'])) {
+                    return "Die Preise: <b>Prime</b> 4,99€, <b>Prime+</b> 9,99€ und <b>Fight</b> 19,99€ – jeweils pro Monat. Details im <a href='shop.html'>Shop</a>.";
+                }
+            }
+            if (contains(['discord', 'server beitreten', 'community'])) {
+                return "Unseren Discord findest du im Footer jeder Seite unter 'Discord beitreten' – dort gibt es auch den Ticket-Support für individuelle Anliegen.";
+            }
+            if (contains(['version', 'welche minecraft'])) {
+                return "FightSMP läuft aktuell auf Minecraft <b>1.21</b>. Java Edition wird empfohlen.";
+            }
+            if (contains(['regel', 'ban', 'gebannt', 'cheat', 'hack'])) {
+                return "Cheats, X-Ray und Griefing außerhalb ungeclaimter Gebiete führen zu einem Bann. Bei Fragen zu einem Bann wende dich bitte über Discord an das Team.";
+            }
+            if (contains(['bug', 'fehler', 'funktioniert nicht', 'problem'])) {
+                return "Das tut mir leid! Melde Bugs am besten direkt im Discord-Ticket-Bereich, damit sich das Team darum kümmern kann.";
+            }
+            if (q.match(/^(hi|hallo|hey|moin|servus)/)) {
+                return "Hey! Willkommen beim Support. Was kann ich für dich tun?";
+            }
+            if (contains(['danke', 'thx', 'dankeschön'])) {
+                return "Gerne! Melde dich jederzeit wieder, wenn du weitere Fragen hast. 🔥";
+            }
+
+            // Fallbacks
+            const fallbacks = [
+                "Das ist eine sehr spezifische Frage. Öffne dafür am besten ein Ticket auf unserem Discord!",
+                "Da bin ich leider überfragt. Frag am besten im In-Game Chat oder auf unserem Discord-Server nach.",
+                "Dazu habe ich leider keine Informationen. Ein Teammitglied kann dir da sicher weiterhelfen!"
+            ];
+            return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        }
+    </script>
+</body>
+</html>
