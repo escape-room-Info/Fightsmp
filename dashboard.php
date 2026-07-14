@@ -79,5 +79,18 @@ $csrf = generateCSRF();
             </div>
         <?php endif; ?>
     </div>
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="font-size: 20px;">Fight<span>SMP</span></div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="support.html">Support</a>
+                <a href="https://discord.gg/DEIN_DISCORD_LINK" target="_blank" style="color: #5865F2; font-weight: bold;">Discord</a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 FightSMP. Alle Rechte vorbehalten. Created by Martin (Mqrtn_) & Max (xam__).
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
