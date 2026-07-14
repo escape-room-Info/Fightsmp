@@ -496,3 +496,10 @@ footer {
     .chat-input button { padding: 15px; }
     .msg-wrapper { max-width: 95%; }
 }
+
+/* Erzwinge maximale Breite für alle Inhalts-Boxen */
+.container, .chat-box, .profile-card, .news-card, .login-box, .shop-grid, .team-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
