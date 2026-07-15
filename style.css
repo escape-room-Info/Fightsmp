@@ -96,7 +96,7 @@ nav {
     box-sizing: border-box !important; /* Verhindert, dass Padding die Breite über 100% vergrößert */
     
     /* Berechnet das perfekte Navigations-Padding passend zum Container */
-    padding: 0 calc((100% - 1200px) / 2 + 20px); 
+    
 }
 
 /* Wenn der Bildschirm schmaler als 1200px ist, nutzen wir ein flexibles Padding */
