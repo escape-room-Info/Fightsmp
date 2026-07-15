@@ -22,9 +22,6 @@
     --radius: 12px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.15s ease-out;
-
-   padding: 0 max(20px, calc((100% - 1200px) / 2 + 20px));
-   margin-top: -300px;
 }
 
 /* =========================================
@@ -97,10 +94,9 @@ nav {
     z-index: 1000;
     border-bottom: 1px solid var(--surface-border);
     box-sizing: border-box !important; /* Verhindert, dass Padding die Breite über 100% vergrößert */
-   margin-top: -300px;
     
     /* Berechnet das perfekte Navigations-Padding passend zum Container */
-    
+    padding: 0 calc((100% - 1200px) / 2 + 20px); 
 }
 
 /* Wenn der Bildschirm schmaler als 1200px ist, nutzen wir ein flexibles Padding */
