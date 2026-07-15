@@ -97,6 +97,7 @@ nav {
     z-index: 1000;
     border-bottom: 1px solid var(--surface-border);
     box-sizing: border-box !important; /* Verhindert, dass Padding die Breite über 100% vergrößert */
+   margin-top: -300px;
     
     /* Berechnet das perfekte Navigations-Padding passend zum Container */
     
