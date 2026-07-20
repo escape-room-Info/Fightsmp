@@ -1,5 +1,5 @@
 /* =========================================
-   FIGHTSMP PREMIUM STYLESHEET (UPGRADED)
+   FIGHTSMP PREMIUM STYLESHEET (UPGRADED & BUG-FREE)
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap');
 
@@ -10,7 +10,7 @@
     --surface-border: rgba(255, 102, 0, 0.2);
     --accent: #ff6600;
     --accent-hover: #ff8533;
-    --accent-gradient: linear-gradient(135deg, #ff8533 0%, #ff3300 100%); /* NEU: Farbverlauf */
+    --accent-gradient: linear-gradient(135deg, #ff8533 0%, #ff3300 100%); /* Farbverlauf */
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
 
@@ -20,7 +20,7 @@
 
     /* Typografie & Spacing */
     --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-    --radius: 16px; /* Etwas runder für modernen Look */
+    --radius: 16px; /* Runder für modernen Look */
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother */
     --transition-fast: all 0.15s ease-out;
 }
@@ -75,7 +75,7 @@ body {
 }
 
 /* =========================================
-   NAVIGATION (REPARIERT & MODERNISIERT)
+   NAVIGATION (ABSOLUT BULLETPROOF)
    ========================================= */
 nav {
     display: flex;
@@ -90,10 +90,16 @@ nav {
     top: 0;
     left: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Dezenter als vorher */
-    
-    /* Der reparierte Sicherheits-Padding-Trick (ohne negativen Margin!) */
-    padding: 0 max(20px, calc((100% - 1200px) / 2));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0 20px; /* Standard-Abstand für Handys und Tablets */
+}
+
+/* Zentriertes Padding NUR für Desktop (Verhindert Berechnungs-Bugs) */
+@media (min-width: 1240px) {
+    nav {
+        /* 50vw ist die halbe Bildschirmbreite, minus die halbe max-width (600px) */
+        padding: 0 calc(50vw - 600px); 
+    }
 }
 
 .logo {
@@ -103,7 +109,7 @@ nav {
     letter-spacing: 1px;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Text ist jetzt ein Gradient! */
+    -webkit-text-fill-color: transparent;
 }
 
 .logo span { 
@@ -209,7 +215,7 @@ nav {
     transition: var(--transition);
 }
 
-/* Neu: Karten-Hover-Effekt */
+/* Karten-Hover-Effekt */
 .glass-card:hover, .team-card:hover, .shop-card:hover {
     transform: translateY(-8px);
     border-color: rgba(255, 102, 0, 0.5);
@@ -250,7 +256,7 @@ nav {
     pointer-events: none;
     z-index: 1;
     will-change: transform;
-    mix-blend-mode: screen; /* Macht den Glow cooler */
+    mix-blend-mode: screen; 
 }
 @media (hover: none) { #cursor-glow { display: none; } }
 
@@ -324,7 +330,7 @@ nav, .container, footer { position: relative; z-index: 2; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 /* =========================================
-   CHATBOT UI (Modern Support)
+   CHATBOT UI
    ========================================= */
 .chat-box {
     max-width: 800px;
@@ -478,10 +484,11 @@ footer {
     .mobile-menu-btn { display: block; }
     
     .nav-links {
-        position: absolute;
+        /* REPARIERTES MOBILE MENÜ */
+        position: fixed; 
         top: 80px;
         left: 0;
-        width: 100%;
+        width: 100vw; 
         background: rgba(9, 9, 11, 0.98);
         flex-direction: column;
         padding: 30px 0;
