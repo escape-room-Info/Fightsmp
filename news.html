@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FightSMP | News</title>
+    <style>html,body{background-color:#09090b}</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .news-wrapper { display: flex; flex-direction: column; gap: 40px; max-width: 800px; margin: 0 auto; }
+        .news-card { padding: 45px; transition: var(--transition); border: 1px solid rgba(255,255,255,0.05); }
+        .news-card:hover { border-color: rgba(255, 102, 0, 0.2); }
+        .news-date { font-size: 13px; color: var(--accent); font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .news-card h2 { font-size: 32px; margin-bottom: 20px; font-weight: 900; letter-spacing: -1px; line-height: 1.2; }
+        .news-card p { color: #cbd5e1; line-height: 1.8; font-size: 16px; margin-bottom: 0; }
+        .news-author { margin-top: 30px; font-size: 14px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
+        
+        .skeleton { height: 20px; background: rgba(255,255,255,0.03); border-radius: 6px; position: relative; overflow: hidden; }
+        .skeleton::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); animation: wave 1.5s infinite; }
+        @keyframes wave { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Fight<span>SMP</span></div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menü öffnen">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="news.html" class="active">News</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="profile.php">Spieler</a></li>
+            <li><a href="login.php" class="btn-login">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="container fade-in-scroll">
+        <h1 class="page-title" style="text-align: center;">Changelogs & Updates</h1>
+        <p class="subtitle" style="text-align: center;">Erfahre alles über neue Features und Patches auf FightSMP.</p>
+        
+        <div class="news-wrapper" id="news-container">
+            <!-- Skeleton Loading State -->
+            <div class="glass-card news-card">
+                <div class="skeleton" style="width: 20%; margin-bottom: 20px;"></div>
+                <div class="skeleton" style="width: 70%; height: 38px; margin-bottom: 20px;"></div>
+                <div class="skeleton" style="width: 100%; height: 90px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="font-size: 22px;">Fight<span>SMP</span></div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="support.html">Support</a>
+                <a href="https://discord.gg/X53qbwatNs" target="_blank" rel="noopener noreferrer">Discord beitreten</a>
+            </div>
+            <div class="copyright">&copy; 2026 FightSMP. Created by Martin (Mqrtn_) & Max (xam__).</div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        fetch('news-api.php')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
+                if(data.length === 0) {
+                    container.innerHTML = '<div class="glass-card news-card" style="text-align:center;"><p>Aktuell gibt es keine neuen Einträge.</p></div>';
+                    return;
+                }
+                data.forEach((item, index) => {
+                    const delay = index * 0.1; // Staggered Animation
+                    container.innerHTML += `
+                        <div class="glass-card news-card fade-in-scroll visible" style="transition-delay: ${delay}s">
+                            <div class="news-date">${item.created_at}</div>
+                            <h2>${item.title}</h2>
+                            <p>${item.content.replace(/\n/g, '<br>')}</p>
+                            <div class="news-author">Verfasst von <span style="color: var(--text-main); font-weight: 700;">${item.author}</span></div>
+                        </div>
+                    `;
+                });
+            }).catch(() => {
+                document.getElementById('news-container').innerHTML = '<p style="text-align:center; color: #ef4444;">Fehler beim Laden der News.</p>';
+            });
+    </script>
+</body>
+</html>

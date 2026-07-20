@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FightSMP | Team</title>
+    <style>html,body{background-color:#09090b}</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .section-title { font-size: 20px; font-weight: 800; color: var(--accent); margin: 60px 0 30px 0; display: flex; align-items: center; gap: 20px; text-transform: uppercase; letter-spacing: 1px;}
+        .section-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--surface-border); }
+        
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+        .team-card { padding: 35px 20px; text-align: center; transition: var(--transition); }
+        .team-card:hover { border-color: rgba(255,102,0,0.4); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+        
+        .team-card img { width: 80px; height: 80px; border-radius: 12px; margin-bottom: 20px; background: #000; border: 1px solid rgba(255,255,255,0.1); }
+        .team-card h3 { font-size: 20px; margin-bottom: 8px; font-weight: 800; }
+        
+        .role { display: inline-block; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .owner { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .admin { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .mod   { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .sup   { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Fight<span>SMP</span></div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menü öffnen">☰</button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="team.html" class="active">Team</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="profile.php">Spieler</a></li>
+            <li><a href="login.php" class="btn-login">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="container fade-in-scroll">
+        <h1 class="page-title">Das Serverteam</h1>
+        <p class="subtitle">Verantwortlich für Entwicklung, Moderation und Support.</p>
+
+        <div class="section-title">Leitungsebene (Owner)</div>
+        <div class="team-grid fade-in-scroll">
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/xam04__/80" alt="Avatar vynex" loading="lazy"><h3>vynex</h3><span class="role owner">Owner</span></div>
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/kxchloeffel/80" alt="Avatar kxchloeffel" loading="lazy"><h3>kxchloeffel</h3><span class="role owner">Owner</span></div>
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/Kochlxffel/80" alt="Avatar Kochlxffel" loading="lazy"><h3>Kochlxffel</h3><span class="role owner">Owner</span></div>
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/akakochan/80" alt="Avatar akako_chan" loading="lazy"><h3>akako_chan♡</h3><span class="role owner">Owner</span></div>
+        </div>
+
+        <div class="section-title">Entwicklung & Admin</div>
+        <div class="team-grid fade-in-scroll">
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/Mqrtn_/80" alt="Avatar MARSY" loading="lazy"><h3>✦MA✧R✦S★Y✦</h3><span class="role admin">Admin</span></div>
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/Mqrtn_/80" alt="Avatar Dark" loading="lazy"><h3>𝓓4𝓻𝓴</h3><span class="role admin">Admin</span></div>
+        </div>
+
+        <div class="section-title">Moderation</div>
+        <div class="team-grid fade-in-scroll">
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/miguello123/80" alt="Avatar Miguel" loading="lazy"><h3>Miguel</h3><span class="role mod">Moderator</span></div>
+        </div>
+
+        <div class="section-title">Community Support</div>
+        <div class="team-grid fade-in-scroll">
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/TheRealNooby/80" alt="Avatar Capy" loading="lazy"><h3>Capy</h3><span class="role sup">Support</span></div>
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/Big_TyTy/80" alt="Avatar Turan" loading="lazy"><h3>Turan</h3><span class="role sup">Support</span></div>
+            <div class="glass-card team-card"><img src="https://mc-heads.net/avatar/Mqrtn_/80" alt="Avatar Schweineflei" loading="lazy"><h3>Schweineflei</h3><span class="role sup">Support</span></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="font-size: 22px;">Fight<span>SMP</span></div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="support.html">Support</a>
+                <a href="https://discord.gg/X53qbwatNs" target="_blank" rel="noopener noreferrer">Discord beitreten</a>
+            </div>
+            <div class="copyright">&copy; 2026 FightSMP. Created by Martin (Mqrtn_) & Max (xam__).</div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

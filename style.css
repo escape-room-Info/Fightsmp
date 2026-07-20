@@ -1,0 +1,510 @@
+/* =========================================
+   FIGHTSMP PREMIUM STYLESHEET (UPGRADED & BUG-FREE)
+   ========================================= */
+/* Hinweis: Der Google-Fonts-Import läuft jetzt per <link> im <head>
+   jeder Seite statt per @import hier - @import blockiert das Rendering
+   des gesamten Stylesheets bis die Font-CSS geladen ist und hat den
+   kurzen "roten Blitz" (FOUC) beim Seitenaufbau verursacht. */
+
+:root {
+    /* Farbpalette: Dark Minimalist & Neon */
+    --bg-color: #09090b; 
+    --surface: rgba(24, 24, 27, 0.45);
+    --surface-border: rgba(255, 102, 0, 0.2);
+    --accent: #ff6600;
+    --accent-hover: #ff8533;
+    --accent-gradient: linear-gradient(135deg, #ff8533 0%, #ff3300 100%);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+
+    /* Aliase */
+    --accent-glow: rgba(255, 102, 0, 0.4);
+
+    /* Typografie & Spacing */
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-fast: all 0.15s ease-out;
+}
+
+/* =========================================
+   GLOBALER RESET
+   ========================================= */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; 
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Sanfterer Seitenaufbau + Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+    #ember-canvas, #cursor-glow { display: none !important; }
+}
+
+::selection {
+    background: var(--accent);
+    color: #fff;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+body {
+    padding-top: 100px; 
+    line-height: 1.6;
+    background-image: 
+        radial-gradient(circle at 85% 10%, rgba(255, 102, 0, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 15% 90%, rgba(255, 102, 0, 0.05) 0%, transparent 45%);
+    background-attachment: fixed;
+}
+
+/* =========================================
+   NAVIGATION (PERFEKT ZENTRIERT - NUR CSS)
+   ========================================= */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    background: rgba(9, 9, 11, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0; /* Behebt den Windows-Scrollbar-Bug */
+    
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    
+    /* Zentriert den Inhalt bündig zum 1200px Text */
+    padding: 0 max(20px, calc(50% - 600px)); 
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo span { 
+    -webkit-text-fill-color: var(--text-main); 
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: var(--accent);
+    transition: var(--transition);
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--text-main);
+}
+
+.btn-login {
+    background: var(--accent-gradient);
+    padding: 10px 26px;
+    border-radius: 8px;
+    color: white !important;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.2);
+}
+
+.btn-login:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4);
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* =========================================
+   LAYOUT & KOMPONENTEN
+   ========================================= */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.page-title {
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 30px rgba(255, 102, 0, 0.2);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 18px;
+    margin-bottom: 50px;
+}
+
+.glass-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 30px;
+    transition: var(--transition);
+}
+
+.glass-card:hover, .team-card:hover, .shop-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 102, 0, 0.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 102, 0, 0.1);
+}
+
+/* =========================================
+   ANIMATIONEN & SIGNATURE-EFFEKTE
+   ========================================= */
+.fade-in-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-in-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#ember-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+#cursor-glow {
+    position: fixed;
+    top: 0; left: 0;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,102,0,0.15) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+    mix-blend-mode: screen; 
+}
+@media (hover: none) { #cursor-glow { display: none; } }
+
+nav, .container, footer { position: relative; z-index: 2; }
+
+.team-card, .shop-card, .news-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.team-card::before, .shop-card::before, .news-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.7s ease;
+    pointer-events: none;
+}
+.team-card:hover::before, .shop-card:hover::before, .news-card:hover::before {
+    left: 200%;
+}
+
+/* =========================================
+   TOAST-BENACHRICHTIGUNGEN
+   ========================================= */
+#toast-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    pointer-events: none;
+}
+.toast {
+    background: rgba(24, 24, 27, 0.95);
+    border: 1px solid var(--surface-border);
+    color: var(--text-main);
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+.toast.success::before { content: '✓'; color: #34d399; font-size: 18px; }
+.toast.error::before { content: '✕'; color: #f87171; font-size: 18px; }
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
+::-webkit-scrollbar-thumb { background: #2a2a2e; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* =========================================
+   CHATBOT UI
+   ========================================= */
+.chat-box {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    background: rgba(9, 9, 11, 0.8);
+    backdrop-filter: blur(20px);
+    box-sizing: border-box;
+}
+.chat-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,102,0,0.05);
+}
+.status-dot {
+    width: 10px; height: 10px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulseDot 2s infinite; 
+}
+@keyframes pulseDot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+}
+.chat-messages {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.msg-wrapper {
+    display: flex;
+    max-width: 85%;
+    animation: slideInUp 0.3s ease-out;
+}
+.msg-wrapper.bot { align-self: flex-start; }
+.msg-wrapper.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.msg {
+    padding: 14px 20px;
+    border-radius: 20px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+.msg-wrapper.bot .msg {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-bottom-left-radius: 4px;
+}
+.msg-wrapper.user .msg {
+    background: var(--accent-gradient);
+    color: white;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 5px 15px rgba(255,102,0,0.25);
+}
+.msg-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    padding: 0 6px;
+}
+.msg-wrapper.user .msg-time { text-align: right; }
+.bot-avatar {
+    width: 38px; height: 38px;
+    background: var(--accent-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(255,102,0,0.3);
+}
+
+.chat-input {
+    padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    gap: 15px;
+    background: rgba(0,0,0,0.3);
+}
+.chat-input input {
+    flex-grow: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 24px;
+    border-radius: 30px;
+    color: white;
+    font-size: 15px;
+    transition: var(--transition);
+}
+.chat-input input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 0 4px rgba(255,102,0,0.1);
+}
+.chat-input button {
+    background: var(--accent-gradient);
+    border: none;
+    color: white;
+    padding: 0 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(255,102,0,0.2);
+}
+.chat-input button:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(255,102,0,0.4); 
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+footer {
+    background: #060608;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 60px 20px;
+    margin-top: 100px;
+    text-align: center;
+}
+.footer-links { margin: 25px 0; }
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 14px;
+    transition: var(--transition);
+}
+.footer-links a:hover { color: var(--accent); }
+.copyright { font-size: 13px; color: rgba(255,255,255,0.3); }
+
+/* =========================================
+   RESPONSIVE DESIGN (Tablets & Mobile)
+   ========================================= */
+@media (max-width: 768px) {
+    .mobile-menu-btn { display: block; }
+    
+    .nav-links {
+        position: fixed; 
+        top: 80px;
+        left: 0;
+        width: 100vw; 
+        background: rgba(9, 9, 11, 0.98);
+        flex-direction: column;
+        padding: 30px 0;
+        gap: 25px;
+        border-bottom: 1px solid var(--surface-border);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .nav-links.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    
+    .page-title { font-size: 32px; }
+    
+    .chat-box { height: 75vh; border-radius: 0; border-left: none; border-right: none;}
+    .chat-input { flex-direction: column; }
+    .chat-input button { padding: 18px; }
+    .msg-wrapper { max-width: 95%; }
+}
+
+
+
