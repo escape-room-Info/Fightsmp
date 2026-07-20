@@ -6,11 +6,11 @@
 :root {
     /* Farbpalette: Dark Minimalist & Neon */
     --bg-color: #09090b; 
-    --surface: rgba(24, 24, 27, 0.45); /* Etwas transparenter für besseren Glas-Effekt */
+    --surface: rgba(24, 24, 27, 0.45);
     --surface-border: rgba(255, 102, 0, 0.2);
     --accent: #ff6600;
     --accent-hover: #ff8533;
-    --accent-gradient: linear-gradient(135deg, #ff8533 0%, #ff3300 100%); /* Farbverlauf */
+    --accent-gradient: linear-gradient(135deg, #ff8533 0%, #ff3300 100%);
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
 
@@ -20,8 +20,8 @@
 
     /* Typografie & Spacing */
     --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-    --radius: 16px; /* Runder für modernen Look */
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother */
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     --transition-fast: all 0.15s ease-out;
 }
 
@@ -40,7 +40,7 @@ html, body {
     background-color: var(--bg-color);
     color: var(--text-main);
     font-family: var(--font-main);
-    -webkit-font-smoothing: antialiased; /* Macht Schrift auf Mac/iOS schärfer */
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Sanfterer Seitenaufbau + Accessibility */
@@ -75,7 +75,7 @@ body {
 }
 
 /* =========================================
-   NAVIGATION (ABSOLUT BULLETPROOF)
+   NAVIGATION (PERFEKT ZENTRIERT - NUR CSS)
    ========================================= */
 nav {
     display: flex;
@@ -85,21 +85,17 @@ nav {
     background: rgba(9, 9, 11, 0.75);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    
     position: fixed;
-    width: 100%;
     top: 0;
     left: 0;
+    right: 0; /* Behebt den Windows-Scrollbar-Bug */
+    
     z-index: 1000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 0 20px; /* Standard-Abstand für Handys und Tablets */
-}
-
-/* Zentriertes Padding NUR für Desktop (Verhindert Berechnungs-Bugs) */
-@media (min-width: 1240px) {
-    nav {
-        /* 50vw ist die halbe Bildschirmbreite, minus die halbe max-width (600px) */
-        padding: 0 calc(50vw - 600px); 
-    }
+    
+    /* Zentriert den Inhalt bündig zum 1200px Text */
+    padding: 0 max(20px, calc(50% - 600px)); 
 }
 
 .logo {
@@ -134,7 +130,6 @@ nav {
     position: relative;
 }
 
-/* Cooler Unterstrich-Effekt beim Hover */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -215,7 +210,6 @@ nav {
     transition: var(--transition);
 }
 
-/* Karten-Hover-Effekt */
 .glass-card:hover, .team-card:hover, .shop-card:hover {
     transform: translateY(-8px);
     border-color: rgba(255, 102, 0, 0.5);
@@ -262,7 +256,6 @@ nav {
 
 nav, .container, footer { position: relative; z-index: 2; }
 
-/* Glanz-Sweep Upgrade */
 .team-card, .shop-card, .news-card {
     position: relative;
     overflow: hidden;
@@ -484,7 +477,6 @@ footer {
     .mobile-menu-btn { display: block; }
     
     .nav-links {
-        /* REPARIERTES MOBILE MENÜ */
         position: fixed; 
         top: 80px;
         left: 0;
